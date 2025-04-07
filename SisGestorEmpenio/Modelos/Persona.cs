@@ -10,7 +10,7 @@ namespace SisGestorEmpenio.Modelos
     {
         //atributos 
         protected int id;
-        protected int tipoIdentidad;
+        protected string tipoIdentidad;
         protected string nombre;
 
 
@@ -47,12 +47,12 @@ namespace SisGestorEmpenio.Modelos
 
         public string GetTipoIdentidad()
     {
-        return TipoIdentidad;
+        return this.tipoIdentidad;
     }
 
     public void SetTipoIdentidad(string nuevoTipoIdentidad)
     {
-        TipoIdentidad = nuevoTipoIdentidad;
+        tipoIdentidad = nuevoTipoIdentidad;
     }
     }
 }

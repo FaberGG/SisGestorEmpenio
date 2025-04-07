@@ -12,28 +12,27 @@ namespace SisGestorEmpenio.Modelos
     {
         //Atributos 
         private
-            int salario { get; set; };
-            int aniosExp { get; set; };
-            string contrasenia { get; set; };
-            string usuario { get; set; };
+            int salario { get; set; }
+            int aniosExp { get; set; }
+            string contrasenia { get; set; }
+            string usuario { get; set; }
 
         //Constructor
-        public Administrador(string nombre, int id, int salario, int aniosExp, string contrasenia, string usurario) : base(nombre, id)
+        public Administrador(string nombre, int id, string tipoIdentidad, int salario, int aniosExp, string contrasenia, string usuario) : base(nombre, id, tipoIdentidad)
         {
             this.salario = salario;
             this.aniosExp = aniosExp;
             this.contrasenia = contrasenia;
-            this.usurario = usurario;
+            this.usuario = usuario;
         }
 
         public bool registrarCliente(string nombre,  int identificacion, string tipoIdentidad,  string apellido, string telefono, string correo)
         { 
+            ClienteRepository clienteRepository = new ClienteRepository();
             Cliente cliente= new Cliente( nombre, identificacion, tipoIdentidad, apellido, telefono, correo, this);
             
             
-            ClienteRepository.guardar(cliente);
-
-            //Lógica para registrar cliente
+            clienteRepository.guardar(cliente);
             return true;
         }
 

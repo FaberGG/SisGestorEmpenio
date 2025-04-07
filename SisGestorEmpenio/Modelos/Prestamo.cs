@@ -31,12 +31,13 @@ namespace SisGestorEmpenio.Modelos
         public double CalcularInteres()
         {
             // Ejemplo simple: interés = valor estimado * tasa
-            return articulo.ValorEstimado * tasaInteres;
+            //return articulo.valorEstimado * tasaInteres;
+            return 0;
         }
 
         public void CalcularMontoTotal()
         {
-            montoTotal = articulo.ValorEstimado + CalcularInteres();
+            //montoTotal = articulo.ValorEstimado + CalcularInteres();
         }
 
         public bool ActualizarEstadoPrestamo(string nuevoEstado)
@@ -51,8 +52,8 @@ namespace SisGestorEmpenio.Modelos
 
         public void MarcarComoDevuelto()
         {
-            estado = "Devuelto";
-            devolucion = new Devolucion(DateTime.Now); // Ejemplo: devuelve hoy
+            //estado = "Devuelto";
+            //devolucion = new Devolucion(DateTime.Now); // Ejemplo: devuelve hoy
         }
 
         public void CalcularFechaVencimiento()
@@ -62,7 +63,8 @@ namespace SisGestorEmpenio.Modelos
 
         public string MostrarDetalle()
         {
-            return $"Cliente: {cliente.Apellido}\nArtículo: {articulo.Descripcion}\nMonto Total: {montoTotal:F2}\nEstado: {estado}\nFecha Vencimiento: {fechaFin.ToShortDateString()}";
+            //return $"Cliente: {cliente.Apellido}\nArtículo: {articulo.Descripcion}\nMonto Total: {montoTotal:F2}\nEstado: {estado}\nFecha Vencimiento: {fechaFin.ToShortDateString()}";
+            return "";
         }
     }
 }

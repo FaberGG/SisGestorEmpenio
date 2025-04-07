@@ -11,7 +11,7 @@ namespace SisGestorEmpenio.Modelos
     {
         // Declaración de variables privadas
         private string apellido;
-        private int telefono;
+        private string telefono;
         private string correo;
 
         private Administrador administrador;
@@ -55,12 +55,12 @@ namespace SisGestorEmpenio.Modelos
         }
 
         // Métodos para telefono
-        public int GetTelefono()
+        public string GetTelefono()
         {
             return telefono;
         }
 
-        public void SetTelefono(int nuevoTelefono)
+        public void SetTelefono(string nuevoTelefono)
         {
             telefono = nuevoTelefono;
         }
