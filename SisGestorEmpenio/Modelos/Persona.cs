@@ -9,17 +9,50 @@ namespace SisGestorEmpenio.Modelos
     internal class Persona
     {
         //atributos 
-        private int id { get; set; }
-;
-        private string nombre { get; set; }
+        protected int id;
+        protected int tipoIdentidad;
+        protected string nombre;
 
 
         //constructor 
-         public Persona(string nombre, int edad)
+         public Persona(string nombre, int id, string tipoIdentidad)
     {
-        Nombre = nombre;
-        Edad = edad;
+            this.nombre = nombre;
+            this.id = id;
+            this.tipoIdentidad = tipoIdentidad;
+         }
+
+
+        // Métodos para 'id'
+    public int GetId()
+    {
+        return id;
     }
 
+    public void SetId(int nuevoId)
+    {
+        id = nuevoId;
+    }
+
+    // Métodos para 'nombre'
+    public string GetNombre()
+    {
+        return nombre;
+    }
+
+    public void SetNombre(string nuevoNombre)
+    {
+        nombre = nuevoNombre;
+    }
+
+        public string GetTipoIdentidad()
+    {
+        return TipoIdentidad;
+    }
+
+    public void SetTipoIdentidad(string nuevoTipoIdentidad)
+    {
+        TipoIdentidad = nuevoTipoIdentidad;
+    }
     }
 }

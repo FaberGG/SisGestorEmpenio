@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using SisGestorEmpenio.repository;
 using SisGestorEmpenio.Modelos;
 
 namespace SisGestorEmpenio.Modelos
@@ -18,7 +18,7 @@ namespace SisGestorEmpenio.Modelos
             string usuario { get; set; };
 
         //Constructor
-        public Administrador(string nombre, int edad, int salario, int aniosExp, string contrasenia, string usurario) : base(nombre, edad)
+        public Administrador(string nombre, int id, int salario, int aniosExp, string contrasenia, string usurario) : base(nombre, id)
         {
             this.salario = salario;
             this.aniosExp = aniosExp;
@@ -26,8 +26,13 @@ namespace SisGestorEmpenio.Modelos
             this.usurario = usurario;
         }
 
-        public bool registrarCliente(int identificacion, string nombre, string apellido, string telefono, string correo, string tipoIdentificacion)
-        {
+        public bool registrarCliente(string nombre,  int identificacion, string tipoIdentidad,  string apellido, string telefono, string correo)
+        { 
+            Cliente cliente= new Cliente( nombre, identificacion, tipoIdentidad, apellido, telefono, correo, this);
+            
+            
+            ClienteRepository.guardar(cliente);
+
             //Lógica para registrar cliente
             return true;
         }
@@ -45,7 +50,11 @@ namespace SisGestorEmpenio.Modelos
         }
 
         
-
+        public bool registrarDevolucion(Cliente cliente, Articulo articulo, double monto)
+        {
+            //Lógica para registrar devolución
+            return true;
+        }
     }
 }
 

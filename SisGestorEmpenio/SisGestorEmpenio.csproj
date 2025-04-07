@@ -12,4 +12,8 @@
     <Folder Include="vistas\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Oracle.ManagedDataAccess" Version="23.8.0" />
+  </ItemGroup>
+
 </Project>

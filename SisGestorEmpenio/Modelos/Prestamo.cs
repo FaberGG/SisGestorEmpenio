@@ -1,26 +1,29 @@
 ﻿using System;
-
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 namespace SisGestorEmpenio.Modelos
 {
     internal class Prestamo
     {
-        public DateTime FechaInicio { get; set; }
-        public DateTime FechaFin { get; set; }
-        public double TasaInteres { get; set; }
-        public double MontoTotal { get; set; }
-        public string Estado { get; set; }
+        public DateTime fechaInicio { get; set; }
+        public DateTime fechaFin { get; set; }
+        public double tasaInteres { get; set; }
+        public double montoTotal { get; set; }
+        public string estado { get; set; }
 
-        public Cliente Cliente { get; set; }
-        public Articulo Articulo { get; set; }
-        public Devolucion Devolucion { get; set; }
+        public Cliente cliente { get; set; }
+        public Articulo articulo { get; set; }
+        public Devolucion devolucion { get; set; }
 
         public Prestamo(Cliente cliente, Articulo articulo, double tasaInteres, DateTime fechaInicio)
         {
-            Cliente = cliente;
-            Articulo = articulo;
-            TasaInteres = tasaInteres;
-            FechaInicio = fechaInicio;
-            Estado = "Activo";
+            this.cliente = cliente;
+            this.articulo = articulo;
+            this.tasaInteres = tasaInteres;
+            this.fechaInicio = fechaInicio;
+            estado = "Activo";
             CalcularFechaVencimiento();
             CalcularMontoTotal();
         }
@@ -28,19 +31,19 @@ namespace SisGestorEmpenio.Modelos
         public double CalcularInteres()
         {
             // Ejemplo simple: interés = valor estimado * tasa
-            return Articulo.ValorEstimado * TasaInteres;
+            return articulo.ValorEstimado * tasaInteres;
         }
 
         public void CalcularMontoTotal()
         {
-            MontoTotal = Articulo.ValorEstimado + CalcularInteres();
+            montoTotal = articulo.ValorEstimado + CalcularInteres();
         }
 
         public bool ActualizarEstadoPrestamo(string nuevoEstado)
         {
             if (!string.IsNullOrWhiteSpace(nuevoEstado))
             {
-                Estado = nuevoEstado;
+                estado = nuevoEstado;
                 return true;
             }
             return false;
@@ -48,18 +51,18 @@ namespace SisGestorEmpenio.Modelos
 
         public void MarcarComoDevuelto()
         {
-            Estado = "Devuelto";
-            Devolucion = new Devolucion(DateTime.Now); // Ejemplo: devuelve hoy
+            estado = "Devuelto";
+            devolucion = new Devolucion(DateTime.Now); // Ejemplo: devuelve hoy
         }
 
         public void CalcularFechaVencimiento()
         {
-            FechaFin = FechaInicio.AddDays(30); // 30 días plazo por defecto
+            fechaFin = fechaInicio.AddDays(30); // 30 días plazo por defecto
         }
 
         public string MostrarDetalle()
         {
-            return $"Cliente: {Cliente.Apellido}\nArtículo: {Articulo.Descripcion}\nMonto Total: {MontoTotal:F2}\nEstado: {Estado}\nFecha Vencimiento: {FechaFin.ToShortDateString()}";
+            return $"Cliente: {cliente.Apellido}\nArtículo: {articulo.Descripcion}\nMonto Total: {montoTotal:F2}\nEstado: {estado}\nFecha Vencimiento: {fechaFin.ToShortDateString()}";
         }
     }
 }
