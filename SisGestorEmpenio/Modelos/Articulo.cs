@@ -19,7 +19,7 @@ namespace SisGestorEmpenio.Modelos
         }
 
         // Constructor para registrar un artículo
-        public void RegistrarArticulo(int id, string descripcion, double valorEstimado, string estado)
+        public Articulo(int id, string descripcion, double valorEstimado, string estado)
         {
             idArticulo = id;
             this.descripcion = descripcion;

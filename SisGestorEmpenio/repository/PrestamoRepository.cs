@@ -12,12 +12,12 @@ namespace SisGestorEmpenio.repository
 
         public bool guardar(Prestamo prestamo)
         {
-            int filasAfectadasA = 0;
-            string consulta = $"INSERT INTO Prestamo VALUES ({prestamo.GetCliente().GetTipoIdentidad()}, {prestamo.GetArticulo().GetIdArticulo()}, {articulo.GetValorEstimado()}, '{prestamo.GetEstado()}',{prestamo.GetFechaInicio()}, {prestamo.CalcularFechaVencimiento()}, {prestamo.tasaInteres()},{prestamo.CalcularMontoTotal()})";
+            int filasAfectadas = 0;
+            string consulta = $"INSERT INTO Prestamo VALUES ({prestamo.GetCliente().GetId()}, {prestamo.GetArticulo().GetIdArticulo()}, '{prestamo.GetEstado()}','{prestamo.GetFechaInicio()}', '{prestamo.CalcularFechaVencimiento()}', {prestamo.GetTasaInteres()},{prestamo.CalcularMontoTotal()})";
 
             //VER CÓMO EN LA CONSULTA SE PONE LOS DATOS TIPO TIME 
 
-            filasAfectadasA = dt.ejecutarDML(consulta);
+            filasAfectadas = dt.ejecutarDML(consulta);
             return filasAfectadas > 0;
         }
     }

@@ -9,20 +9,21 @@ namespace SisGestorEmpenio.Modelos
     internal class Prestamo
     {
         public DateTime fechaInicio;
+        public DateTime fechaFin;
         public double tasaInteres;
+        public double montoTotal;
         public string estado;
         public Cliente cliente;
         public Articulo articulo;
         public Devolucion devolucion;
 
-        public Prestamo(Cliente cliente, Articulo articulo, string estado, DateTime fechaInicio, double tasaInteres)
+        public Prestamo(Cliente cliente, Articulo articulo, DateTime fechaInicio, double tasaInteres)
         {
             this.cliente = cliente;
             this.articulo = articulo;
-            this.estado = estado;
+            this.estado = "activo";
             this.fechaInicio = fechaInicio;
             this.tasaInteres = tasaInteres;
-            
         }
 
         public double CalcularInteres()
@@ -34,7 +35,8 @@ namespace SisGestorEmpenio.Modelos
         {
             double interes = CalcularInteres();
             double valorArticulo = articulo.GetValorEstimado();
-            return valorArticulo + interes; // Devuelve el cálculo total
+            montoTotal = valorArticulo + interes;
+            return montoTotal; // Devuelve el cálculo total
         }
 
         public bool ActualizarEstadoPrestamo(string nuevoEstado)
@@ -53,7 +55,7 @@ namespace SisGestorEmpenio.Modelos
             //devolucion = new Devolucion(DateTime.Now); // Ejemplo: devuelve hoy
         }
 
-        public Datetime CalcularFechaVencimiento()
+        public DateTime CalcularFechaVencimiento()
         {
            return fechaFin = fechaInicio.AddDays(30); // 30 días plazo por defecto
 
@@ -85,6 +87,15 @@ namespace SisGestorEmpenio.Modelos
             return tasaInteres;
         }
 
+        public double GetMontoTotal()
+        {
+            return montoTotal;
+        }
+
+        public void SetMontoTotal(double value)
+        {
+            montoTotal = value;
+        }
         public void SetTasaInteres(double value)
         {
             tasaInteres = value;

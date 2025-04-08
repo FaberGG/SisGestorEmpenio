@@ -45,33 +45,25 @@ namespace SisGestorEmpenio.Modelos
             return true;
         }
 
-        public bool registrarPrestamo(string estado, DateTime fechaInicio, double tasaInteres)
+        public bool registrarPrestamo(Cliente cliente, Articulo articulo, double tasaInteres)
         {
             PrestamoRepository prestamoRepository = new PrestamoRepository();
-
-            Prestamo prestamo = new Prestamo(this, this, estado, fechaInicio, tasaInteres);
+            DateTime fechaInicio = DateTime.Now;
+            Prestamo prestamo = new Prestamo(cliente, articulo, fechaInicio, tasaInteres);
 
             prestamoRepository.guardar(prestamo);
             return true;
         }
 
-        public bool registrarDevolución(int numConvenio, DateTime fechaDevolucion, double montopagado)
+        public bool registrarDevolución(Prestamo prestamo, double montopagado)
         {
             DevolucionRepository devolucionRepository=new DevolucionRepository();
-
-            Devolucion devolucion = new Devolucion(this, this, numConvenio, fechaDevolucion, montopagado);
+            DateTime fechaDevolucion = DateTime.Now;
+            Devolucion devolucion = new Devolucion(fechaDevolucion, montopagado, prestamo);
             devolucionRepository.guardar(devolucion); 
             return true;
         }
 
-
-
-
-        public bool registrarDevolucion(Cliente cliente, Articulo articulo, double monto)
-        {
-            //Lógica para registrar devolución
-            return true;
-        }
     }
 }
 

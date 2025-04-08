@@ -13,17 +13,15 @@ namespace SisGestorEmpenio.Modelos
         private int numeroConvenio;
         private DateTime fechaDevolucion;
         private double montoPagado;
-        Cliente cliente;
-        Articulo articulo;
+        Prestamo prestamo;
 
         //constructor
-        public Devolucion(int numeroConvenio, DateTime fechaDevolucion, double montoPagado)
+        
+        public Devolucion(DateTime fechaDevolucion, double montoPagado, Prestamo prestamo)
         {
-            this.cliente = cliente;
-            this.articulo = articulo;
-            this.numeroConvenio = numeroConvenio;
             this.fechaDevolucion = fechaDevolucion;
             this.montoPagado = montoPagado;
+            this.prestamo = prestamo;
         }
 
        //get y set de la clase 
@@ -58,25 +56,14 @@ namespace SisGestorEmpenio.Modelos
             montoPagado = value;
         }
 
-        public Cliente GetCliente()
+        public Prestamo GetPrestamo()
         {
-            return cliente;
+            return prestamo;
         }
 
-        public void SetCliente(Cliente value)
+        public void SetPrestamo(Prestamo value)
         {
-            cliente = value;
+            prestamo = value;
         }
-
-        public Articulo GetArticulo()
-        {
-            return articulo;
-        }
-
-        public void SetArticulo(Articulo value)
-        {
-            articulo = value;
-        }
-
     }
 }

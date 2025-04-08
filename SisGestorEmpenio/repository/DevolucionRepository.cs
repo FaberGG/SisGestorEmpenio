@@ -14,10 +14,10 @@ namespace SisGestorEmpenio.repository
 
         public bool guardar(Devolucion devolucion)
         {
-            int filasAfectadasA = 0;
-            string consulta = $"INSERT INTO Devolucion VALUES ({devolucion.GetCliente().GetTipoIdentidad()}, {devolucion.GetArticulo().GetIdArticulo()}, {devolucion.GetNumeroConvenio()}, {devolucion.GetFechaDevolucion()}, {devolucion.GetMontoPagado()})";
+            int filasAfectadas = 0;
+            string consulta = $"INSERT INTO Devolucion VALUES ({devolucion.GetPrestamo().GetCliente().GetTipoIdentidad()}, {devolucion.GetPrestamo().GetArticulo().GetIdArticulo()}, {devolucion.GetFechaDevolucion()}, {devolucion.GetMontoPagado()})";
 
-            filasAfectadasA = dt.ejecutarDML(consulta);
+            filasAfectadas = dt.ejecutarDML(consulta);
             return filasAfectadas > 0;
         }
     }
