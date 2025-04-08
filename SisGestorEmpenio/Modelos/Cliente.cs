@@ -13,7 +13,6 @@ namespace SisGestorEmpenio.Modelos
         private string apellido;
         private string telefono;
         private string correo;
-
         private Administrador administrador;
         private List<Prestamo> prestamos = new List<Prestamo>();
 

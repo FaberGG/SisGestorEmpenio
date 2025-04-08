@@ -30,25 +30,43 @@ namespace SisGestorEmpenio.Modelos
         { 
             ClienteRepository clienteRepository = new ClienteRepository();
             Cliente cliente= new Cliente( nombre, identificacion, tipoIdentidad, apellido, telefono, correo, this);
-            
-            
+
             clienteRepository.guardar(cliente);
             return true;
         }
 
         public bool registrarArticulo(int idArticulo, string descripcion, double valorEstimado, string Estado)
         {
-            //Lógica para registrar artículo
+            ArticuloRepository articuloRepository=new ArticuloRepository();
+
+            Articulo articulo = new Articulo(idArticulo,descripcion,valorEstimado,Estado);
+            articuloRepository.guardar(articulo);
+            
             return true;
         }
 
-        public bool registrarPrestamo(Cliente Cliente, Articulo articulo, double monto, float tasaInteres)
+        public bool registrarPrestamo(string estado, DateTime fechaInicio, double tasaInteres)
         {
-            //Lógica para registrar préstamo
+            PrestamoRepository prestamoRepository = new PrestamoRepository();
+
+            Prestamo prestamo = new Prestamo(this, this, estado, fechaInicio, tasaInteres);
+
+            prestamoRepository.guardar(prestamo);
             return true;
         }
 
-        
+        public bool registrarDevolución(int numConvenio, DateTime fechaDevolucion, double montopagado)
+        {
+            DevolucionRepository devolucionRepository=new DevolucionRepository();
+
+            Devolucion devolucion = new Devolucion(this, this, numConvenio, fechaDevolucion, montopagado);
+            devolucionRepository.guardar(devolucion); 
+            return true;
+        }
+
+
+
+
         public bool registrarDevolucion(Cliente cliente, Articulo articulo, double monto)
         {
             //Lógica para registrar devolución
