@@ -11,6 +11,7 @@ namespace SisGestorEmpenio.repository
     internal class ConexionDB
     {
         //paso 1: crear la cadena de conexion
+        //string cadenaConexion = "Data Source=localhost:1521/XEPDB1;User ID=BDD1;Password=oracle";
         string cadenaConexion = "Data Source=localhost;User ID=system;Password=oracle";
 
         /*paso 2: crear el metodo que permite ejecutar
@@ -49,5 +50,7 @@ namespace SisGestorEmpenio.repository
             miAdaptador.Fill(ds, "ResultadoDatos");
             return ds;
         }
+
+        
     }
 }

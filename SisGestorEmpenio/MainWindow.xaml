@@ -3,10 +3,73 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:SisGestorEmpenio"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Gestor de Empeños" Height="600" Width="1000"
+        Background="{DynamicResource MaterialDesignPaper}">
     <Grid>
+        <!-- Columnas: Menú lateral | Contenido principal -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <!-- Ancho del menú -->
+            <ColumnDefinition Width="*"/>
+            <!-- Resto para el contenido -->
+        </Grid.ColumnDefinitions>
 
+        <!-- Menú lateral permanente -->
+        <StackPanel Background="#AD8B04" Grid.Column="0" Margin="0">
+            <TextBlock Text="Administrador" FontWeight="Bold" FontSize="18" Margin="10"/>
+            <Button Content="Inicio"
+                    Foreground="White"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="Home"
+                    Margin="5"
+                    Click="GoToHome"/>
+            <Button Content="Registrar Cliente"
+                    Foreground="White"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="RegistrarCliente"
+                    Margin="5"
+                    Click="GoToRegistrarCliente"/>
+            <Button Content="Registrar Articulo"
+                    Foreground="White"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="RegistrarArticulo"
+                    Margin="5"
+                    Click="GoToRegistrarArticulo"/>
+            <Button Content="Registrar Prestamo"
+                    Foreground="White"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="RegistrarPrestamo"
+                    Margin="5"
+                    Click="GoToRegistrarPrestamo"/>
+            <Button Content="Registrar Devolucion"
+                    Foreground="White"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="RegistrarDevolucion"
+                    Margin="5"
+                    Click="GoToRegistrarDevolucion"/>
+        </StackPanel>
+
+        <!-- Zona de contenido -->
+        <DockPanel Grid.Column="1">
+            <!-- Barra superior -->
+            <ToolBar DockPanel.Dock="Top" Background="{DynamicResource PrimaryHueMidBrush}">
+                <TextBlock Text="Gestor de Empeños"
+                           VerticalAlignment="Center"
+                           Foreground="White"
+                           Margin="10,0,0,0"
+                           FontSize="18"/>
+            </ToolBar>
+
+            <!-- Contenido dinámico -->
+            <ContentControl x:Name="MainContent" Height="557"/>
+        </DockPanel>
     </Grid>
 </Window>

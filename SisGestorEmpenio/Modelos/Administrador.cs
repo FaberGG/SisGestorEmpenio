@@ -11,20 +11,21 @@ namespace SisGestorEmpenio.Modelos
     internal class Administrador : Persona
     {
         //Atributos 
-        private
-            int salario { get; set; }
-            int aniosExp { get; set; }
-            string contrasenia { get; set; }
-            string usuario { get; set; }
+        private double salario;
+        private int aniosExp;
+        private string usuario;
+        private string contrasenia;
+
 
         //Constructor
-        public Administrador(string nombre, int id, string tipoIdentidad, int salario, int aniosExp, string contrasenia, string usuario) : base(nombre, id, tipoIdentidad)
+        public Administrador(string nombre, int id, string tipoIdentidad, double salario, int aniosExp, string usuario, string contrasenia) : base(nombre, id, tipoIdentidad)
         {
             this.salario = salario;
             this.aniosExp = aniosExp;
             this.contrasenia = contrasenia;
             this.usuario = usuario;
         }
+       
 
         public bool registrarCliente(string nombre,  int identificacion, string tipoIdentidad,  string apellido, string telefono, string correo)
         { 
@@ -64,6 +65,46 @@ namespace SisGestorEmpenio.Modelos
             return true;
         }
 
+
+
+        //SETTERS Y GETTERS
+
+        public double GetSalario()
+        {
+            return salario;
+        }
+        public void SetSalario(double nuevoSalario)
+        {
+            salario = nuevoSalario;
+        }
+
+        public int GetAniosExp()
+        {
+            return aniosExp;
+        }
+
+        public void SetAniosExp(int nuevoAniosExp)
+        {
+            aniosExp = nuevoAniosExp;
+        }
+
+        public string GetUsuario()
+        {
+            return usuario;
+        }
+        public void SetUsuario(string nuevoUsuario)
+        {
+            usuario = nuevoUsuario;
+        }
+
+        public string GetContrasenia()
+        {
+            return contrasenia;
+        }
+        public void SetContrasenia(string nuevaContrasenia)
+        {
+            contrasenia = nuevaContrasenia;
+        }
     }
 }
 
