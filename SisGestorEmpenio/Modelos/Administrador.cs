@@ -8,7 +8,7 @@ using SisGestorEmpenio.Modelos;
 
 namespace SisGestorEmpenio.Modelos
 {
-    internal class Administrador : Persona
+    public class Administrador : Persona
     {
         //Atributos 
         private double salario;

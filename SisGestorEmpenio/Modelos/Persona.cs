@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SisGestorEmpenio.Modelos
 {
-    internal class Persona
+    public class Persona
     {
         //atributos 
         protected int id;

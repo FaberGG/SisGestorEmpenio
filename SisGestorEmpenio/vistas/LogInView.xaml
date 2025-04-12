@@ -108,6 +108,8 @@
                 <Grid>
                     <Border Width="204" Height="27" CornerRadius="10" Background="#3A7575" HorizontalAlignment="Center">
                         <Button 
+                            Width="204"
+                            Height="27"
                             Click="BtnLogin_Click"
                             Background="Transparent"
                             Foreground="White"

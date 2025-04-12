@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SisGestorEmpenio.Modelos
 {
-    internal class Articulo
+    public class Articulo
     {
         // Propiedades del artículo
         private int idArticulo;

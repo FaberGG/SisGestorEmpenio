@@ -43,15 +43,15 @@ namespace SisGestorEmpenio.vistas
 
                 //esto solo en caso de no poderse conectar a la base de datos
                 //para pruebas unitarias
-                /*
+                
                 bool credencialesValidas = true;
                 if (!(usuario == "" && contrasena == ""))
                 {
                     credencialesValidas =    AutenticacionService.validarCredenciales(usuario, contrasena);
 
                 }
-                */
-                bool credencialesValidas = AutenticacionService.validarCredenciales(usuario, contrasena);
+                
+                //bool credencialesValidas = AutenticacionService.validarCredenciales(usuario, contrasena);
 
 
 

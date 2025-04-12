@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SisGestorEmpenio.Modelos
 {
-    internal class Prestamo
+    public class Prestamo
     {
         public DateTime fechaInicio;
         public DateTime fechaFin;

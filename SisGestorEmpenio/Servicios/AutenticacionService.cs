@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using SisGestorEmpenio.repository;
 namespace SisGestorEmpenio.Servicios
 {
-    internal class AutenticacionService
+    public class AutenticacionService
     {
         public AutenticacionService()
         {

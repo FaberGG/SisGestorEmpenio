@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SisGestorEmpenio.Modelos
 {
-    internal class Devolucion
+    public class Devolucion
     {
 
         //atributos

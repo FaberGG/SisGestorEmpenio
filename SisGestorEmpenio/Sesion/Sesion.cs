@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace SisGestorEmpenio.Sesion
 {
-    internal static class Sesion
+    public static class Sesion
     {
-        public static Administrador AdministradorActivo { get; private set; }
+        public static Administrador AdministradorActivo;
 
         public static void IniciarSesion(Administrador admin)
         {
@@ -22,5 +22,10 @@ namespace SisGestorEmpenio.Sesion
         }
 
         public static bool SesionIniciada => AdministradorActivo != null;
+
+        public static Administrador GetAdministradorActivo()
+        {
+            return AdministradorActivo;
+        }
     }
 }

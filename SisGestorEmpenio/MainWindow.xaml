@@ -8,12 +8,13 @@
         xmlns:local="clr-namespace:SisGestorEmpenio"
         mc:Ignorable="d"
         Title="Gestor de Empeños" Height="600" Width="1000"
+        Background="#3A7575"
          WindowStartupLocation="CenterScreen"
-        Background="{DynamicResource MaterialDesignPaper}">
+        >
     <Grid>
         <!-- Columnas: Menú lateral | Contenido principal -->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="278"/>
             <!-- Ancho del menú -->
             <ColumnDefinition Width="*"/>
             <!-- Resto para el contenido -->
@@ -22,60 +23,510 @@
 
 
         <!-- Menú lateral permanente -->
-        <StackPanel Background="#AD8B04" Grid.Column="0" Margin="0">
-            <TextBlock Text="Administrador" FontWeight="Bold" FontSize="18" Margin="10"/>
 
-            
-            <Button Content="Inicio"
-                    Foreground="White"
-                    Style="{StaticResource MaterialDesignFlatButton}"
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="Home"
-                    Margin="5"
-                    Click="GoToHome"/>
-            <Button Content="Registrar Cliente"
-                    Foreground="White"
-                    Style="{StaticResource MaterialDesignFlatButton}"
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="RegistrarCliente"
-                    Margin="5"
-                    Click="GoToRegistrarCliente"/>
-            <Button Content="Registrar Articulo"
-                    Foreground="White"
-                    Style="{StaticResource MaterialDesignFlatButton}"
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="RegistrarArticulo"
-                    Margin="5"
-                    Click="GoToRegistrarArticulo"/>
-            <Button Content="Registrar Prestamo"
-                    Foreground="White"
-                    Style="{StaticResource MaterialDesignFlatButton}"
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="RegistrarPrestamo"
-                    Margin="5"
-                    Click="GoToRegistrarPrestamo"/>
-            <Button Content="Registrar Devolucion"
-                    Foreground="White"
-                    Style="{StaticResource MaterialDesignFlatButton}"
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="RegistrarDevolucion"
-                    Margin="5"
-                    Click="GoToRegistrarDevolucion"/>
+
+        <StackPanel Width="278" Background="#3A7575">
+            <!-- Primer sub-contenedor -->
+            <Border Width="220" Height="50" Margin="0,25,0,0" HorizontalAlignment="Center" Background="Transparent">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <!-- Icono -->
+                        <ColumnDefinition Width="*"/>
+                        <!-- Textos -->
+                        <ColumnDefinition Width="Auto"/>
+                        <!-- Botón a la derecha -->
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Div con fondo -->
+                    <Border Width="50" Height="50" Background="#83C4C4" CornerRadius="11" Grid.Column="0" />
+
+                    <!-- Textos -->
+                    <StackPanel Grid.Column="1" Orientation="Vertical" Margin="5,0,0,0" VerticalAlignment="Center">
+                        <TextBlock Text="Administrador"
+                       FontWeight="Bold"
+                       FontSize="16"
+                       Foreground="White"/>
+                        <TextBlock 
+                            Cursor="Hand"
+                            MouseLeftButtonDown="CerrarSesion_Click"
+                            Text="Cerrar sesión"
+                            FontSize="12"
+                            Foreground="#83C4C4"/>
+                    </StackPanel>
+
+                    <!-- Div a la derecha -->
+                    <Border Grid.Column="2" Width="24" Height="24" Padding="0,3,0,0" HorizontalAlignment="Right" Background="Transparent">
+                        <!-- Aquí podrías poner un ícono, por ejemplo -->
+                    </Border>
+                </Grid>
+
+            </Border>
+
+            <!-- Segundo sub-contenedor -->
+            <StackPanel Width="230" Margin="0,39,0,0" HorizontalAlignment="Center">
+                <!-- Aquí irá el contenido del menú -->
+
+                <!-- Texto superior -->
+                <TextBlock Text="Gestion de la casa de empeño"
+                   Padding="5,0,0,0"
+                   FontSize="12"
+                   FontWeight="DemiBold"
+                   Foreground="#83C4C4"
+                           />
+
+                
+                
+                <!--DESPLEGABLE PARA PRESTAMOS-->
+                <!-- "Botón" principal con estilo de Border -->
+                <Border Width="230" x:Name="PrestamoBotonPrincipal"
+                    Height="28"
+                    Margin="0,12,0,0"
+                    Padding="5,0"
+                    CornerRadius="8"
+                    Background="#599191"
+                        
+                    MouseLeftButtonUp="ToggleGestPrestamo_Click"
+                    Cursor="Hand">
+                    
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Icono izquierdo -->
+                        <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center" >
+
+                            <Image Source="/Resources/real_estate_agent_20.png" 
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Top" 
+                               Width="20" 
+                               Height="20"/>
+                        </Border>
+
+                        <!-- Texto -->
+                        <TextBlock Grid.Column="1"
+                           Text="Gestión de préstamos"
+                           FontSize="12"
+                           Margin="3,0,0,0"
+                           VerticalAlignment="Center"
+                           FontWeight="DemiBold"
+                                   
+                           Foreground="White"/>
+
+                        <!-- Icono derecho -->
+                        <Border Width="22" Height="22" Background="Transparent" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
+                            <Image x:Name="PrestamoIconoFlecha"
+                               Source="pack://application:,,,/SisGestorEmpenio;component/resources/chevron_right_22.png" 
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Top" 
+                               Width="22" 
+                               Height="22">
+                                <Image.RenderTransform>
+                                    <RotateTransform x:Name="PrestamoFlechaTransform" Angle="-90" CenterX="11" CenterY="11"/>
+                                </Image.RenderTransform>
+                            </Image>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- Contenedor oculto de sub-opciones -->
+                <StackPanel x:Name="OpcionesPrestamos" Visibility="Visible">
+                    <!-- Sub-opciones con mismo estilo -->
+
+
+                    <!-- REGISTRAR PRESTAMO -->
+                    <Border x:Name="BtnRegistrarPrestamo"
+                            Width="230"
+                            Height="28"
+                            Margin="0,6,0,0"
+                            Padding="5,0"
+                            CornerRadius="8"
+                            Cursor="Hand"
+                            MouseLeftButtonUp="GoToRegistrarPrestamo">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TxtRegistrarPrestamo"
+                                       Grid.Column="1"
+                                       Text="Registra un préstamo"
+                                       FontSize="12"
+                                       Margin="3,0,0,0"
+                                       VerticalAlignment="Center"
+                                       FontWeight="DemiBold"
+                                       Foreground="#83C4C4"/>
+                        </Grid>
+                    </Border>
+
+
+                    <!--MODIFICAR PRESTAMO-->
+                    <Border Width="230"
+                        Height="28"
+                        Margin="0,6,0,0"
+                        Padding="5,0"
+                        CornerRadius="8"
+                        Cursor="Hand">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1"
+                           Text="Modifica un préstamo"
+                           FontSize="12"
+                           FontWeight="DemiBold"
+                           Margin="3,0,0,0" 
+                           VerticalAlignment="Center"
+                           Foreground="#83C4C4"/>
+                        </Grid>
+                    </Border>
+
+                    <!--ELIMINAR PRESTAMO-->
+                    <Border Width="230"
+                        Height="28"
+                        Margin="0,6,0,0"
+                        Padding="5,0"
+                        CornerRadius="8"
+                        Cursor="Hand">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1"
+                               Text="Elimina un préstamo"
+                               FontSize="12"
+                               Margin="3,0,0,0"
+                               FontWeight="DemiBold"
+                               VerticalAlignment="Center"
+                               Foreground="#83C4C4"/>
+                        </Grid>
+                    </Border>
+
+
+                    <!--CONSULTA UN PRESTAMO-->
+                    <Border Width="230"
+                        Height="28"
+                        Margin="0,6,0,0"
+                        Padding="5,0"
+                        CornerRadius="8"
+                        Cursor="Hand">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1"
+                               Text="Consulta un préstamo"
+                               FontSize="12"
+                               Margin="3,0,0,0"
+                               VerticalAlignment="Center"
+                               FontWeight="DemiBold"
+                               Foreground="#83C4C4"/>
+                        </Grid>
+                    </Border>
+
+                </StackPanel>
+
+
+                <!-- "Botón" principal con estilo de Border -->
+                <Border Width="230" x:Name="DevolucionBotonPrincipal"
+                    Height="28"
+                    Margin="0,12,0,0"
+                    Padding="5,0"
+                    CornerRadius="8"
+                    MouseLeftButtonUp="ToggleGestDevolucion_Click"
+                    Cursor="Hand">
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Icono izquierdo -->
+                        <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center" >
+
+                            <Image Source="/Resources/redo_25.png" 
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Top" 
+                               Width="20" 
+                               Height="20"/>
+                        </Border>
+
+                        <!-- Texto -->
+                        <TextBlock Grid.Column="1"
+                           Text="Gestión de devoluciones"
+                           FontSize="12"
+                           Margin="3,0,0,0"
+                           VerticalAlignment="Center"
+                           FontWeight="DemiBold"
+                   
+                           Foreground="White"/>
+
+                        <!-- Icono derecho -->
+                        <Border Width="22" Height="22" Background="Transparent" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
+                               <Image x:Name="DevolucionIconoFlecha"
+                               Source="pack://application:,,,/SisGestorEmpenio;component/resources/chevron_right_22.png" 
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Top" 
+                               Width="22" 
+                               Height="22">
+                                <Image.RenderTransform>
+                                    <RotateTransform x:Name="DevolucionFlechaTransform" Angle="90" CenterX="11" CenterY="11"/>
+                                </Image.RenderTransform>
+                            </Image>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- Contenedor oculto de sub-opciones -->
+                <StackPanel x:Name="OpcionesDevoluciones" Visibility="Collapsed">
+                    <!-- Sub-opciones con mismo estilo -->
+
+
+
+                    <!-- REGISTRAR DEVOLUCIÓN -->
+                    <Border x:Name="BtnRegistrarDevolucion"
+                            Width="230"
+                            Height="28"
+                            Margin="0,6,0,0"
+                            Padding="5,0"
+                            CornerRadius="8"
+                            Cursor="Hand"
+                            MouseLeftButtonUp="GoToRegistrarDevolucion">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TxtRegistrarDevolucion"
+                                       Grid.Column="1"
+                                       Text="Registra una devolución"
+                                       FontSize="12"
+                                       Margin="3,0,0,0"
+                                       VerticalAlignment="Center"
+                                       FontWeight="DemiBold"
+                                       Foreground="#83C4C4"/>
+                        </Grid>
+                    </Border>
+
+
+                    <!--MODIFICAR DEVOLUCION-->
+                    <Border Width="230"
+                        Height="28"
+                        Margin="0,6,0,0"
+                        Padding="5,0"
+                        CornerRadius="8"
+                        Cursor="Hand">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1"
+                               Text="Modifica una devolucion"
+                               FontSize="12"
+                               FontWeight="DemiBold"
+                               Margin="3,0,0,0" 
+                               VerticalAlignment="Center"
+                               Foreground="#83C4C4"/>
+                        </Grid>
+                    </Border>
+
+                </StackPanel>
+
+                <!--GESTION INVENTARIO - ARTICULOS-->
+                <!-- "Botón" principal con estilo de Border -->
+
+
+                <!-- "Botón" principal con estilo de Border -->
+                <Border Width="230" x:Name="ArticuloBotonPrincipal"
+                    Height="28"
+                    Margin="0,12,0,0"
+                    Padding="5,0"
+                    CornerRadius="8"
+                    MouseLeftButtonUp="ToggleGestInventario_Click"
+                    Cursor="Hand">
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Icono izquierdo -->
+                        <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center" >
+
+                            <Image Source="/Resources/category_25.png" 
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Top" 
+                               Width="20" 
+                               Height="20"/>
+                        </Border>
+
+                        <!-- Texto -->
+                        <TextBlock Grid.Column="1"
+                           Text="Gestión de inventario"
+                           FontSize="12"
+                           Margin="3,0,0,0"
+                           VerticalAlignment="Center"
+                           FontWeight="DemiBold"
+                   
+                           Foreground="White"/>
+
+                        <!-- Icono derecho -->
+                        <Border Width="22" Height="22" Background="Transparent" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
+                            <Image x:Name="ArticuloIconoFlecha"
+                               Source="pack://application:,,,/SisGestorEmpenio;component/resources/chevron_right_22.png" 
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Top" 
+                               Width="22" 
+                               Height="22">
+                                <Image.RenderTransform>
+                                    <RotateTransform x:Name="ArticuloFlechaTransform" Angle="90" CenterX="11" CenterY="11"/>
+                                </Image.RenderTransform>
+                            </Image>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- Contenedor oculto de sub-opciones -->
+                <StackPanel x:Name="OpcionesArticulos" Visibility="Collapsed">
+                    <!-- Sub-opciones con mismo estilo -->
+
+
+
+                    <!-- REGISTRAR ARTICULO -->
+                    <Border x:Name="BtnRegistrarArticulo"
+                            Width="230"
+                            Height="28"
+                            Margin="0,6,0,0"
+                            Padding="5,0"
+                            CornerRadius="8"
+                            Cursor="Hand"
+                            MouseLeftButtonUp="GoToRegistrarArticulo">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TxtRegistrarArticulo"
+                                       Grid.Column="1"
+                                       Text="Registra un artículo"
+                                       FontSize="12"
+                                       Margin="3,0,0,0"
+                                       VerticalAlignment="Center"
+                                       FontWeight="DemiBold"
+                                       Foreground="#83C4C4"/>
+                        </Grid>
+                    </Border>
+
+
+                    <!--MODIFICAR ARTICULO-->
+                    <Border Width="230"
+                        Height="28"
+                        Margin="0,6,0,0"
+                        Padding="5,0"
+                        CornerRadius="8"
+                        Cursor="Hand">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1"
+                               Text="Modifica un articulo"
+                               FontSize="12"
+                               FontWeight="DemiBold"
+                               Margin="3,0,0,0" 
+                               VerticalAlignment="Center"
+                               Foreground="#83C4C4"/>
+                        </Grid>
+                    </Border>
+
+                </StackPanel>
+            </StackPanel>
         </StackPanel>
 
-        <!-- Zona de contenido -->
-        <DockPanel Grid.Column="1">
-            <!-- Barra superior -->
-            <ToolBar DockPanel.Dock="Top" Background="{DynamicResource PrimaryHueMidBrush}">
-                <TextBlock Text="Gestor de Empeños"
-                           VerticalAlignment="Center"
-                           Foreground="White"
-                           Margin="10,0,0,0"
-                           FontSize="18"/>
-            </ToolBar>
 
-            <!-- Contenido dinámico -->
-            <ContentControl x:Name="MainContent" Height="557"/>
-        </DockPanel>
+
+        <!-- Zona de contenido -->
+        <Grid Grid.Column="1" Background="#3A7575">
+            <!-- Contenedor principal -->
+            <Border 
+                Background="White"
+                CornerRadius="0,0,0,20"
+                Padding="69,31,69,31"
+                Margin="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="107"/>
+                        <!-- Encabezado -->
+                        <RowDefinition Height="*"/>
+                        <!-- Contenido dinámico -->
+                    </Grid.RowDefinitions>
+
+                    <!-- Encabezado -->
+                    <StackPanel Grid.Row="0">
+                        <!-- Espaciado superior -->
+                        <Border Height="12" Background="Transparent">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Ellipse Width="10" Height="10" Fill="#D9D9D9" VerticalAlignment="Center"/>
+                                <TextBlock Text="__________________"
+                                           FontFamily="Franklin Gothic Heavy"
+                                           Margin="9,0,0,0"
+                                           FontWeight="ExtraBold"
+                                           Foreground="#095858"
+                                           VerticalAlignment="Top" FontSize="6"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Título -->
+                        <Border Height="29" Margin="0,28,0,0" Background="Transparent">
+                        <TextBlock x:Name="TxtTitulo"
+                                Text="Binevenido administrador a J-LHYS"
+                                FontSize="24"
+                                FontWeight="Bold"
+                                Foreground="#095858"
+                                VerticalAlignment="Center"
+                                FontFamily="Segoe UI Black"/>
+                        </Border>
+
+                        <!-- Subtítulo -->
+                        <Border Height="23" Margin="0,8,0,0" Background="Transparent">
+                            <TextBlock x:Name="TxtSubtitulo"
+                                       Text="Sistema gestor de la casa de empeño"
+                                       Foreground="#095858"
+                                       FontSize="20"
+                                       FontWeight="Bold"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Contenido dinámico -->
+                    <ContentControl x:Name="MainContent" Grid.Row="1" Margin="0,10,0,0"/>
+                </Grid>
+            </Border>
+        </Grid>
+
     </Grid>
 </Window>

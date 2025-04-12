@@ -7,7 +7,7 @@ using SisGestorEmpenio.Modelos;
 
 namespace SisGestorEmpenio.Modelos
 {
-    internal class Cliente : Persona
+    public class Cliente : Persona
     {
         // Declaración de variables privadas
         private string apellido;
