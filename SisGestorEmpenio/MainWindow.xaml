@@ -4,9 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                   
         xmlns:local="clr-namespace:SisGestorEmpenio"
         mc:Ignorable="d"
         Title="Gestor de Empeños" Height="600" Width="1000"
+         WindowStartupLocation="CenterScreen"
         Background="{DynamicResource MaterialDesignPaper}">
     <Grid>
         <!-- Columnas: Menú lateral | Contenido principal -->
@@ -17,9 +19,13 @@
             <!-- Resto para el contenido -->
         </Grid.ColumnDefinitions>
 
+
+
         <!-- Menú lateral permanente -->
         <StackPanel Background="#AD8B04" Grid.Column="0" Margin="0">
             <TextBlock Text="Administrador" FontWeight="Bold" FontSize="18" Margin="10"/>
+
+            
             <Button Content="Inicio"
                     Foreground="White"
                     Style="{StaticResource MaterialDesignFlatButton}"

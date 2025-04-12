@@ -15,6 +15,8 @@ namespace SisGestorEmpenio
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            var login = new LogInWindow();
+            login.Show();
 
             // Puedes hacer inicializaciones aquí, como:
             // - Inyectar dependencias

@@ -14,7 +14,7 @@ namespace SisGestorEmpenio.Servicios
         {
             // Constructor vacío
         }
-        public static bool ValidarCredenciales(string usuario, string contrasenia)
+        public static bool validarCredenciales(string usuario, string contrasenia)
         {
             AdministradorRepository adminRepo = new AdministradorRepository();
             Administrador admin = adminRepo.buscarPorCredenciales(usuario, contrasenia);
