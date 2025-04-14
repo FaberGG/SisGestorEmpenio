@@ -41,18 +41,8 @@ namespace SisGestorEmpenio.vistas
             try
             {
 
-                //esto solo en caso de no poderse conectar a la base de datos
-                //para pruebas unitarias
-                
-                bool credencialesValidas = true;
-                if (!(usuario == "" && contrasena == ""))
-                {
-                    credencialesValidas =    AutenticacionService.validarCredenciales(usuario, contrasena);
-
-                }
-                
-                //bool credencialesValidas = AutenticacionService.validarCredenciales(usuario, contrasena);
-
+                //la opcion de ingresar sin conexion a la BDD se movio a AutenticacionService
+                bool credencialesValidas = AutenticacionService.validarCredenciales(usuario, contrasena);
 
 
                 if (credencialesValidas)

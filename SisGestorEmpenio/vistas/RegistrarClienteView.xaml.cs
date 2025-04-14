@@ -1,7 +1,9 @@
-﻿using SisGestorEmpenio.Modelos;
+﻿using Oracle.ManagedDataAccess.Client;
+using SisGestorEmpenio.Modelos;
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace SisGestorEmpenio.vistas
 {
@@ -18,6 +20,17 @@ namespace SisGestorEmpenio.vistas
             InitializeComponent();
         }
 
+
+        private void txtSoloNumeros_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !EsNumero(e.Text);
+        }
+
+        private bool EsNumero(string texto)
+        {
+            return int.TryParse(texto, out _);
+        }
+
         private void Continuar_Click(object sender, RoutedEventArgs e)
         {
             // Capturar valores del formulario
@@ -25,8 +38,8 @@ namespace SisGestorEmpenio.vistas
             string apellido = txtApellido.Text.Trim();
             string correo = txtCorreo.Text.Trim();
             string telefono = txtTelefono.Text.Trim();
-            string tipoIdentidad = txtTipoIdentidad.Text.Trim();
-            string idTexto = txtID.Text.Trim();
+            string tipoIdentidad = cbTipoIdentidad.Text.Trim();
+            string idTexto = txtIdentidad.Text.Trim();
 
             // Validación básica de campos
             if (string.IsNullOrWhiteSpace(nombre) ||
@@ -46,17 +59,40 @@ namespace SisGestorEmpenio.vistas
                 return;
             }
 
-
-
-
+            
+            
 
             // Mostrar datos capturados (prueba)
             MessageBox.Show(
                 $"Nombre: {nombre}\nApellido: {apellido}\nCorreo: {correo}\nID: {id}\nTeléfono: {telefono}\nTipo de Identidad: {tipoIdentidad}",
                 "Datos capturados", MessageBoxButton.OK, MessageBoxImage.Information);
 
-            // Disparar el evento para continuar con el flujo
+
+
+            //PASAR LOS DATOS A ADMINISTRADOR PARA EJECUTAR LA CONSULTA
+
+            try
+            {
+                Sesion.Sesion.GetAdministradorActivo().registrarCliente(nombre, id, tipoIdentidad, apellido, telefono, correo);
+                // Disparar el evento para continuar con el flujo
+            }
+            catch (OracleException ex)
+            {
+
+                MostrarError("Error de base de datos:\n" + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MostrarError("Ocurrió un error inesperado:\n" + ex.Message);
+            }
+
             RegistroClienteCompletado?.Invoke(this, EventArgs.Empty);
         }
+
+        private void MostrarError(string mensaje)
+        {
+            MessageBox.Show(mensaje, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
     }
 }

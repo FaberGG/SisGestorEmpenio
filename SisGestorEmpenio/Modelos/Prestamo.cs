@@ -8,14 +8,14 @@ namespace SisGestorEmpenio.Modelos
 {
     public class Prestamo
     {
-        public DateTime fechaInicio;
-        public DateTime fechaFin;
-        public double tasaInteres;
-        public double montoTotal;
-        public string estado;
-        public Cliente cliente;
-        public Articulo articulo;
-        public Devolucion devolucion;
+        private DateTime fechaInicio;
+        private DateTime fechaFin;
+        private double tasaInteres;
+        private double montoTotal;
+        private string estado;
+        private Cliente cliente;
+        private Articulo articulo;
+        private Devolucion devolucion;
 
         public Prestamo(Cliente cliente, Articulo articulo, DateTime fechaInicio, double tasaInteres)
         {

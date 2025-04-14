@@ -6,126 +6,169 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:SisGestorEmpenio.vistas"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
+             HorizontalAlignment="Stretch"
+             FontSize="13"
+            FontWeight="SemiBold"
+            FontFamily="Arimo"
 >
-    <Grid Background="#F0FFFA" Margin="30">
-        
 
-        <!-- Formulario -->
-        <Grid Margin="2,95,-2,75">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+
+
+
+    <StackPanel x:Name="ContenedorRegistrarCliente"
+            VerticalAlignment="Top"
+            Background="White"
+            HorizontalAlignment="Stretch"
+                MinWidth="440"
+            >
+
+        <!-- Primer contenedor: Nombre y Apellido -->
+        <Grid MinHeight="46" Margin="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="71*"/>
-                <ColumnDefinition Width="114*"/>
-                <ColumnDefinition Width="16*"/>
-                <ColumnDefinition Width="169*"/>
+                <ColumnDefinition Width="*"  />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Row="0" Grid.Column="0" CornerRadius="10" Background="#D9D9D9" Margin="10,15,10,4" Grid.ColumnSpan="2">
-                <TextBox x:Name="txtNombre"
-        Background="Transparent"
-        BorderThickness="0"
-        Padding="10"
-        Text="Name"               
-        FontStyle="Italic"
-        Foreground="Gray"/>
-            </Border>
+            <!-- Nombre -->
+            <StackPanel Grid.Column="0" Margin="0,0,25,0">
+                <TextBlock Text="Nombre" Margin="7,0,0,2" HorizontalAlignment="Left"/>
+                <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28">
+                    <TextBox x:Name="txtNombre"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         Padding="6,0"
+                         VerticalContentAlignment="Center"/>
+                </Border>
+            </StackPanel>
 
-            <Border Grid.Row="0" Grid.Column="2" Margin="10,15,10,6" Background="#D9D9D9" CornerRadius="10" Grid.ColumnSpan="2">
-                <TextBox x:Name="txtApellido"
-        Background="Transparent" 
-        BorderThickness="0" 
-        Padding="10" 
-        Text="Last name" 
-        FontStyle="Italic"  
-        Foreground="Gray"/>
-            </Border>
-
-            <Border Grid.Row="1" Grid.ColumnSpan="4" Margin="10,15,10,5" Background="#D9D9D9" CornerRadius="10">
-                <TextBox x:Name="txtCorreo"
-        Background="Transparent" 
-        BorderThickness="0" 
-        Padding="10" 
-        Text="Email" 
-        FontStyle="Italic"  
-        Foreground="Gray"/>
-            </Border>
-
-            <Border Grid.Row="2" Grid.Column="0" Margin="10,15,10,10" Background="#D9D9D9" CornerRadius="10" Grid.ColumnSpan="2">
-                <TextBox x:Name="txtID"
-        Background="Transparent" 
-        BorderThickness="0" 
-        Padding="10" 
-        Text="ID" 
-        FontStyle="Italic"  
-        Foreground="Gray"/>
-            </Border>
-
-            <Border Grid.Row="2" Grid.Column="2" Margin="10,15,10,10" Background="#D9D9D9" CornerRadius="10" Grid.ColumnSpan="2">
-                <TextBox x:Name="txtTelefono"
-        Background="Transparent" 
-        BorderThickness="0" 
-        Padding="10" 
-        Text="Phone" 
-        FontStyle="Italic"  
-        Foreground="Gray"/>
-            </Border>
-            <Border Grid.Row="3" Grid.Column="0" Margin="10,15,10,10" Background="#D9D9D9" CornerRadius="10" Grid.ColumnSpan="4">
-                <TextBox x:Name="txtTipoIdentidad"
-             Background="Transparent" 
-             BorderThickness="0" 
-             Padding="10" 
-             Text="Tipo de identidad" 
-             FontStyle="Italic"  
-             Foreground="Gray"/>
-            </Border>
-            <TextBlock HorizontalAlignment="Left" Height="25" Margin="12,-5,0,0" VerticalAlignment="Top" Width="71">
-    <Run Text="Nombre" Foreground="Gray"/>
-    <Run Text=" *" Foreground="Red"/>
-            </TextBlock>
-
-            <TextBlock HorizontalAlignment="Right" Height="25" Margin="0,-5,287,0" VerticalAlignment="Top" Width="71" Grid.Column="2" Grid.ColumnSpan="2">
-    <Run Text="Apellido" Foreground="Gray"/>
-    <Run Text=" *" Foreground="Red"/>
-            </TextBlock>
-
-            <TextBlock HorizontalAlignment="Left" Height="25" Margin="12,55,0,0" VerticalAlignment="Top" Width="71" Grid.RowSpan="2">
-    <Run Text="Correo" Foreground="Gray"/>
-    <Run Text=" *" Foreground="Red"/>
-            </TextBlock>
-
-            <TextBlock HorizontalAlignment="Left" Height="25" Margin="12,55,0,0" VerticalAlignment="Top" Width="71" Grid.RowSpan="2" Grid.Row="1">
-    <Run Text="ID Cliente" Foreground="Gray"/>
-    <Run Text=" *" Foreground="Red"/>
-            </TextBlock>
-
-            <TextBlock HorizontalAlignment="Right" Height="25" Margin="0,55,288,0" VerticalAlignment="Top" Width="71" Grid.RowSpan="2" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2">
-    <Run Text="Teléfono" Foreground="Gray"/>
-    <Run Text=" *" Foreground="Red"/>
-            </TextBlock>
-
-            <TextBlock HorizontalAlignment="Left" Height="25" Margin="12,110,0,0" VerticalAlignment="Top" Width="150" Grid.Row="3" Grid.ColumnSpan="2">
-    <Run Text="Tipo de identidad" Foreground="Gray"/>
-    <Run Text=" *" Foreground="Red"/>
-            </TextBlock>
+            <!-- Apellido -->
+            <StackPanel Grid.Column="1">
+                <TextBlock Text="Apellido" Margin="7,0,0,2" HorizontalAlignment="Left"/>
+                <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28" >
+                    <TextBox x:Name="txtApellido"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         Padding="6,0"
+                         VerticalContentAlignment="Center"/>
+                </Border>
+            </StackPanel>
         </Grid>
 
-        <!-- Botón continuar -->
-        <Button Content="Continuar →" Click="Continuar_Click" FontWeight="Bold" FontStyle="Italic" FontSize="20 " 
-                Width="700" Height="40" Background="#AD8B04" Foreground="Black"
-                HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                Margin="22,0,0,15">
-            <Button.Effect>
-                <DropShadowEffect ShadowDepth="2" BlurRadius="5" Color="Gray"/>
-            </Button.Effect>
-        </Button>
-         
-    </Grid>
+        <!-- Segundo contenedor: Teléfono y Correo -->
+        <Grid MinHeight="46" Margin="0,23,0,0" Background="#F0F0F0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Teléfono -->
+            <StackPanel Grid.Column="0" Margin="0,0,25,0">
+                <TextBlock Text="Teléfono" Margin="7,0,0,2" HorizontalAlignment="Left"/>
+                <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28">
+                    <TextBox x:Name="txtTelefono"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         Padding="6,0"
+                         VerticalContentAlignment="Center"/>
+                </Border>
+            </StackPanel>
+
+            <!-- Correo -->
+            <StackPanel Grid.Column="1">
+                <TextBlock Text="Correo" Margin="7,0,0,2" HorizontalAlignment="Left"/>
+                <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28" >
+                    <TextBox x:Name="txtCorreo"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         Padding="6,0"
+                         VerticalContentAlignment="Center"/>
+                </Border>
+            </StackPanel>
+        </Grid>
+
+        <!-- Tercer contenedor: Identidad -->
+        <Grid MinHeight="46" Margin="0,23,0,0" Background="#F0F0F0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Tipo de identidad -->
+            <StackPanel Grid.Column="0" Margin="0,0,25,0">
+                <TextBlock Text="Tipo de Identidad" Margin="7,0,0,2"/>
+                <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28" >
+                    <ComboBox x:Name="cbTipoIdentidad"
+                          Background="Transparent"
+                          BorderThickness="0"
+                          Padding="6,0"
+                          VerticalContentAlignment="Center">
+                        <ComboBoxItem Content="DNI"/>
+                        <ComboBoxItem Content="Pasaporte"/>
+                        <ComboBoxItem Content="Cédula"/>
+                        <ComboBoxItem Content="Carnet de Extranjería"/>
+                    </ComboBox>
+                </Border>
+            </StackPanel>
+
+            <!-- Número de identidad -->
+            <StackPanel Grid.Column="1">
+                <TextBlock Text="Número de Identidad" Margin="7,0,0,2"/>
+                <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28" >
+                    <TextBox x:Name="txtIdentidad"
+                             PreviewTextInput="txtSoloNumeros_PreviewTextInput"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         Padding="6,0"
+                         VerticalContentAlignment="Center"/>
+                </Border>
+            </StackPanel>
+        </Grid>
 
 
+
+
+        <!--BOTON PARA CONTINUAR-->
+
+        <Grid MinHeight="35" Margin="0,44,0,0" Background="#F0F0F0">
+            <Border CornerRadius="8"
+            Cursor="Hand"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Bottom"
+            MouseLeftButtonUp="Continuar_Click"
+            Margin="0">
+
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Background" Value="#3A7575"/>
+                        <Setter Property="Effect">
+                            <Setter.Value>
+                                <DropShadowEffect ShadowDepth="2" BlurRadius="5" Color="Gray"/>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#2F7171"/>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect ShadowDepth="3" BlurRadius="8" Color="#0A5151"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+
+                <TextBlock Text="Continuar →"
+                   FontWeight="Bold"
+                   FontStyle="Italic"
+                   FontSize="16"
+                   Foreground="White"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Padding="10"/>
+            </Border>
+        </Grid>
+
+
+    </StackPanel>
 </UserControl>

@@ -16,6 +16,19 @@ namespace SisGestorEmpenio.Servicios
         }
         public static bool validarCredenciales(string usuario, string contrasenia)
         {
+
+            //SOLO EN CASO DE NO PODER ACCEDER A LA BASE DE DATOS   
+            //comentar o descomentar
+            /*
+            if (usuario== "" && contrasenia == "")
+            {
+                Sesion.Sesion.IniciarSesion(new Administrador("admin", 0, "N/A", 0, 0, "admin", "admin"));
+                return true;
+            }
+            */
+            //fin seccion comentable
+
+            
             AdministradorRepository adminRepo = new AdministradorRepository();
             Administrador admin = adminRepo.buscarPorCredenciales(usuario, contrasenia);
             if (admin != null)

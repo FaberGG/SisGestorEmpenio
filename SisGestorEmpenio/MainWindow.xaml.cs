@@ -57,28 +57,7 @@ namespace SisGestorEmpenio
 
 
         // Método para cambiar la vista en el ContentControl
-        public void NavigateTo(string viewName)
-        {
-            switch (viewName)
-            {
-                case "Home":
-                    MainContent.Content = new vistas.HomeView();
-                    break;
-                case "RegistrarCliente":
-                    MainContent.Content = new vistas.RegistrarCliente();
-                    break;
-                case "RegistrarArticulo":
-                    MainContent.Content = new vistas.RegistrarArticulo();
-                    break;
-                case "RegistrarPrestamo":
-                    MainContent.Content = new vistas.RegistrarPrestamo();
-                    break;
-                case "RegistrarDevolucion":
-                    MainContent.Content = new vistas.RegistrarDevolucion();
-                    break;
-
-            }
-        }
+        
 
         private void GoToHome(object sender, RoutedEventArgs e)
         {
@@ -103,14 +82,18 @@ namespace SisGestorEmpenio
             SeleccionarOpcion(TxtRegistrarPrestamo);
             ActualizarEncabezado("Registrar Préstamo");
 
-            var result = MessageBox.Show(
-                "¿El cliente ya está registrado?",
-                "Confirmación",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question
-            );
+            var confirmacion = new ConfirmacionWindow
+            {
+                Mensaje = "¿El cliente ya está registrado?",
+                Titulo = "Cliente registrado?",
+                TextoBotonIzquierdo = "Sí",
+                TextoBotonDerecho = "Registrar",
+                MostrarBotonDerecho = true
+            };
 
-            if (result == MessageBoxResult.Yes)
+            bool? resultado = confirmacion.ShowDialog();
+
+            if (resultado == true && confirmacion.Confirmado)
             {
                 ActualizarEncabezado("Registrar Préstamo", "Artículo");
                 var vistaArticulo = new RegistrarArticulo();

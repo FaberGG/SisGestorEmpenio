@@ -13,7 +13,7 @@ namespace SisGestorEmpenio.Modelos
         private int numeroConvenio;
         private DateTime fechaDevolucion;
         private double montoPagado;
-        Prestamo prestamo;
+        private Prestamo prestamo;
 
         //constructor
         

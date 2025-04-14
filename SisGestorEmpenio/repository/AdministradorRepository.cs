@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SisGestorEmpenio.repository
 {
@@ -34,7 +35,7 @@ namespace SisGestorEmpenio.repository
                     Convert.ToInt32(fila["numeroIdentidad"]),
                     fila["tipoIdentidad"].ToString(),
                     Convert.ToDouble(fila["salario"]),
-                    Convert.ToInt32(fila["aniosExp"]),
+                    Convert.ToInt32(fila["aniosExperiencia"]),
                     fila["usuario"].ToString(),
                     fila["contrasenia"].ToString()
                 );
