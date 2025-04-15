@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Oracle.ManagedDataAccess.Client;
 using System.Windows.Input;
+using SisGestorEmpenio.Modelos;
 
 namespace SisGestorEmpenio.vistas
 {
@@ -34,20 +35,18 @@ namespace SisGestorEmpenio.vistas
         private void Continuar_Click(object sender, RoutedEventArgs e)
         {
             // Capturar valores del formulario
-            string nombre = txtID.Text.Trim();
-            string apellido = txtDescripcion.Text.Trim();
-            string correo = cbEstado.Text.Trim();
-            string telefono = txtTelefono.Text.Trim();
-            string tipoIdentidad = cbTipoIdentidad.Text.Trim();
-           Vis
+            string idTexto = txtID.Text.Trim();
+            string descripcion = txtDescripcion.Text.Trim();
+            string estado = cbEstado.Text.Trim();
+            string valorTexto = txtValor.Text.Trim();
+           
+           
 
             // Validación básica de campos
-            if (string.IsNullOrWhiteSpace(nombre) ||
-                string.IsNullOrWhiteSpace(apellido) ||
-                string.IsNullOrWhiteSpace(correo) ||
-                string.IsNullOrWhiteSpace(telefono) ||
-                string.IsNullOrWhiteSpace(tipoIdentidad) ||
-                string.IsNullOrWhiteSpace(idTexto))
+            if (string.IsNullOrWhiteSpace(idTexto) ||
+                string.IsNullOrWhiteSpace(descripcion) ||
+                string.IsNullOrWhiteSpace(estado) ||
+                string.IsNullOrWhiteSpace(valorTexto))
             {
                 MessageBox.Show("Todos los campos son obligatorios.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -58,13 +57,18 @@ namespace SisGestorEmpenio.vistas
                 MessageBox.Show("El campo ID debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-
+            // Convertir Valor a entero
+            if (!int.TryParse(valorTexto, out int valor))
+            {
+                MessageBox.Show("El campo Valor debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
 
 
             // Mostrar datos capturados (prueba)
             MessageBox.Show(
-                $"Nombre: {nombre}\nApellido: {apellido}\nCorreo: {correo}\nID: {id}\nTeléfono: {telefono}\nTipo de Identidad: {tipoIdentidad}",
+                $"ID: {id}\nDescripcion: {descripcion}\nEstado: {estado}\nValor: {valor}",
                 "Datos capturados", MessageBoxButton.OK, MessageBoxImage.Information);
 
 
@@ -73,7 +77,7 @@ namespace SisGestorEmpenio.vistas
 
             try
             {
-                Sesion.Sesion.GetAdministradorActivo().registrarCliente(nombre, id, tipoIdentidad, apellido, telefono, correo);
+                Sesion.Sesion.GetAdministradorActivo().registrarArticulo(id,descripcion,valor,estado);
                 // Disparar el evento para continuar con el flujo
             }
             catch (OracleException ex)
@@ -86,7 +90,7 @@ namespace SisGestorEmpenio.vistas
                 MostrarError("Ocurrió un error inesperado:\n" + ex.Message);
             }
 
-            RegistroClienteCompletado?.Invoke(this, EventArgs.Empty);
+            RegistroArticuloCompletado?.Invoke(this, EventArgs.Empty);
         }
 
         private void MostrarError(string mensaje)
