@@ -55,7 +55,7 @@
         </Grid>
 
         <!-- Segundo contenedor: Teléfono y Correo -->
-        <Grid MinHeight="46" Margin="0,23,0,0" Background="#F0F0F0">
+        <Grid MinHeight="46" Margin="0,23,0,0" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*" />
@@ -87,7 +87,7 @@
         </Grid>
 
         <!-- Tercer contenedor: Identidad -->
-        <Grid MinHeight="46" Margin="0,23,0,0" Background="#F0F0F0">
+        <Grid MinHeight="46" Margin="0,23,0,0" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />

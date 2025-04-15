@@ -5,12 +5,138 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SisGestorEmpenio.vistas"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             HorizontalAlignment="Stretch"
+             FontSize="13"
+             FontWeight="SemiBold"
+             FontFamily="Arimo">
+    <StackPanel x:Name="ContenedorRegistrarCliente"
+        VerticalAlignment="Top"
+        Background="White"
+        HorizontalAlignment="Stretch"
+            MinWidth="440"
+        >
 
-    <Grid Background="#F0FFFA" >
+        <!-- Primer contenedor: ID Articulo - Descripcion -->
+        <Grid MinHeight="46" Margin="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"  />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- ID Articulo -->
+            <StackPanel Grid.Column="0" Margin="0,0,25,0">
+                <TextBlock Text="ID Articulo" Margin="7,0,0,2" HorizontalAlignment="Left"/>
+                <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28">
+                    <TextBox x:Name="txtID"
+                     Background="Transparent"
+                     BorderThickness="0"
+                     Padding="6,0"
+                     VerticalContentAlignment="Center"/>
+                </Border>
+            </StackPanel>
+
+            <!-- Descripcion -->
+            <StackPanel Grid.Column="1">
+                <TextBlock Text="Descripcion" Margin="7,0,0,2" HorizontalAlignment="Left"/>
+                <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28" >
+                    <TextBox x:Name="txtDescripcion"
+                     Background="Transparent"
+                     BorderThickness="0"
+                     Padding="6,0"
+                     VerticalContentAlignment="Center"/>
+                </Border>
+            </StackPanel>
+        </Grid>
+
+        <!-- Tercer contenedor: Estado y Valor Estimado -->
+        <Grid MinHeight="46" Margin="0,23,0,0" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Estado Articulo -->
+            <StackPanel Grid.Column="0" Margin="0,0,25,0">
+                <TextBlock Text="Estado" Margin="7,0,0,2"/>
+                <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28" >
+                    <ComboBox x:Name="cbEstado"
+                  Background="Transparent"
+                  BorderThickness="0"
+                  Padding="6,0"
+                  VerticalContentAlignment="Center">
+                        <ComboBoxItem Content="Defectuoso"/>
+                        <ComboBoxItem Content="Optimo"/>
+                        <ComboBoxItem Content="Funcionable"/>
+                    </ComboBox>
+                </Border>
+            </StackPanel>
+
+            <!-- Valor Estimado -->
+            <StackPanel Grid.Column="1">
+                <TextBlock Text="Valor Estimado" Margin="7,0,0,2"/>
+                <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28" >
+                    <TextBox x:Name="txtValor"
+                 Background="Transparent"
+                 BorderThickness="0"
+                 Padding="6,0"
+                 VerticalContentAlignment="Center"/>
+                </Border>
+            </StackPanel>
+        </Grid>
+
+       
 
 
-        <!-- Formulario -->
+
+
+        <!--BOTON PARA CONTINUAR-->
+
+        <Grid MinHeight="35" Margin="0,44,0,0" Background="#F0F0F0">
+            <Border CornerRadius="8"
+        Cursor="Hand"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Bottom"
+        MouseLeftButtonUp="Continuar_Click"
+        Margin="0">
+
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Background" Value="#3A7575"/>
+                        <Setter Property="Effect">
+                            <Setter.Value>
+                                <DropShadowEffect ShadowDepth="2" BlurRadius="5" Color="Gray"/>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#2F7171"/>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect ShadowDepth="3" BlurRadius="8" Color="#0A5151"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+
+                <TextBlock Text="Continuar →"
+               FontWeight="Bold"
+               FontStyle="Italic"
+               FontSize="16"
+               Foreground="White"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Padding="10"/>
+            </Border>
+        </Grid>
+
+
+    </StackPanel>
+    <!--<Grid Background="#F0FFFA" >
+
+
+        --><!-- Formulario --><!--
         <Grid Margin="2,95,-2,75">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -83,11 +209,11 @@
             <TextBlock RenderTransformOrigin="0.089,3.34" Margin="15,54,92,58" Grid.RowSpan="2"><Run Text="Tipo " Foreground="Gray"/><Run Text=" "/><Run Text="*" Foreground="Red"/></TextBlock>
 
         </Grid>
-        <!-- Validacion de los campos incompletos-->
+        --><!-- Validacion de los campos incompletos-->
 
 
 
-        <!-- Botón continuar -->
+        <!-- Botón continuar --><!--
         <Button Content="Guardar" Click="Guardar_Click" FontWeight="Bold" FontStyle="Italic" FontSize="20 " 
             Width="700" Height="40" Background="#AD8B04" Foreground="Black"
             HorizontalAlignment="Left" VerticalAlignment="Bottom"
@@ -98,5 +224,5 @@
         </Button>
 
          
-    </Grid>
+    </Grid>-->
 </UserControl>
