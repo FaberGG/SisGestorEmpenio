@@ -13,7 +13,7 @@ namespace SisGestorEmpenio.vistas
     public partial class RegistrarArticulo : UserControl
     {
         // Evento público que se disparará al completar el registro del artículo
-        public event EventHandler RegistroArticuloCompletado;
+        public event EventHandler<Articulo> RegistroArticuloCompletado;
 
         public RegistrarArticulo()
         {
@@ -74,11 +74,11 @@ namespace SisGestorEmpenio.vistas
 
 
             //PASAR LOS DATOS A ADMINISTRADOR PARA EJECUTAR LA CONSULTA
-
+            var articulo = new Articulo(id, descripcion, valor, estado);
             try
             {
-                Sesion.Sesion.GetAdministradorActivo().registrarArticulo(id,descripcion,valor,estado);
-                // Disparar el evento para continuar con el flujo
+                Sesion.Sesion.GetAdministradorActivo().registrarArticulo(articulo);
+                RegistroArticuloCompletado?.Invoke(this, articulo);
             }
             catch (OracleException ex)
             {
@@ -90,7 +90,6 @@ namespace SisGestorEmpenio.vistas
                 MostrarError("Ocurrió un error inesperado:\n" + ex.Message);
             }
 
-            RegistroArticuloCompletado?.Invoke(this, EventArgs.Empty);
         }
 
         private void MostrarError(string mensaje)

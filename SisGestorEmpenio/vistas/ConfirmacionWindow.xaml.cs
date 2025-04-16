@@ -28,7 +28,7 @@ namespace SisGestorEmpenio.vistas
         public Brush ColorBotonDerecho { get; set; } = (SolidColorBrush)(new BrushConverter().ConvertFrom("#3A7575"));
         public bool MostrarBotonDerecho { get; set; } = true;
 
-        public bool Confirmado { get; private set; }
+        public bool Confirmado { get; private set; } = false;
 
         public ConfirmacionWindow()
         {
@@ -47,10 +47,7 @@ namespace SisGestorEmpenio.vistas
             Confirmado = false;
             DialogResult = false;
         }
-        private void CerrarVentana_Click(object sender, MouseButtonEventArgs e)
-        {
-            this.Close();
-        }
+        
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

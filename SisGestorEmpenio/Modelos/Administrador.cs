@@ -27,31 +27,26 @@ namespace SisGestorEmpenio.Modelos
         }
        
 
-        public bool registrarCliente(string nombre,  int identificacion, string tipoIdentidad,  string apellido, string telefono, string correo)
+        public bool registrarCliente(Cliente cliente)
         { 
             ClienteRepository clienteRepository = new ClienteRepository();
-            Cliente cliente= new Cliente( nombre, identificacion, tipoIdentidad, apellido, telefono, correo, this);
-
+            cliente.SetAdministrador(this); // Asignar el administrador al cliente
             clienteRepository.guardar(cliente);
             return true;
         }
 
-        public bool registrarArticulo(int idArticulo, string descripcion, double valorEstimado, string Estado)
+        public bool registrarArticulo(Articulo articulo)
         {
             ArticuloRepository articuloRepository=new ArticuloRepository();
-
-            Articulo articulo = new Articulo(idArticulo,descripcion,valorEstimado,Estado);
+            articulo.SetAdministrador(this); // Asignar el administrador al artículo
             articuloRepository.guardar(articulo);
             
             return true;
         }
 
-        public bool registrarPrestamo(Cliente cliente, Articulo articulo, double tasaInteres)
+        public bool registrarPrestamo(Prestamo prestamo)
         {
             PrestamoRepository prestamoRepository = new PrestamoRepository();
-            DateTime fechaInicio = DateTime.Now;
-            Prestamo prestamo = new Prestamo(cliente, articulo, fechaInicio, tasaInteres);
-
             prestamoRepository.guardar(prestamo);
             return true;
         }

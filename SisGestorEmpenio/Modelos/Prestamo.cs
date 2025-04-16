@@ -17,12 +17,13 @@ namespace SisGestorEmpenio.Modelos
         private Articulo articulo;
         private Devolucion devolucion;
 
-        public Prestamo(Cliente cliente, Articulo articulo, DateTime fechaInicio, double tasaInteres)
+        public Prestamo(Cliente cliente, Articulo articulo, DateTime fechaFin, double tasaInteres)
         {
             this.cliente = cliente;
             this.articulo = articulo;
             this.estado = "activo";
-            this.fechaInicio = fechaInicio;
+            this.fechaInicio = DateTime.Now;
+            this.fechaFin = fechaFin;
             this.tasaInteres = tasaInteres;
         }
 

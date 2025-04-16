@@ -14,7 +14,7 @@ namespace SisGestorEmpenio.repository
         public bool guardar(Articulo articulo)
         {
             int filasAfectadas = 0;
-            string consulta = $"INSERT INTO Articulo VALUES ({articulo.GetIdArticulo()}, '{articulo.GetDescripcion()}', {articulo.GetValorEstimado()}, '{articulo.GetEstado()}')";
+            string consulta = $"INSERT INTO Articulo VALUES ({articulo.GetIdArticulo()}, '{articulo.GetDescripcion()}', {articulo.GetValorEstimado()}, '{articulo.GetEstado().ToLower()}')";
 
             filasAfectadas = dt.ejecutarDML(consulta);
             return filasAfectadas > 0;

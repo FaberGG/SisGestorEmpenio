@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SisGestorEmpenio.Modelos;
 
 namespace SisGestorEmpenio
 {
@@ -82,6 +83,9 @@ namespace SisGestorEmpenio
             SeleccionarOpcion(TxtRegistrarPrestamo);
             ActualizarEncabezado("Registrar Préstamo");
 
+            Cliente clienteRegistrado = null;
+            Articulo articuloRegistrado = null;
+
             var confirmacion = new ConfirmacionWindow
             {
                 Mensaje = "¿El cliente ya está registrado?",
@@ -97,10 +101,10 @@ namespace SisGestorEmpenio
             {
                 ActualizarEncabezado("Registrar Préstamo", "Artículo");
                 var vistaArticulo = new RegistrarArticulo();
-                vistaArticulo.RegistroArticuloCompletado += (s, args) =>
+                vistaArticulo.RegistroArticuloCompletado += (s, articulo) =>
                 {
                     ActualizarEncabezado("Registrar Préstamo");
-                    MainContent.Content = new RegistrarPrestamo();
+                    MainContent.Content = new RegistrarPrestamo(articulo);
                 };
                 MainContent.Content = vistaArticulo;
             }
@@ -108,14 +112,17 @@ namespace SisGestorEmpenio
             {
                 ActualizarEncabezado("Registrar Préstamo", "Cliente");
                 var vistaCliente = new RegistrarCliente();
-                vistaCliente.RegistroClienteCompletado += (s1, args1) =>
+                vistaCliente.RegistroClienteCompletado += (s1, cliente) =>
                 {
+                    clienteRegistrado = cliente;
                     ActualizarEncabezado("Registrar Préstamo", "Artículo");
                     var vistaArticulo = new RegistrarArticulo();
-                    vistaArticulo.RegistroArticuloCompletado += (s2, args2) =>
+                    vistaArticulo.RegistroArticuloCompletado += (s2, articulo) =>
                     {
+                        articuloRegistrado = articulo;
                         ActualizarEncabezado("Registrar Préstamo");
-                        MainContent.Content = new RegistrarPrestamo();
+
+                        MainContent.Content = new RegistrarPrestamo(cliente, articulo);
                     };
                     MainContent.Content = vistaArticulo;
                 };

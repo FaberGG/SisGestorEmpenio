@@ -13,6 +13,7 @@ namespace SisGestorEmpenio.Modelos
         private string descripcion;
         private double valorEstimado;
         private string estado;
+        private Administrador administrador;
         // Constructor vacío
         public Articulo()
         {
@@ -34,6 +35,14 @@ namespace SisGestorEmpenio.Modelos
         }
 
         //Set y get de las propiedades del artículo 
+        public Administrador GetAdministrador()
+        {
+            return administrador;
+        }
+        public void SetAdministrador(Administrador value)
+        {
+            administrador = value;
+        }
         public int GetIdArticulo()
         {
             return idArticulo;

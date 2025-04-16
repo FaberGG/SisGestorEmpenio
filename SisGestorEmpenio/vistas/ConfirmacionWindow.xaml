@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SisGestorEmpenio.vistas"
         mc:Ignorable="d"
-        Title="ConfirmacionWindow" Height="159" Width="421" 
+        Title="Confirmacion" Height="159" Width="421" 
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize" WindowStyle="SingleBorderWindow"
         Background="White"

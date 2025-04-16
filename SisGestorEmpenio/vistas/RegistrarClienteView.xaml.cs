@@ -13,7 +13,7 @@ namespace SisGestorEmpenio.vistas
     public partial class RegistrarCliente : UserControl
     {
         // Evento público que se disparará al finalizar el registro
-        public event EventHandler RegistroClienteCompletado;
+        public event EventHandler<Cliente> RegistroClienteCompletado;
 
         public RegistrarCliente()
         {
@@ -63,18 +63,20 @@ namespace SisGestorEmpenio.vistas
             
 
             // Mostrar datos capturados (prueba)
+            /*
             MessageBox.Show(
                 $"Nombre: {nombre}\nApellido: {apellido}\nCorreo: {correo}\nID: {id}\nTeléfono: {telefono}\nTipo de Identidad: {tipoIdentidad}",
                 "Datos capturados", MessageBoxButton.OK, MessageBoxImage.Information);
-
+            */
 
 
             //PASAR LOS DATOS A ADMINISTRADOR PARA EJECUTAR LA CONSULTA
 
+            var cliente = new Cliente(nombre, id, tipoIdentidad, apellido, telefono, correo);
             try
             {
-                Sesion.Sesion.GetAdministradorActivo().registrarCliente(nombre, id, tipoIdentidad, apellido, telefono, correo);
-                // Disparar el evento para continuar con el flujo
+                Sesion.Sesion.GetAdministradorActivo().registrarCliente(cliente);
+                RegistroClienteCompletado?.Invoke(this, cliente);
             }
             catch (OracleException ex)
             {
@@ -86,7 +88,6 @@ namespace SisGestorEmpenio.vistas
                 MostrarError("Ocurrió un error inesperado:\n" + ex.Message);
             }
 
-            RegistroClienteCompletado?.Invoke(this, EventArgs.Empty);
         }
 
         private void MostrarError(string mensaje)
