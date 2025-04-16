@@ -51,11 +51,9 @@ namespace SisGestorEmpenio.Modelos
             return true;
         }
 
-        public bool registrarDevolución(Prestamo prestamo, double montopagado)
+        public bool registrarDevolución(Devolucion devolucion)
         {
             DevolucionRepository devolucionRepository=new DevolucionRepository();
-            DateTime fechaDevolucion = DateTime.Now;
-            Devolucion devolucion = new Devolucion(fechaDevolucion, montopagado, prestamo);
             devolucionRepository.guardar(devolucion); 
             return true;
         }

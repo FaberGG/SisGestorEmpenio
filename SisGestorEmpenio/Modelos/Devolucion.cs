@@ -17,11 +17,11 @@ namespace SisGestorEmpenio.Modelos
 
         //constructor
         
-        public Devolucion(DateTime fechaDevolucion, double montoPagado, Prestamo prestamo)
+        public Devolucion(double montoPagado, Prestamo prestamo)
         {
-            this.fechaDevolucion = fechaDevolucion;
             this.montoPagado = montoPagado;
             this.prestamo = prestamo;
+            this.fechaDevolucion = DateTime.Now;
         }
 
        //get y set de la clase 
