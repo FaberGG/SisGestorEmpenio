@@ -32,14 +32,17 @@ namespace SisGestorEmpenio.vistas
             this.cliente = cliente;
             this.articulo = articulo;
 
-            //txtClienteId = cliente.GetId();
-            //txtArticuloId = articulo.GetId();
+            txtClienteId.Text = cliente.GetId().ToString();
+            txtArticuloId.Text = articulo.GetIdArticulo().ToString();
+            txtClienteId.IsEnabled = false;
+            txtArticuloId.IsEnabled = false;
         }
         public RegistrarPrestamo(Articulo articulo)
         {
             this.articulo = articulo;
             this.cliente = null;
-            //txtArticuloId = articulo.GetId();
+            txtArticuloId.Text = articulo.GetIdArticulo().ToString();
+            txtArticuloId.IsEnabled = false;
             InitializeComponent();
         }
 
@@ -61,21 +64,24 @@ namespace SisGestorEmpenio.vistas
             return int.TryParse(texto, out _);
         }
 
-        private void Continuar_Click(object sender, RoutedEventArgs e)
+        private void Guardar_Click(object sender, RoutedEventArgs e)
         {
             // Capturar valores del formulario
-            /*
+            
             string clienteId = txtClienteId.Text.Trim();
             string articuloId = txtArticuloId.Text.Trim();
-            string tasaInteres = txtTasaInteres.Text.Trim();
-            //fecha fin
+            DateTime? fechaFinNullable = FechaFinDatePicker.SelectedDate;
+            DateTime fechaFin = fechaFinNullable.Value;
+            string tasaInteresStr = txtTasaInteres.Text.Trim();
+            double tasaInteres;
 
+            
 
             // Validación básica de campos
-            if (string.IsNullOrWhiteSpace(clienteID) ||
+            if (string.IsNullOrWhiteSpace(clienteId) ||
                 string.IsNullOrWhiteSpace(articuloId) ||
                 string.IsNullOrWhiteSpace(tasaInteres) ||
-                // para las fechas
+                fechaFinNullable.HasValue == false
                 )
                 
             {
@@ -83,13 +89,25 @@ namespace SisGestorEmpenio.vistas
                 return;
             }
             // Convertir ID a entero
-            if (!int.TryParse(idTexto, out int id))
+            if (!int.TryParse(clienteId, out int idCliente))
             {
-                MessageBox.Show("El campo ID debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("El campo Identificacion del cliente debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
+            if (!int.TryParse(articuloId, out int idArticulo))
+            {
+                MessageBox.Show("El campo identificador del articulo debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            //convertir a double
+            if (!double.TryParse(tasaInteresStr, out tasaInteres))
+            {
+                MessageBox.Show("El campo tasa de interes debe ser un número decimal valido.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            
 
-            */
+
 
 
 
@@ -101,8 +119,15 @@ namespace SisGestorEmpenio.vistas
             */
 
 
+            // Crear el cliente y el artículo
+            if (cliente == null)
+            {
+                // Si el cliente es nulo, se crea un nuevo objeto cliente temp
+                cliente = new Cliente("", idCliente, "", "", "", "");
+            }
+
             //PASAR LOS DATOS A ADMINISTRADOR PARA EJECUTAR LA CONSULTA
-            /*
+
             var prestamo = new Prestamo(cliente, articulo, fechaFin, tasaInteres);
             
             try
@@ -118,7 +143,7 @@ namespace SisGestorEmpenio.vistas
             {
                 MostrarError("Ocurrió un error inesperado:\n" + ex.Message);
             }
-            */
+            
 
         }
 
