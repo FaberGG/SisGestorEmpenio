@@ -9,6 +9,10 @@
              FontSize="13"
              FontWeight="SemiBold"
              FontFamily="Arimo">
+    
+    
+    <!--CONTENEDOR PRINCIPAL-->
+    
     <StackPanel x:Name="ContenedorRegistrarCliente"
         VerticalAlignment="Top"
         Background="White"
@@ -135,4 +139,9 @@
 
 
     </StackPanel>
+    
+    
+    <!--FIN CONTENEDOR PRINCIPAL-->
+    
+
 </UserControl>

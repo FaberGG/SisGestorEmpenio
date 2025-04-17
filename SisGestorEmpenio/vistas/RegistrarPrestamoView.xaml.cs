@@ -47,9 +47,19 @@ namespace SisGestorEmpenio.vistas
         {
             this.cliente = null;
             this.articulo = null;
+
             InitializeComponent();
         }
 
+        private void txtSoloNumeros_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !EsNumero(e.Text);
+        }
+
+        private bool EsNumero(string texto)
+        {
+            return int.TryParse(texto, out _);
+        }
 
         private void Continuar_Click(object sender, RoutedEventArgs e)
         {
