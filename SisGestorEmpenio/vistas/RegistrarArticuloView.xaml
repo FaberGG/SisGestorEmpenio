@@ -9,6 +9,10 @@
              FontSize="13"
              FontWeight="SemiBold"
              FontFamily="Arimo">
+    
+    
+    <!--CONTENEDOR PRINCIPAL-->
+    
     <StackPanel x:Name="ContenedorRegistrarCliente"
         VerticalAlignment="Top"
         Background="White"
@@ -25,9 +29,11 @@
 
             <!-- ID Articulo -->
             <StackPanel Grid.Column="0" Margin="0,0,25,0">
-                <TextBlock Text="ID Articulo" Margin="7,0,0,2" HorizontalAlignment="Left"/>
+                <TextBlock Text="Identificador unico" Margin="7,0,0,2" HorizontalAlignment="Left"/>
                 <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28">
                     <TextBox x:Name="txtID"
+                    PreviewTextInput="txtSoloNumeros_PreviewTextInput"
+                    
                      Background="Transparent"
                      BorderThickness="0"
                      Padding="6,0"
@@ -133,4 +139,9 @@
 
 
     </StackPanel>
+    
+    
+    <!--FIN CONTENEDOR PRINCIPAL-->
+    
+
 </UserControl>
