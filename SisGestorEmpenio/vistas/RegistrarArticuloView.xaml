@@ -29,7 +29,7 @@
 
             <!-- ID Articulo -->
             <StackPanel Grid.Column="0" Margin="0,0,25,0">
-                <TextBlock Text="Identificador unico" Margin="7,0,0,2" HorizontalAlignment="Left"/>
+                <TextBlock x:Name="lblID"  Text="Identificador unico" Margin="7,0,0,2" HorizontalAlignment="Left"/>
                 <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28">
                     <TextBox x:Name="txtID"
                     PreviewTextInput="txtSoloNumeros_PreviewTextInput"
@@ -43,7 +43,7 @@
 
             <!-- Descripcion -->
             <StackPanel Grid.Column="1">
-                <TextBlock Text="Descripcion" Margin="7,0,0,2" HorizontalAlignment="Left"/>
+                <TextBlock x:Name="lblDescripcion" Text="Descripcion" Margin="7,0,0,2" HorizontalAlignment="Left"/>
                 <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28" >
                     <TextBox x:Name="txtDescripcion"
                      Background="Transparent"
@@ -63,7 +63,7 @@
 
             <!-- Estado Articulo -->
             <StackPanel Grid.Column="0" Margin="0,0,25,0">
-                <TextBlock Text="Estado" Margin="7,0,0,2"/>
+                <TextBlock x:Name="lblEstado" Text="Estado" Margin="7,0,0,2"/>
                 <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28" >
                     <ComboBox x:Name="cbEstado"
                   Background="Transparent"
@@ -79,7 +79,7 @@
 
             <!-- Valor Estimado -->
             <StackPanel Grid.Column="1">
-                <TextBlock Text="Valor Estimado" Margin="7,0,0,2"/>
+                <TextBlock x:Name="lblValor" Text="Valor Estimado" Margin="7,0,0,2"/>
                 <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28" >
                     <TextBox x:Name="txtValor"
                  Background="Transparent"

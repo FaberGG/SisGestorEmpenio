@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using Oracle.ManagedDataAccess.Client;
 using System.Windows.Input;
 using SisGestorEmpenio.Modelos;
+using SisGestorEmpenio.Utils;
 
 namespace SisGestorEmpenio.vistas
 {
@@ -38,13 +39,16 @@ namespace SisGestorEmpenio.vistas
             string estado = cbEstado.Text.Trim();
             string valorTexto = txtValor.Text.Trim();
             double valor;
-           
 
-            // Validación básica de campos
-            if (string.IsNullOrWhiteSpace(idTexto) ||
-                string.IsNullOrWhiteSpace(descripcion) ||
-                string.IsNullOrWhiteSpace(estado) ||
-                string.IsNullOrWhiteSpace(valorTexto))
+
+            // Validar todos los campos usando ValidacionHelper
+            bool valido = true;
+            valido &= ValidacionHelper.ValidarCampo(txtID, lblID, "ID");
+            valido &= ValidacionHelper.ValidarCampo(txtDescripcion, lblDescripcion, "Descripción");
+            valido &= ValidacionHelper.ValidarCampo(cbEstado, lblEstado, "Estado");
+            valido &= ValidacionHelper.ValidarCampo(txtValor, lblValor, "Valor");
+
+            if (!valido)
             {
                 MostrarError("Todos los campos son obligatorios.");
                 return;

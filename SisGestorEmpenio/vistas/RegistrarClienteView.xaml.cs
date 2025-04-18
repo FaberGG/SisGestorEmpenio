@@ -3,7 +3,9 @@ using SisGestorEmpenio.Modelos;
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using SisGestorEmpenio.Utils;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace SisGestorEmpenio.vistas
 {
@@ -41,17 +43,21 @@ namespace SisGestorEmpenio.vistas
             string tipoIdentidad = cbTipoIdentidad.Text.Trim();
             string idTexto = txtIdentidad.Text.Trim();
 
-            // Validación básica de campos
-            if (string.IsNullOrWhiteSpace(nombre) ||
-                string.IsNullOrWhiteSpace(apellido) ||
-                string.IsNullOrWhiteSpace(correo) ||
-                string.IsNullOrWhiteSpace(telefono) ||
-                string.IsNullOrWhiteSpace(tipoIdentidad) ||
-                string.IsNullOrWhiteSpace(idTexto))
+
+            //validacion de campos
+            bool nombreValido = ValidacionHelper.ValidarCampo(txtNombre, lblNombre, "Nombre");
+            bool apellidoValido = ValidacionHelper.ValidarCampo(txtApellido, lblApellido, "Apellido");
+            bool correoValido = ValidacionHelper.ValidarCampo(txtCorreo, lblCorreo, "Correo");
+            bool telefonoValido = ValidacionHelper.ValidarCampo(txtTelefono, lblTelefono, "Teléfono");
+            bool tipoIdentidadValido = ValidacionHelper.ValidarCampo(cbTipoIdentidad, lblTipoIdentidad, "Tipo Identidad");
+            bool identidadValida = ValidacionHelper.ValidarCampo(txtIdentidad, lblIdentidad, "Identidad");
+
+            if (!nombreValido || !apellidoValido || !correoValido || !telefonoValido || !tipoIdentidadValido || !identidadValida)
             {
                 MostrarError("Todos los campos son obligatorios.");
                 return;
             }
+
             // Convertir ID a entero
             if (!int.TryParse(idTexto, out int id))
             {
@@ -98,6 +104,8 @@ namespace SisGestorEmpenio.vistas
             }
 
         }
+
+
 
         private void MostrarError(string mensaje)
         {

@@ -1,5 +1,6 @@
 ﻿using Oracle.ManagedDataAccess.Client;
 using SisGestorEmpenio.Modelos;
+using SisGestorEmpenio.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,10 +38,11 @@ namespace SisGestorEmpenio.vistas
             string strarticuloId = txtIdArticulo.Text.Trim();
             string strMontoTotal = txtMontoTotal.Text.Trim();
 
-            // Validación básica de campos
-            if (string.IsNullOrWhiteSpace(strclienteId) ||
-                string.IsNullOrWhiteSpace(strarticuloId) ||
-                string.IsNullOrWhiteSpace(strMontoTotal))
+            bool valido = ValidacionHelper.ValidarCampo(txtIdCliente, lblIdCliente, "Cliente ID");
+            valido &= ValidacionHelper.ValidarCampo(txtIdArticulo, lblIdArticulo, "Artículo ID");
+            valido &= ValidacionHelper.ValidarCampo(txtMontoTotal, lblMontoTotal, "Monto Total");
+
+            if (!valido)
             {
                 MostrarError("Todos los campos son obligatorios.");
                 return;
