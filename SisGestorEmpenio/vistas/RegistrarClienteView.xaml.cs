@@ -63,11 +63,11 @@ namespace SisGestorEmpenio.vistas
             
 
             // Mostrar datos capturados (prueba)
-            /*
+            
             MessageBox.Show(
                 $"Nombre: {nombre}\nApellido: {apellido}\nCorreo: {correo}\nID: {id}\nTeléfono: {telefono}\nTipo de Identidad: {tipoIdentidad}",
                 "Datos capturados", MessageBoxButton.OK, MessageBoxImage.Information);
-            */
+            
 
 
             //PASAR LOS DATOS A ADMINISTRADOR PARA EJECUTAR LA CONSULTA

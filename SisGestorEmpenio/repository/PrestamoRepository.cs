@@ -13,7 +13,7 @@ namespace SisGestorEmpenio.repository
         public bool guardar(Prestamo prestamo)
         {
             int filasAfectadas = 0;
-            string consulta = $"INSERT INTO Prestamo VALUES ({prestamo.GetCliente().GetId()}, {prestamo.GetArticulo().GetIdArticulo()}, '{prestamo.GetEstado()}','{prestamo.GetFechaInicio()}', '{prestamo.CalcularFechaVencimiento()}', {prestamo.GetTasaInteres()},{prestamo.CalcularMontoTotal()})";
+            string consulta = $"INSERT INTO Prestamo VALUES ({prestamo.GetCliente().GetId()}, {prestamo.GetArticulo().GetIdArticulo()}, '{prestamo.GetEstado()}','{prestamo.GetFechaInicio().ToString("yyyy-MM-dd HH:mm:ss")}', '{prestamo.CalcularFechaVencimiento().ToString("yyyy-MM-dd HH:mm:ss")}', {prestamo.GetTasaInteres()},{prestamo.CalcularMontoTotal()})";
 
             //VER CÓMO EN LA CONSULTA SE PONE LOS DATOS TIPO TIME 
 

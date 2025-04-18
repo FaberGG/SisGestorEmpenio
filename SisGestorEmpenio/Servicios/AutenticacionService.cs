@@ -22,7 +22,7 @@ namespace SisGestorEmpenio.Servicios
             
             if (usuario== "" && contrasenia == "")
             {
-                Sesion.Sesion.IniciarSesion(new Administrador("admin", 0, "N/A", 0, 0, "admin", "admin"));
+                Sesion.Sesion.IniciarSesion(new Administrador("admin", 1, "N/A", 0, 0, "admin", "admin"));
                 return true;
             }
             

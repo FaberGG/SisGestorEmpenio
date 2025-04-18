@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Oracle.ManagedDataAccess.Client;
+using SisGestorEmpenio.Modelos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,70 +22,71 @@ namespace SisGestorEmpenio.vistas
     /// </summary>
     public partial class RegistrarDevolucion : UserControl
     {
+        private Cliente cliente;
+        private Articulo articulo;
+
         public RegistrarDevolucion()
         {
             InitializeComponent();
         }
 
-        private void Continuar_Click(object sender, RoutedEventArgs e)
+        private void Guardar_Click(object sender, RoutedEventArgs e)
         {
             // Capturar valores del formulario
-            /*
-            string clienteId = txtClienteId.Text.Trim();
-            string articuloId = txtArticuloId.Text.Trim();
-            string tasaInteres = txtTasaInteres.Text.Trim();
-            //fecha fin
-
+            string strclienteId = txtIdCliente.Text.Trim();
+            string strarticuloId = txtIdArticulo.Text.Trim();
+            string strMontoTotal = txtMontoTotal.Text.Trim();
 
             // Validación básica de campos
-            if (string.IsNullOrWhiteSpace(clienteID) ||
-                string.IsNullOrWhiteSpace(articuloId) ||
-                string.IsNullOrWhiteSpace(tasaInteres) ||
-                // para las fechas
-                )
-                
+            if (string.IsNullOrWhiteSpace(strclienteId) ||
+                string.IsNullOrWhiteSpace(strarticuloId) ||
+                string.IsNullOrWhiteSpace(strMontoTotal))
             {
                 MessageBox.Show("Todos los campos son obligatorios.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
+
             // Convertir ID a entero
-            if (!int.TryParse(idTexto, out int id))
+            if (!int.TryParse(strclienteId, out int idCliente))
             {
-                MessageBox.Show("El campo ID debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("El campo Identificación del cliente debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            */
+            if (!int.TryParse(strarticuloId, out int idArticulo))
+            {
+                MessageBox.Show("El campo Identificador del artículo debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Convertir tasa de interés a double
+            if (!double.TryParse(strMontoTotal, out double MontoTotal))
+            {
+                MessageBox.Show("El campo de El Monto Total debe ser un número decimal válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
 
+            // Crear el préstamo y registrarlo
+            cliente = new Cliente("", idCliente, "", "", "", "");
+            articulo = new Articulo(idArticulo, "", 0.0, "");
+            Prestamo prestamo = new Prestamo(cliente, articulo, DateTime.Now, 0.0);
 
-            // Mostrar datos capturados (prueba)
-            /*
-            MessageBox.Show(
-                $"Nombre: {nombre}\nApellido: {apellido}\nCorreo: {correo}\nID: {id}\nTeléfono: {telefono}\nTipo de Identidad: {tipoIdentidad}",
-                "Datos capturados", MessageBoxButton.OK, MessageBoxImage.Information);
-            */
+            var devolucion = new Devolucion(MontoTotal, prestamo);
 
 
-            //PASAR LOS DATOS A ADMINISTRADOR PARA EJECUTAR LA CONSULTA
-            /*
-            var prestamo = new Prestamo(cliente, articulo, fechaFin, tasaInteres);
-            
             try
             {
-                Sesion.Sesion.GetAdministradorActivo().registrarPrestamo(prestamo);
+                Sesion.Sesion.GetAdministradorActivo().registrarDevolución(devolucion);
             }
             catch (OracleException ex)
             {
-
                 MostrarError("Error de base de datos:\n" + ex.Message);
             }
             catch (Exception ex)
             {
                 MostrarError("Ocurrió un error inesperado:\n" + ex.Message);
             }
-            */
-
         }
 
         private void MostrarError(string mensaje)

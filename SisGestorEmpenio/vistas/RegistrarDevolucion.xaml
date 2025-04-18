@@ -81,7 +81,7 @@
         Cursor="Hand"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Bottom"
-        MouseLeftButtonUp="Continuar_Click"
+        MouseLeftButtonUp="Guardar_Click"
         Margin="0">
 
                 <Border.Style>

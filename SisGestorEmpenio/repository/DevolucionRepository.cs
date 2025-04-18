@@ -15,7 +15,7 @@ namespace SisGestorEmpenio.repository
         public bool guardar(Devolucion devolucion)
         {
             int filasAfectadas = 0;
-            string consulta = $"INSERT INTO Devolucion VALUES ({devolucion.GetPrestamo().GetCliente().GetTipoIdentidad()}, {devolucion.GetPrestamo().GetArticulo().GetIdArticulo()}, {devolucion.GetFechaDevolucion()}, {devolucion.GetMontoPagado()})";
+            string consulta = $"INSERT INTO Devolucion VALUES ({devolucion.GetPrestamo().GetCliente().GetId()}, {devolucion.GetPrestamo().GetArticulo().GetIdArticulo()}, '{devolucion.GetFechaDevolucion().ToString("yyyy-MM-dd HH:mm:ss")}', {devolucion.GetMontoPagado()})";
 
             filasAfectadas = dt.ejecutarDML(consulta);
             return filasAfectadas > 0;
