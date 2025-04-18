@@ -103,8 +103,9 @@ namespace SisGestorEmpenio
                 var vistaArticulo = new RegistrarArticulo();
                 vistaArticulo.RegistroArticuloCompletado += (s, articulo) =>
                 {
+                    articuloRegistrado = articulo;
                     ActualizarEncabezado("Registrar Préstamo");
-                    MainContent.Content = new RegistrarPrestamo(articulo);
+                    MainContent.Content = new RegistrarPrestamo(articuloRegistrado);
                 };
                 MainContent.Content = vistaArticulo;
             }

@@ -39,19 +39,19 @@ namespace SisGestorEmpenio.vistas
         }
         public RegistrarPrestamo(Articulo articulo)
         {
+            InitializeComponent();
             this.articulo = articulo;
             this.cliente = null;
             txtArticuloId.Text = articulo.GetIdArticulo().ToString();
             txtArticuloId.IsEnabled = false;
-            InitializeComponent();
         }
 
         public RegistrarPrestamo()
         {
+            InitializeComponent();
             this.cliente = null;
             this.articulo = null;
 
-            InitializeComponent();
         }
 
         private void txtSoloNumeros_PreviewTextInput(object sender, TextCompositionEventArgs e)
