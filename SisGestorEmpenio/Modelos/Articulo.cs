@@ -22,7 +22,7 @@ namespace SisGestorEmpenio.Modelos
         // Constructor para registrar un artículo
         public Articulo(int id, string descripcion, double valorEstimado, string estado)
         {
-            idArticulo = id;
+            this.idArticulo = id;
             this.descripcion = descripcion;
             this.valorEstimado = valorEstimado;
             this.estado = estado;
