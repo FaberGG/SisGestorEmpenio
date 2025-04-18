@@ -80,7 +80,7 @@ namespace SisGestorEmpenio.vistas
             // Validación básica de campos
             if (string.IsNullOrWhiteSpace(clienteId) ||
                 string.IsNullOrWhiteSpace(articuloId) ||
-                string.IsNullOrWhiteSpace(tasaInteres) ||
+                string.IsNullOrWhiteSpace(tasaInteresStr) ||
                 fechaFinNullable.HasValue == false
                 )
                 

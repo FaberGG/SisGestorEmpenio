@@ -18,8 +18,6 @@ namespace SisGestorEmpenio.vistas
         public RegistrarArticulo()
         {
             InitializeComponent();
-
-           
         }
 
         private void txtSoloNumeros_PreviewTextInput(object sender, TextCompositionEventArgs e)
