@@ -31,31 +31,26 @@ namespace SisGestorEmpenio.Modelos
         { 
             ClienteRepository clienteRepository = new ClienteRepository();
             cliente.SetAdministrador(this); // Asignar el administrador al cliente
-            clienteRepository.guardar(cliente);
-            return true;
+            return clienteRepository.guardar(cliente);
         }
 
         public bool registrarArticulo(Articulo articulo)
         {
             ArticuloRepository articuloRepository=new ArticuloRepository();
             articulo.SetAdministrador(this); // Asignar el administrador al artículo
-            articuloRepository.guardar(articulo);
-            
-            return true;
+            return articuloRepository.guardar(articulo);
         }
 
         public bool registrarPrestamo(Prestamo prestamo)
         {
             PrestamoRepository prestamoRepository = new PrestamoRepository();
-            prestamoRepository.guardar(prestamo);
-            return true;
+            return prestamoRepository.guardar(prestamo);
         }
 
         public bool registrarDevolución(Devolucion devolucion)
         {
             DevolucionRepository devolucionRepository=new DevolucionRepository();
-            devolucionRepository.guardar(devolucion); 
-            return true;
+            return devolucionRepository.guardar(devolucion); 
         }
 
 

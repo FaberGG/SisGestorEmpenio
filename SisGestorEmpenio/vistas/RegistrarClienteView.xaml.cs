@@ -49,13 +49,13 @@ namespace SisGestorEmpenio.vistas
                 string.IsNullOrWhiteSpace(tipoIdentidad) ||
                 string.IsNullOrWhiteSpace(idTexto))
             {
-                MessageBox.Show("Todos los campos son obligatorios.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MostrarError("Todos los campos son obligatorios.");
                 return;
             }
             // Convertir ID a entero
             if (!int.TryParse(idTexto, out int id))
             {
-                MessageBox.Show("El campo ID debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MostrarError("El campo ID debe ser un número válido.");
                 return;
             }
 
@@ -75,7 +75,16 @@ namespace SisGestorEmpenio.vistas
             var cliente = new Cliente(nombre, id, tipoIdentidad, apellido, telefono, correo);
             try
             {
-                Sesion.Sesion.GetAdministradorActivo().registrarCliente(cliente);
+                bool completado = Sesion.Sesion.GetAdministradorActivo().registrarCliente(cliente);
+                // Mostrar mensaje de éxito
+                if (completado)
+                {
+                    MostrarExito("Cliente registrado exitosamente.");
+                }
+                else
+                {
+                    MostrarError("No se pudo registrar el cliente.");
+                }
                 RegistroClienteCompletado?.Invoke(this, cliente);
             }
             catch (OracleException ex)
@@ -92,7 +101,24 @@ namespace SisGestorEmpenio.vistas
 
         private void MostrarError(string mensaje)
         {
-            MessageBox.Show(mensaje, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            var ventanaError = new MensajeErrorOk
+            {
+                Mensaje = mensaje,
+                Titulo = "Error",
+                TextoBotonIzquierdo = "Entendido",
+            };
+
+            ventanaError.ShowDialog();
+        }
+        private void MostrarExito(string mensaje)
+        {
+            var ventanaExito = new MensajeErrorOk
+            {
+                Mensaje = mensaje,
+                Titulo = "Éxito",
+                TextoBotonIzquierdo = "Entendido",
+            };
+            ventanaExito.ShowDialog();
         }
 
     }

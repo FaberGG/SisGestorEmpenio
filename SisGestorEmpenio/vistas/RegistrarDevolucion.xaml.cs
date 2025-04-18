@@ -42,27 +42,27 @@ namespace SisGestorEmpenio.vistas
                 string.IsNullOrWhiteSpace(strarticuloId) ||
                 string.IsNullOrWhiteSpace(strMontoTotal))
             {
-                MessageBox.Show("Todos los campos son obligatorios.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MostrarError("Todos los campos son obligatorios.");
                 return;
             }
 
             // Convertir ID a entero
             if (!int.TryParse(strclienteId, out int idCliente))
             {
-                MessageBox.Show("El campo Identificación del cliente debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MostrarError("El campo Identificación del cliente debe ser un número válido.");
                 return;
             }
 
             if (!int.TryParse(strarticuloId, out int idArticulo))
             {
-                MessageBox.Show("El campo Identificador del artículo debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MostrarError("El campo Identificador del artículo debe ser un número válido.");
                 return;
             }
 
             // Convertir tasa de interés a double
             if (!double.TryParse(strMontoTotal, out double MontoTotal))
             {
-                MessageBox.Show("El campo de El Monto Total debe ser un número decimal válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MostrarError("El campo de El Monto Total debe ser un número decimal válido.");
                 return;
             }
 
@@ -77,7 +77,16 @@ namespace SisGestorEmpenio.vistas
 
             try
             {
-                Sesion.Sesion.GetAdministradorActivo().registrarDevolución(devolucion);
+                bool completado = Sesion.Sesion.GetAdministradorActivo().registrarDevolución(devolucion);
+                // Mostrar mensaje de éxito
+                if (completado)
+                {
+                    MostrarExito("Devolucion registrada exitosamente.");
+                }
+                else
+                {
+                    MostrarError("No se pudo registrar.");
+                }
             }
             catch (OracleException ex)
             {
@@ -91,7 +100,24 @@ namespace SisGestorEmpenio.vistas
 
         private void MostrarError(string mensaje)
         {
-            MessageBox.Show(mensaje, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            var ventanaError = new MensajeErrorOk
+            {
+                Mensaje = mensaje,
+                Titulo = "Error",
+                TextoBotonIzquierdo = "Entendido",
+            };
+
+            ventanaError.ShowDialog();
+        }
+        private void MostrarExito(string mensaje)
+        {
+            var ventanaExito = new MensajeErrorOk
+            {
+                Mensaje = mensaje,
+                Titulo = "Éxito",
+                TextoBotonIzquierdo = "Entendido",
+            };
+            ventanaExito.ShowDialog();
         }
 
     }

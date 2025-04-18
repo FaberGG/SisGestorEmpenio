@@ -46,19 +46,19 @@ namespace SisGestorEmpenio.vistas
                 string.IsNullOrWhiteSpace(estado) ||
                 string.IsNullOrWhiteSpace(valorTexto))
             {
-                MessageBox.Show("Todos los campos son obligatorios.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MostrarError("Todos los campos son obligatorios.");
                 return;
             }
             // Convertir ID a entero
             if (!int.TryParse(idTexto, out int id))
             {
-                MessageBox.Show("El campo ID debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MostrarError("El campo ID debe ser un número válido.");
                 return;
             }
             // Convertir Valor a entero
             if (!int.TryParse(valorTexto, out int valor))
             {
-                MessageBox.Show("El campo Valor debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MostrarError("El campo Valor debe ser un número válido.");
                 return;
             }
 
@@ -75,7 +75,16 @@ namespace SisGestorEmpenio.vistas
             var articulo = new Articulo(id, descripcion, valor, estado);
             try
             {
-                Sesion.Sesion.GetAdministradorActivo().registrarArticulo(articulo);
+                bool completado = Sesion.Sesion.GetAdministradorActivo().registrarArticulo(articulo);
+                // Mostrar mensaje de éxito
+                if(completado)
+                {
+                    MostrarExito("Artículo registrado exitosamente.");
+                }
+                else
+                {
+                    MostrarError("No se pudo registrar el artículo.");
+                }
                 RegistroArticuloCompletado?.Invoke(this, articulo);
             }
             catch (OracleException ex)
@@ -92,9 +101,26 @@ namespace SisGestorEmpenio.vistas
 
         private void MostrarError(string mensaje)
         {
-            MessageBox.Show(mensaje, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            var ventanaError = new MensajeErrorOk
+            {
+                Mensaje = mensaje,
+                Titulo = "Error",
+                TextoBotonIzquierdo = "Entendido",
+            };
+
+            ventanaError.ShowDialog();
         }
 
+        private void MostrarExito(string mensaje)
+        {
+            var ventanaExito = new MensajeErrorOk
+            {
+                Mensaje = mensaje,
+                Titulo = "Éxito",
+                TextoBotonIzquierdo = "Entendido",
+            };
+            ventanaExito.ShowDialog();
+        }
 
     }
 }

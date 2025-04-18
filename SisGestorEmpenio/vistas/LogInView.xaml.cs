@@ -51,7 +51,7 @@ namespace SisGestorEmpenio.vistas
                 }
                 else
                 {
-                    MessageBox.Show("Usuario o contraseña incorrectos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MostrarError("Usuario o contraseña incorrectos.");
                 }
             }
             catch (OracleException ex)
@@ -68,7 +68,14 @@ namespace SisGestorEmpenio.vistas
         }
         private void MostrarError(string mensaje)
         {
-            MessageBox.Show(mensaje, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            var ventanaError = new MensajeErrorOk
+            {
+                Mensaje = mensaje,
+                Titulo = "Error",
+                TextoBotonIzquierdo = "Entendido",
+            };
+
+            ventanaError.ShowDialog();
         }
     }
 }

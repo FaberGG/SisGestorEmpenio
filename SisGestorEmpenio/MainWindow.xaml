@@ -58,7 +58,6 @@
 
                     <!-- Div a la derecha -->
                     <Border Grid.Column="2" Width="24" Height="24" Padding="0,3,0,0" HorizontalAlignment="Right" Background="Transparent">
-                        <!-- Aquí podrías poner un ícono, por ejemplo -->
                     </Border>
                 </Grid>
 
@@ -503,7 +502,7 @@
                         <!-- Título -->
                         <Border Height="29" Margin="0,28,0,0" Background="Transparent">
                         <TextBlock x:Name="TxtTitulo"
-                                Text="Binevenido administrador a J-LHYS"
+                                Text="Bienvenido administrador a J-LHYS"
                                 FontSize="24"
                                 FontWeight="Bold"
                                 Foreground="#095858"

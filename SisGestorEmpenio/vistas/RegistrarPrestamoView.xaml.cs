@@ -85,24 +85,24 @@ namespace SisGestorEmpenio.vistas
                 )
                 
             {
-                MessageBox.Show("Todos los campos son obligatorios.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MostrarError("Todos los campos son obligatorios.");
                 return;
             }
             // Convertir ID a entero
             if (!int.TryParse(clienteId, out int idCliente))
             {
-                MessageBox.Show("El campo Identificacion del cliente debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MostrarError("El campo Identificacion del cliente debe ser un número válido.");
                 return;
             }
             if (!int.TryParse(articuloId, out int idArticulo))
             {
-                MessageBox.Show("El campo identificador del articulo debe ser un número válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MostrarError("El campo identificador del articulo debe ser un número válido.");
                 return;
             }
             //convertir a double
             if (!double.TryParse(tasaInteresStr, out tasaInteres))
             {
-                MessageBox.Show("El campo tasa de interes debe ser un número decimal valido.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MostrarError("El campo tasa de interes debe ser un número decimal valido.");
                 return;
             }
             
@@ -132,7 +132,16 @@ namespace SisGestorEmpenio.vistas
             
             try
             {
-                Sesion.Sesion.GetAdministradorActivo().registrarPrestamo(prestamo);
+                bool completado = Sesion.Sesion.GetAdministradorActivo().registrarPrestamo(prestamo);
+                // Mostrar mensaje de éxito
+                if (completado)
+                {
+                    MostrarExito("Prestamo registrado exitosamente.");
+                }
+                else
+                {
+                    MostrarError("No se pudo registrar el prestamo.");
+                }
             }
             catch (OracleException ex)
             {
@@ -149,9 +158,26 @@ namespace SisGestorEmpenio.vistas
 
         private void MostrarError(string mensaje)
         {
-            MessageBox.Show(mensaje, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            var ventanaError = new MensajeErrorOk
+            {
+                Mensaje = mensaje,
+                Titulo = "Error",
+                TextoBotonIzquierdo = "Entendido",
+            };
+
+            ventanaError.ShowDialog();
         }
 
+        private void MostrarExito(string mensaje)
+        {
+            var ventanaExito = new MensajeErrorOk
+            {
+                Mensaje = mensaje,
+                Titulo = "Éxito",
+                TextoBotonIzquierdo = "Entendido",
+            };
+            ventanaExito.ShowDialog();
+        }
 
     }
 }
