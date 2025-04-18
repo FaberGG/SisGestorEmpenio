@@ -9,69 +9,81 @@
              FontSize="13"
              FontWeight="SemiBold"
              FontFamily="Arimo">
-    
-    
-    <!--CONTENEDOR PRINCIPAL-->
-    
+    <!-- CONTENEDOR PRINCIPAL -->
     <StackPanel x:Name="ContenedorRegistrarCliente"
-        VerticalAlignment="Top"
-        Background="White"
-        HorizontalAlignment="Stretch"
-            MinWidth="440"
-        >
+                VerticalAlignment="Top"
+                Background="White"
+                HorizontalAlignment="Stretch"
+                MinWidth="440">
 
-        <!-- Primer contenedor: ID Articulo - Descripcion -->
+        <!-- Primer contenedor: ID Articulo - Descripción -->
         <Grid MinHeight="46" Margin="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"  />
+                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <!-- ID Articulo -->
+            <!-- ID Artículo -->
             <StackPanel Grid.Column="0" Margin="0,0,25,0">
-                <TextBlock Text="Identificador unico" Margin="7,0,0,2" HorizontalAlignment="Left"/>
-                <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28">
+                <TextBlock x:Name="lblID"
+                           Text="Identificador único"
+                           Margin="7,0,0,2"
+                           Foreground="Black"
+                           HorizontalAlignment="Left"/>
+                <Border Background="#C2DBDB"
+                        CornerRadius="8"
+                        MinHeight="28">
                     <TextBox x:Name="txtID"
-                    PreviewTextInput="txtSoloNumeros_PreviewTextInput"
-                    
-                     Background="Transparent"
-                     BorderThickness="0"
-                     Padding="6,0"
-                     VerticalContentAlignment="Center"/>
+                             Background="Transparent"
+                             BorderThickness="0"
+                             Padding="6,0"
+                             VerticalContentAlignment="Center"
+                             />
                 </Border>
             </StackPanel>
 
-            <!-- Descripcion -->
+            <!-- Descripción -->
             <StackPanel Grid.Column="1">
-                <TextBlock Text="Descripcion" Margin="7,0,0,2" HorizontalAlignment="Left"/>
-                <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28" >
+                <TextBlock x:Name="lblDescripcion"
+                           Text="Descripción"
+                           Margin="7,0,0,2"
+                           Foreground="Black"
+                           HorizontalAlignment="Left"/>
+                <Border Background="#C2DBDB"
+                        CornerRadius="8"
+                        MinHeight="28">
                     <TextBox x:Name="txtDescripcion"
-                     Background="Transparent"
-                     BorderThickness="0"
-                     Padding="6,0"
-                     VerticalContentAlignment="Center"/>
+                             Background="Transparent"
+                             BorderThickness="0"
+                             Padding="6,0"
+                             VerticalContentAlignment="Center"/>
                 </Border>
             </StackPanel>
         </Grid>
 
-        <!-- Tercer contenedor: Estado y Valor Estimado -->
-        <Grid MinHeight="46" Margin="0,23,0,0" >
+        <!-- Segundo contenedor: Estado - Valor Estimado -->
+        <Grid MinHeight="46" Margin="0,23,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <!-- Estado Articulo -->
+            <!-- Estado Artículo -->
             <StackPanel Grid.Column="0" Margin="0,0,25,0">
-                <TextBlock Text="Estado" Margin="7,0,0,2"/>
-                <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28" >
+                <TextBlock x:Name="lblEstado"
+                           Text="Estado"
+                           Margin="7,0,0,2"
+                           Foreground="Black"/>
+                <Border Background="#C2DBDB"
+                        CornerRadius="8"
+                        MinHeight="28">
                     <ComboBox x:Name="cbEstado"
-                  Background="Transparent"
-                  BorderThickness="0"
-                  Padding="6,0"
-                  VerticalContentAlignment="Center">
+                              Background="Transparent"
+                              BorderThickness="0"
+                              Padding="6,0"
+                              VerticalContentAlignment="Center">
                         <ComboBoxItem Content="Defectuoso"/>
-                        <ComboBoxItem Content="Optimo"/>
+                        <ComboBoxItem Content="Óptimo"/>
                         <ComboBoxItem Content="Funcionable"/>
                     </ComboBox>
                 </Border>
@@ -79,38 +91,38 @@
 
             <!-- Valor Estimado -->
             <StackPanel Grid.Column="1">
-                <TextBlock Text="Valor Estimado" Margin="7,0,0,2"/>
-                <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28" >
+                <TextBlock x:Name="lblValor"
+                           Text="Valor Estimado"
+                           Margin="7,0,0,2"
+                           Foreground="Black"/>
+                <Border Background="#C2DBDB"
+                        CornerRadius="8"
+                        MinHeight="28">
                     <TextBox x:Name="txtValor"
-                 Background="Transparent"
-                 BorderThickness="0"
-                 Padding="6,0"
-                 VerticalContentAlignment="Center"/>
+                             Background="Transparent"
+                             BorderThickness="0"
+                             Padding="6,0"
+                             VerticalContentAlignment="Center"
+                             />
                 </Border>
             </StackPanel>
         </Grid>
 
-
-
-
-
-
-        <!--BOTON PARA CONTINUAR-->
-
+        <!-- Botón Continuar -->
         <Grid MinHeight="35" Margin="0,44,0,0" Background="#F0F0F0">
             <Border CornerRadius="8"
-        Cursor="Hand"
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Bottom"
-        MouseLeftButtonUp="Continuar_Click"
-        Margin="0">
-
+                    Cursor="Hand"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Bottom"
+                    MouseLeftButtonUp="Continuar_Click">
                 <Border.Style>
                     <Style TargetType="Border">
                         <Setter Property="Background" Value="#3A7575"/>
                         <Setter Property="Effect">
                             <Setter.Value>
-                                <DropShadowEffect ShadowDepth="2" BlurRadius="5" Color="Gray"/>
+                                <DropShadowEffect ShadowDepth="2"
+                                                  BlurRadius="5"
+                                                  Color="Gray"/>
                             </Setter.Value>
                         </Setter>
                         <Style.Triggers>
@@ -118,30 +130,26 @@
                                 <Setter Property="Background" Value="#2F7171"/>
                                 <Setter Property="Effect">
                                     <Setter.Value>
-                                        <DropShadowEffect ShadowDepth="3" BlurRadius="8" Color="#0A5151"/>
+                                        <DropShadowEffect ShadowDepth="3"
+                                                          BlurRadius="8"
+                                                          Color="#0A5151"/>
                                     </Setter.Value>
                                 </Setter>
                             </Trigger>
                         </Style.Triggers>
                     </Style>
                 </Border.Style>
-
                 <TextBlock Text="Continuar →"
-               FontWeight="Bold"
-               FontStyle="Italic"
-               FontSize="16"
-               Foreground="White"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"
-               Padding="10"/>
+                           FontWeight="Bold"
+                           FontStyle="Italic"
+                           FontSize="16"
+                           Foreground="White"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Padding="10"/>
             </Border>
         </Grid>
 
-
     </StackPanel>
-    
-    
-    <!--FIN CONTENEDOR PRINCIPAL-->
-    
-
+    <!-- FIN CONTENEDOR PRINCIPAL -->
 </UserControl>

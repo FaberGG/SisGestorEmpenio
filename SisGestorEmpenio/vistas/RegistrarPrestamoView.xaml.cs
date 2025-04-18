@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using SisGestorEmpenio.Utils;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -66,28 +67,23 @@ namespace SisGestorEmpenio.vistas
 
         private void Guardar_Click(object sender, RoutedEventArgs e)
         {
-            // Capturar valores del formulario
             
-            string clienteId = txtClienteId.Text.Trim();
-            string articuloId = txtArticuloId.Text.Trim();
-            DateTime? fechaFinNullable = FechaFinDatePicker.SelectedDate;
-            DateTime fechaFin = fechaFinNullable.Value;
-            string tasaInteresStr = txtTasaInteres.Text.Trim();
-            double tasaInteres;
-
-            
-
-            // Validación básica de campos
-            if (string.IsNullOrWhiteSpace(clienteId) ||
-                string.IsNullOrWhiteSpace(articuloId) ||
-                string.IsNullOrWhiteSpace(tasaInteresStr) ||
-                fechaFinNullable.HasValue == false
-                )
-                
+            //Valida que los campos no esten vacios
+            if (!(ValidacionHelper.ValidarCampo(txtClienteId, lblClienteId, "Cliente ID") &&
+                  ValidacionHelper.ValidarCampo(txtArticuloId, lblArticuloId, "Artículo ID") &&
+                  ValidacionHelper.ValidarCampo(txtTasaInteres, lblTasaInteres, "Tasa de Interés") &&
+                  ValidacionHelper.ValidarCampo(FechaFinDatePicker, lblFechaFin, "Fecha Fin")))
             {
                 MostrarError("Todos los campos son obligatorios.");
                 return;
             }
+
+            // Captura de datos luego de validación exitosa
+            string clienteId = txtClienteId.Text.Trim();
+            string articuloId = txtArticuloId.Text.Trim();
+            string tasaInteresStr = txtTasaInteres.Text.Trim();
+            DateTime fechaFin = FechaFinDatePicker.SelectedDate.Value;
+            double tasaInteres;
             // Convertir ID a entero
             if (!int.TryParse(clienteId, out int idCliente))
             {

@@ -31,7 +31,7 @@
 
             <!-- Nombre -->
             <StackPanel Grid.Column="0" Margin="0,0,25,0">
-                <TextBlock Text="Nombre" Margin="7,0,0,2" HorizontalAlignment="Left"/>
+                <TextBlock x:Name="lblNombre" Text="Nombre" Margin="7,0,0,2" HorizontalAlignment="Left"/>
                 <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28">
                     <TextBox x:Name="txtNombre"
                          Background="Transparent"
@@ -43,7 +43,7 @@
 
             <!-- Apellido -->
             <StackPanel Grid.Column="1">
-                <TextBlock Text="Apellido" Margin="7,0,0,2" HorizontalAlignment="Left"/>
+                <TextBlock x:Name="lblApellido" Text="Apellido" Margin="7,0,0,2" HorizontalAlignment="Left"/>
                 <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28" >
                     <TextBox x:Name="txtApellido"
                          Background="Transparent"
@@ -63,7 +63,7 @@
 
             <!-- Teléfono -->
             <StackPanel Grid.Column="0" Margin="0,0,25,0">
-                <TextBlock Text="Teléfono" Margin="7,0,0,2" HorizontalAlignment="Left"/>
+                <TextBlock x:Name="lblTelefono" Text="Teléfono" Margin="7,0,0,2" HorizontalAlignment="Left"/>
                 <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28">
                     <TextBox x:Name="txtTelefono"
                          Background="Transparent"
@@ -75,7 +75,7 @@
 
             <!-- Correo -->
             <StackPanel Grid.Column="1">
-                <TextBlock Text="Correo" Margin="7,0,0,2" HorizontalAlignment="Left"/>
+                <TextBlock x:Name="lblCorreo" Text="Correo" Margin="7,0,0,2" HorizontalAlignment="Left"/>
                 <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28" >
                     <TextBox x:Name="txtCorreo"
                          Background="Transparent"
@@ -95,7 +95,7 @@
 
             <!-- Tipo de identidad -->
             <StackPanel Grid.Column="0" Margin="0,0,25,0">
-                <TextBlock Text="Tipo de Identidad" Margin="7,0,0,2"/>
+                <TextBlock x:Name="lblTipoIdentidad" Text="Tipo de Identidad" Margin="7,0,0,2"/>
                 <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28" >
                     <ComboBox x:Name="cbTipoIdentidad"
                           Background="Transparent"
@@ -112,10 +112,9 @@
 
             <!-- Número de identidad -->
             <StackPanel Grid.Column="1">
-                <TextBlock Text="Número de Identidad" Margin="7,0,0,2"/>
+                <TextBlock x:Name="lblIdentidad" Text="Número de Identidad" Margin="7,0,0,2"/>
                 <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28" >
                     <TextBox x:Name="txtIdentidad"
-                             PreviewTextInput="txtSoloNumeros_PreviewTextInput"
                          Background="Transparent"
                          BorderThickness="0"
                          Padding="6,0"
