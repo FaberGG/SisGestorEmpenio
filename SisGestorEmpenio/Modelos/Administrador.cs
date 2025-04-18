@@ -50,7 +50,9 @@ namespace SisGestorEmpenio.Modelos
         public bool registrarDevolución(Devolucion devolucion)
         {
             DevolucionRepository devolucionRepository=new DevolucionRepository();
-            return devolucionRepository.guardar(devolucion); 
+            bool guardarDevExitoso = devolucionRepository.guardar(devolucion);
+            if (guardarDevExitoso) devolucion.GetPrestamo().ActualizarEstadoPrestamo("Devuelto");
+            return guardarDevExitoso;
         }
 
 

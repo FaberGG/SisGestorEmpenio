@@ -20,5 +20,14 @@ namespace SisGestorEmpenio.repository
             filasAfectadas = dt.ejecutarDML(consulta);
             return filasAfectadas > 0;
         }
+
+
+        public bool actualizarEstado(Prestamo prestamo)
+        {
+            int filasAfectadas = 0;
+            string consulta = $"UPDATE Prestamo SET estadoPrestamo = '{prestamo.GetEstado().ToLower()}' WHERE numeroIdentidadCliente = {prestamo.GetCliente().GetId()} AND idArticulo = {prestamo.GetArticulo().GetIdArticulo()}";
+            filasAfectadas = dt.ejecutarDML(consulta);
+            return filasAfectadas > 0;
+        }
     }
 }

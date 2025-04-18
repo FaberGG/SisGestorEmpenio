@@ -15,7 +15,7 @@ namespace SisGestorEmpenio.repository
         public bool guardar(Administrador administrador)
         {
             int filasAfectadas = 0;
-            string consulta = $"INSERT INTO Administrador VALUES ({administrador.GetId()}, '{administrador.GetNombre()}', '{administrador.GetTipoIdentidad()}', {administrador.GetSalario()}, {administrador.GetAniosExp()}, '{administrador.GetUsuario()}', '{administrador.GetContrasenia()}')";
+            string consulta = $"INSERT INTO Administrador VALUES ({administrador.GetId()}, '{administrador.GetNombre()}', '{administrador.GetTipoIdentidad()}', {administrador.GetSalario().ToString(System.Globalization.CultureInfo.InvariantCulture)}, {administrador.GetAniosExp()}, '{administrador.GetUsuario()}', '{administrador.GetContrasenia()}')";
 
             filasAfectadas = dt.ejecutarDML(consulta);
             return filasAfectadas > 0;

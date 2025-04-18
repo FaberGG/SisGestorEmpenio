@@ -109,16 +109,6 @@ namespace SisGestorEmpenio.vistas
 
 
 
-
-
-            // Mostrar datos capturados (prueba)
-            /*
-            MessageBox.Show(
-                $"Nombre: {nombre}\nApellido: {apellido}\nCorreo: {correo}\nID: {id}\nTeléfono: {telefono}\nTipo de Identidad: {tipoIdentidad}",
-                "Datos capturados", MessageBoxButton.OK, MessageBoxImage.Information);
-            */
-
-
             // Crear el cliente y el artículo
             if (cliente == null)
             {

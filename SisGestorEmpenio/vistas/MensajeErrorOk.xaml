@@ -8,15 +8,20 @@
         Title="{Binding Titulo}" Height="159" Width="421" 
 WindowStartupLocation="CenterScreen"
 ResizeMode="NoResize" WindowStyle="SingleBorderWindow"
-Background="White">
+Background="White"
+       SizeToContent="Height" >
 
 
     <Border Background="White" Padding="20" >
 
         <StackPanel VerticalAlignment="Center">
-            <TextBlock Text="{Binding Mensaje}" 
-                       FontSize="16" FontWeight="Bold" 
-                       TextAlignment="Center" Margin="0,0,0,20"/>
+            <ScrollViewer Height="Auto" MaxHeight="100" VerticalScrollBarVisibility="Auto">
+                <TextBlock Text="{Binding Mensaje}" 
+                   TextWrapping="Wrap"
+                   FontSize="16" FontWeight="Bold" 
+                   TextAlignment="Center" 
+                   Margin="0,0,0,20"/>
+            </ScrollViewer>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
                 <Button Content="{Binding TextoBotonIzquierdo}"
                         Width="126" Height="30"

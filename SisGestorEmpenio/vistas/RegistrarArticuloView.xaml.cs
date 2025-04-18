@@ -37,7 +37,7 @@ namespace SisGestorEmpenio.vistas
             string descripcion = txtDescripcion.Text.Trim();
             string estado = cbEstado.Text.Trim();
             string valorTexto = txtValor.Text.Trim();
-           
+            double valor;
            
 
             // Validación básica de campos
@@ -56,19 +56,19 @@ namespace SisGestorEmpenio.vistas
                 return;
             }
             // Convertir Valor a entero
-            if (!int.TryParse(valorTexto, out int valor))
+            if (!double.TryParse(valorTexto, out valor))
             {
                 MostrarError("El campo Valor debe ser un número válido.");
                 return;
             }
 
 
-
+            /*
             // Mostrar datos capturados (prueba)
             MessageBox.Show(
                 $"ID: {id}\nDescripcion: {descripcion}\nEstado: {estado}\nValor: {valor}",
                 "Datos capturados", MessageBoxButton.OK, MessageBoxImage.Information);
-
+            */
 
 
             //PASAR LOS DATOS A ADMINISTRADOR PARA EJECUTAR LA CONSULTA

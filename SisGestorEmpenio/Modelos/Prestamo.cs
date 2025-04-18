@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SisGestorEmpenio.repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,8 +45,9 @@ namespace SisGestorEmpenio.Modelos
         {
             if (!string.IsNullOrWhiteSpace(nuevoEstado))
             {
+                PrestamoRepository prestamoRepository = new PrestamoRepository();
                 estado = nuevoEstado;
-                return true;
+                return prestamoRepository.actualizarEstado(this);
             }
             return false;
         }
