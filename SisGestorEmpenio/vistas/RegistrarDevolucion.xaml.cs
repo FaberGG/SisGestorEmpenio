@@ -48,6 +48,7 @@ namespace SisGestorEmpenio.vistas
                 ValidacionHelper.ValidarEntero(txtIdArticulo, lblIdArticulo, "Artículo ID") &
                 ValidacionHelper.ValidarDecimal(txtMontoTotal, lblMontoTotal, "Monto Total");
 
+
             if (!valido)
             {
                 MostrarError("Corrige los campos resaltados.");

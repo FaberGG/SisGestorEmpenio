@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Oracle.ManagedDataAccess.Client;
 using SisGestorEmpenio.Modelos;
 using SisGestorEmpenio.Utils;
+
 namespace SisGestorEmpenio.vistas
 {
     /// <summary>
@@ -62,6 +63,7 @@ namespace SisGestorEmpenio.vistas
                 ValidacionHelper.ValidarDecimal(txtValor, lblValor, "Valor");
 
             if (!ok)
+
             {
                 MostrarMensaje("Corrige los campos resaltados.", "Advertencia");
                 return;

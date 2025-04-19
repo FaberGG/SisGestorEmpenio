@@ -7,6 +7,7 @@ using SisGestorEmpenio.Utils;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Text.RegularExpressions;
+
 namespace SisGestorEmpenio.vistas
 {
     /// <summary>
@@ -75,11 +76,13 @@ namespace SisGestorEmpenio.vistas
 
             // Validación personalizada con Regex
             if (!Regex.IsMatch(txtTelefono.Text.Trim(), @"^[1-9]\d{9,17}$"))
+
             {
                 lblTelefono.Text = "El número de teléfono no es válido.";
                 lblTelefono.Foreground = new SolidColorBrush(Colors.Red);
                 valido = false;
             }
+
             else
             {
                 lblTelefono.Text = "";
@@ -135,6 +138,7 @@ namespace SisGestorEmpenio.vistas
         }
 
         private void MostrarMensaje(string mensaje, string titulo)
+
         {
             new MensajeErrorOk
             {
