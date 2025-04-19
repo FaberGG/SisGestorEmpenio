@@ -47,7 +47,7 @@ namespace SisGestorEmpenio.Modelos
             {
                 PrestamoRepository prestamoRepository = new PrestamoRepository();
                 estado = nuevoEstado;
-                return prestamoRepository.actualizarEstado(this);
+                return prestamoRepository.ActualizarEstado(this);
             }
             return false;
         }
