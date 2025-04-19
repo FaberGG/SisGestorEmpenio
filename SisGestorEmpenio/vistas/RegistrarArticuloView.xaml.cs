@@ -1,66 +1,82 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using Oracle.ManagedDataAccess.Client;
 using SisGestorEmpenio.Modelos;
 using SisGestorEmpenio.Utils;
 
 namespace SisGestorEmpenio.vistas
 {
-    /// <summary>
-    /// Lógica de interacción para RegistrarArticulo.xaml
-    /// </summary>
     public partial class RegistrarArticulo : UserControl
     {
+        // Valores válidos para estadoArticulo en la BD
+        private readonly string[] estadosValidos = { "defectuoso", "optimo", "funcionable" };
+
         public event EventHandler<Articulo> RegistroArticuloCompletado;
 
         public RegistrarArticulo()
         {
             InitializeComponent();
 
-            // Establecer longitudes máximas de entrada
-            txtID.MaxLength = 10;
-            txtDescripcion.MaxLength = 200;
-            txtValor.MaxLength = 15;
+            // Máximas longitudes según tabla
+            txtID.MaxLength = 10;   // INT
+            txtDescripcion.MaxLength = 100;  // VARCHAR2(100)
+            txtValor.MaxLength = 18;   // DECIMAL(18,2) -> suficiente para "123456789012345.67"
 
-            // Validaciones automáticas con LostFocus
+            // Prevención de caracteres inválidos
+            txtID.PreviewTextInput += SoloNumeros_Preview;
+            txtValor.PreviewTextInput += SoloDecimal_Preview;
+
+            // Validaciones LostFocus
             txtID.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtID, lblID, "ID");
-            txtDescripcion.LostFocus += (s, e) => ValidacionHelper.ValidarLongitud(txtDescripcion, lblDescripcion, "Descripción", 5, 200);
-            cbEstado.LostFocus += (s, e) => ValidacionHelper.ValidarCampo(cbEstado, lblEstado, "Estado");
+            txtDescripcion.LostFocus += (s, e) => ValidacionHelper.ValidarLongitud(txtDescripcion, lblDescripcion, "Descripción", 5, 100);
+            cbEstado.LostFocus += (s, e) => ValidarEstado();
             txtValor.LostFocus += (s, e) => ValidacionHelper.ValidarDecimal(txtValor, lblValor, "Valor");
-
-            // Limitar la cantidad de caracteres en tiempo real (opcional extra de seguridad)
-            txtID.TextChanged += (s, e) => {
-                if (txtID.Text.Length > 10)
-                    txtID.Text = txtID.Text.Substring(0, 10);
-            };
-
-            txtDescripcion.TextChanged += (s, e) => {
-                if (txtDescripcion.Text.Length > 200)
-                    txtDescripcion.Text = txtDescripcion.Text.Substring(0, 200);
-            };
-
-            txtValor.TextChanged += (s, e) => {
-                if (txtValor.Text.Length > 15)
-                    txtValor.Text = txtValor.Text.Substring(0, 15);
-            };
         }
 
-        // Método para permitir solo números o decimales (si decides activarlo)
-        private void SoloNumero_Preview(object sender, TextCompositionEventArgs e)
+        // Sólo dígitos
+        private void SoloNumeros_Preview(object sender, TextCompositionEventArgs e)
         {
-            var tb = sender as TextBox;
-            e.Handled = !ValidacionHelper.EsDecimal(e.Text, tb.Text);
+            e.Handled = !Regex.IsMatch(e.Text, @"^\d$");
+        }
+
+        // Dígitos y un solo punto decimal
+        private void SoloDecimal_Preview(object sender, TextCompositionEventArgs e)
+        {
+            var tb = (TextBox)sender;
+            if (!char.IsDigit(e.Text, 0) && e.Text != ".")
+                e.Handled = true;
+            else if (e.Text == "." && tb.Text.Contains("."))
+                e.Handled = true;
+        }
+
+        // Valida que el estado esté entre los permitidos
+        private void ValidarEstado()
+        {
+            var val = cbEstado.Text.Trim().ToLower();
+            if (!estadosValidos.Contains(val))
+            {
+                lblEstado.Text = "Estado inválido";
+                lblEstado.Foreground = Brushes.Red;
+            }
+            else
+            {
+                lblEstado.Text = "";
+            }
         }
 
         private void Continuar_Click(object sender, RoutedEventArgs e)
         {
-            bool ok =
-                ValidacionHelper.ValidarEntero(txtID, lblID, "ID") &
-                ValidacionHelper.ValidarLongitud(txtDescripcion, lblDescripcion, "Descripción", 5, 200) &
-                ValidacionHelper.ValidarCampo(cbEstado, lblEstado, "Estado") &
-                ValidacionHelper.ValidarDecimal(txtValor, lblValor, "Valor");
+            bool ok = true;
+
+            // Validaciones inline
+            ok &= ValidacionHelper.ValidarEntero(txtID, lblID, "ID");
+            ok &= ValidacionHelper.ValidarLongitud(txtDescripcion, lblDescripcion, "Descripción", 5, 100);
+            ValidarEstado(); ok &= string.IsNullOrEmpty(lblEstado.Text);
+            ok &= ValidacionHelper.ValidarDecimal(txtValor, lblValor, "Valor");
 
             if (!ok)
 
@@ -69,11 +85,12 @@ namespace SisGestorEmpenio.vistas
                 return;
             }
 
+            // Crear y registrar
             var art = new Articulo(
-                int.Parse(txtID.Text),
+                int.Parse(txtID.Text.Trim()),
                 txtDescripcion.Text.Trim(),
-                double.Parse(txtValor.Text),
-                cbEstado.Text
+                double.Parse(txtValor.Text.Trim()),
+                cbEstado.Text.Trim().ToLower()
             );
 
             try

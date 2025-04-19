@@ -18,65 +18,80 @@ using System.Windows.Shapes;
 
 namespace SisGestorEmpenio.vistas
 {
-    /// <summary>
-    /// Lógica de interacción para RegistrarDevolucion.xaml
-    /// </summary>
     public partial class RegistrarDevolucion : UserControl
     {
-        private Cliente cliente;
-        private Articulo articulo;
-
         public RegistrarDevolucion()
         {
             InitializeComponent();
 
-            // Establecer máximos de caracteres permitidos
+            // 1) Máximos de caracteres
             txtIdCliente.MaxLength = 16;
             txtIdArticulo.MaxLength = 10;
-            txtMontoTotal.MaxLength = 10;
+            txtMontoTotal.MaxLength = 15;
 
-            // Validación automática con LostFocus
+            // 2) Validaciones automáticas con LostFocus
             txtIdCliente.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtIdCliente, lblIdCliente, "Cliente ID");
             txtIdArticulo.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtIdArticulo, lblIdArticulo, "Artículo ID");
             txtMontoTotal.LostFocus += (s, e) => ValidacionHelper.ValidarDecimal(txtMontoTotal, lblMontoTotal, "Monto Total");
+
+            // 3) Prevención de caracteres inválidos mientras digita
+            txtIdCliente.PreviewTextInput += SoloNumeros_Preview;
+            txtIdArticulo.PreviewTextInput += SoloNumeros_Preview;
+            txtMontoTotal.PreviewTextInput += SoloDecimal_Preview;
+        }
+
+        // Permite sólo dígitos
+        private void SoloNumeros_Preview(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !int.TryParse(e.Text, out _);
+        }
+
+        // Permite dígitos y un sólo punto
+        private void SoloDecimal_Preview(object sender, TextCompositionEventArgs e)
+        {
+            var tb = (TextBox)sender;
+            if (!char.IsDigit(e.Text, 0) && e.Text != ".")
+                e.Handled = true;
+            else if (e.Text == "." && tb.Text.Contains("."))
+                e.Handled = true;
         }
 
         private void Guardar_Click(object sender, RoutedEventArgs e)
         {
-            bool valido =
+            bool ok =
                 ValidacionHelper.ValidarEntero(txtIdCliente, lblIdCliente, "Cliente ID") &
                 ValidacionHelper.ValidarEntero(txtIdArticulo, lblIdArticulo, "Artículo ID") &
                 ValidacionHelper.ValidarDecimal(txtMontoTotal, lblMontoTotal, "Monto Total");
 
-
-            if (!valido)
+            if (!ok)
             {
                 MostrarError("Corrige los campos resaltados.");
                 return;
             }
 
-            // Convertir valores a sus tipos
+            // Parseo seguro
             int idCliente = int.Parse(txtIdCliente.Text.Trim());
             int idArticulo = int.Parse(txtIdArticulo.Text.Trim());
-            double montoTotal = double.Parse(txtMontoTotal.Text.Trim());
+            double monto = double.Parse(txtMontoTotal.Text.Trim());
 
-            // Crear el préstamo y la devolución
-            cliente = new Cliente("", idCliente, "", "", "", "");
-            articulo = new Articulo(idArticulo, "", 0.0, "");
-            Prestamo prestamo = new Prestamo(cliente, articulo, DateTime.Now, 0.0);
-            var devolucion = new Devolucion(montoTotal, prestamo);
+            var admin = Sesion.Sesion.GetAdministradorActivo();
+
+            
+
+
+            // Construcción de objetos
+            var cliente = new Cliente("", idCliente, "", "", "", "");
+            var articulo = new Articulo(idArticulo, "", 0.0, "");
+            var prestamo = new Prestamo(cliente, articulo, DateTime.Now, 0.0);
+            var devolucion = new Devolucion(monto, prestamo);
 
             try
             {
-                bool completado = Sesion.Sesion.GetAdministradorActivo().registrarDevolución(devolucion);
+                bool completado = admin.registrarDevolución(devolucion);
                 if (completado)
-                {
                     MostrarExito("Devolución registrada exitosamente.");
-                }
                 else
-                {
-                    MostrarError("No se pudo registrar.");
-                }
+                    MostrarError("No se pudo registrar la devolución.");
             }
             catch (OracleException ex)
             {
@@ -90,27 +105,22 @@ namespace SisGestorEmpenio.vistas
 
         private void MostrarError(string mensaje)
         {
-            var ventanaError = new MensajeErrorOk
+            new MensajeErrorOk
             {
                 Mensaje = mensaje,
                 Titulo = "Error",
-                TextoBotonIzquierdo = "Entendido",
-            };
-
-            ventanaError.ShowDialog();
+                TextoBotonIzquierdo = "Entendido"
+            }.ShowDialog();
         }
 
         private void MostrarExito(string mensaje)
         {
-            var ventanaExito = new MensajeErrorOk
+            new MensajeErrorOk
             {
                 Mensaje = mensaje,
                 Titulo = "Éxito",
-                TextoBotonIzquierdo = "Entendido.",
-            };
-
-            ventanaExito.ShowDialog();
+                TextoBotonIzquierdo = "Entendido"
+            }.ShowDialog();
         }
     }
 }
-
