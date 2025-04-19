@@ -85,6 +85,31 @@ namespace SisGestorEmpenio.vistas
             var prestamo = new Prestamo(cliente, articulo, DateTime.Now, 0.0);
             var devolucion = new Devolucion(monto, prestamo);
 
+
+            try
+            {
+
+                // Validar que el prestamo exista
+
+                if (!admin.ExistePrestamo(prestamo))
+                {
+                    MostrarError("EL PRESTAMO NO EXISTE: \n No existe un prestamo asociado a un cliente y articulo con estas identificaciones. \n Asegurese de registrar el prestamo antes de hacer una devolucion");
+                    return;
+                }
+                // validar que la devolucion ya se hizo
+                if (admin.ExisteDevolucion(devolucion))
+                {
+                    MostrarError("LA DEVOLUCION YA EXISTE: \n Un prestamo con este cliente y articulo ya tiene una devolucion registrada");
+                    return;
+                }
+
+            }
+            catch (OracleException ex)
+            {
+                MostrarError($"Error al validar en base de datos:\n{ex.Message}");
+            }
+
+
             try
             {
                 bool completado = admin.registrarDevolución(devolucion);

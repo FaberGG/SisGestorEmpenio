@@ -47,7 +47,7 @@ namespace SisGestorEmpenio.vistas
             e.Handled = !Regex.IsMatch(e.Text, @"^\d$");
         }
 
-        private void ValidarCorreo()
+        private bool ValidarCorreo()
         {
             var txt = txtCorreo.Text.Trim();
             var pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
@@ -55,20 +55,23 @@ namespace SisGestorEmpenio.vistas
             {
                 lblCorreo.Text = "Correo es obligatorio.";
                 lblCorreo.Foreground = Brushes.Red;
+                return false;
             }
             else if (!Regex.IsMatch(txt, pattern))
             {
                 lblCorreo.Text = "Formato de correo inválido.";
                 lblCorreo.Foreground = Brushes.Red;
+                return false;
             }
             else
             {
                 lblCorreo.Text = "Correo";
                 lblCorreo.Foreground = Brushes.Black;
+                return true;
             }
         }
 
-        private void ValidarTelefono()
+        private bool ValidarTelefono()
         {
             var txt = txtTelefono.Text.Trim();
             // 10 a 18 dígitos, no empieza con 0
@@ -76,10 +79,13 @@ namespace SisGestorEmpenio.vistas
             {
                 lblTelefono.Text = "Teléfono inválido (10–18 dígitos, sin ceros).";
                 lblTelefono.Foreground = Brushes.Red;
+                return false;
             }
             else
             {
-                lblTelefono.Text = "";
+                lblTelefono.Text = "Telefono";
+                lblTelefono.Foreground = Brushes.Black;
+                return true;
             }
         }
 
@@ -89,8 +95,8 @@ namespace SisGestorEmpenio.vistas
 
             valido &= ValidacionHelper.ValidarLongitud(txtNombre, lblNombre, "Nombre", 2, 30);
             valido &= ValidacionHelper.ValidarLongitud(txtApellido, lblApellido, "Apellido", 2, 30);
-            ValidarCorreo(); valido &= string.IsNullOrEmpty(lblCorreo.Text);
-            ValidarTelefono(); valido &= string.IsNullOrEmpty(lblTelefono.Text);
+            valido &= ValidarCorreo();
+            valido &= ValidarTelefono();
             valido &= ValidacionHelper.ValidarEntero(txtIdentidad, lblIdentidad, "Número de identidad");
             valido &= ValidacionHelper.ValidarCampo(cbTipoIdentidad, lblTipoIdentidad, "Tipo de Identidad");
             if (!valido)
@@ -111,6 +117,21 @@ namespace SisGestorEmpenio.vistas
                 admin
             );
 
+            try
+            {
+
+                // Validar que el cliente no exista
+                if (Sesion.Sesion.GetAdministradorActivo().ExisteCliente(cliente))
+                {
+                    MostrarMensaje("EL CLIENTE YA EXISTE: \n Un cliente con esta identificacion ya esta registrado", "Error");
+                    return;
+                }
+
+            }
+            catch (OracleException ex)
+            {
+                MostrarMensaje($"Error al validar en base de datos:\n{ex.Message}", "Error");
+            }
 
             try
             {

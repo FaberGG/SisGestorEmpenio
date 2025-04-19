@@ -97,6 +97,22 @@ namespace SisGestorEmpenio.vistas
 
             try
             {
+                //validar que el articulo no exista
+                if (Sesion.Sesion.GetAdministradorActivo().ExisteArticulo(art))
+                {
+                    MostrarMensaje("EL ARTICULO YA EXISTE: \n Un articulo con este ID ya esta registrado", "Error");
+                    return;
+                }
+
+            }
+            catch (OracleException ex)
+            {
+                MostrarMensaje($"Error al validar en base de datos:\n{ex.Message}", "Error");
+            }
+
+
+            try
+            {
                 bool completado = Sesion.Sesion.GetAdministradorActivo().registrarArticulo(art);
                 if (completado)
                 {

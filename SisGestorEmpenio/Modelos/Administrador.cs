@@ -56,6 +56,36 @@ namespace SisGestorEmpenio.Modelos
         }
 
 
+        //METODOS DE VALIDACION
+        public bool ExisteCliente(Cliente cliente)
+        {
+            int id = cliente.GetId();
+            ClienteRepository clienteRepository = new ClienteRepository();
+            return clienteRepository.EstaGuardado(id);
+        }
+
+        public bool ExisteArticulo(Articulo articulo)
+        {
+            int id = articulo.GetIdArticulo();
+            ArticuloRepository articuloRepository = new ArticuloRepository();
+            return articuloRepository.EstaGuardado(id);
+        }
+
+        public bool ExistePrestamo(Prestamo prestamo)
+        {
+            int clienteId = prestamo.GetCliente().GetId();
+            int articuloId = prestamo.GetArticulo().GetIdArticulo();
+            PrestamoRepository prestamoRepository = new PrestamoRepository();
+            return prestamoRepository.EstaGuardado(clienteId, articuloId);
+        }
+
+        public bool ExisteDevolucion(Devolucion devolucion)
+        {
+            int clienteId = devolucion.GetPrestamo().GetCliente().GetId();
+            int articuloId = devolucion.GetPrestamo().GetArticulo().GetIdArticulo();
+            DevolucionRepository devolucionRepository = new DevolucionRepository();
+            return devolucionRepository.EstaGuardado(clienteId, articuloId);
+        }
 
         //SETTERS Y GETTERS
 

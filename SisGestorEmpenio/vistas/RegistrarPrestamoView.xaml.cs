@@ -125,10 +125,41 @@ namespace SisGestorEmpenio.vistas
             double tasa = double.Parse(txtTasaInteres.Text.Trim());
             DateTime fecha = FechaFinDatePicker.SelectedDate.Value;
 
+            var cliente = this.cliente;
+            var articulo = this.articulo;
             if (cliente == null)
                 cliente = new Cliente("", idCliente, "", "", "", "");
 
             var prestamo = new Prestamo(cliente, articulo, fecha, tasa);
+
+
+            try
+            {
+
+                // Validar que el cliente y el artículo existan
+                if (!Sesion.Sesion.GetAdministradorActivo().ExisteCliente(cliente))
+                {
+                    MostrarError("EL CLIENTE NO REGISTRADO:\n El cliente con este numero de identificacion no ha sido registrado aún");
+                    return;
+                }
+                if (!Sesion.Sesion.GetAdministradorActivo().ExisteArticulo(articulo))
+                {
+                    MostrarError("El artículo no existe.");
+                    return;
+                }
+
+                //validar que prestamo no exista
+                if (Sesion.Sesion.GetAdministradorActivo().ExistePrestamo(prestamo))
+                {
+                    MostrarError("EL PRESTAMO YA EXISTE: \n Un prestamo con este cliente y articulo ya esta registrado");
+                    return;
+                }
+
+            }
+            catch (OracleException ex)
+            {
+                MostrarError($"Error al validar en base de datos:\n{ex.Message}");
+            }
 
             try
             {

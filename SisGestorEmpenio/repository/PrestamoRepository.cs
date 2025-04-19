@@ -32,7 +32,7 @@ namespace SisGestorEmpenio.repository
 
         public bool EstaGuardado(int clienteId, int articuloId)
         {
-            string consulta = $"SELECT * FROM prestamo WHERE numeroIdentidad = {clienteId} AND idArticulo = {articuloId}";
+            string consulta = $"SELECT * FROM prestamo WHERE numeroIdentidadCliente = {clienteId} AND idArticulo = {articuloId}";
             var resultado = dt.ejecutarSelect(consulta);
 
             bool isSaved = (resultado.Tables.Count > 0 && resultado.Tables[0].Rows.Count > 0);
