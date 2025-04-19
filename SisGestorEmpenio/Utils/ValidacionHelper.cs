@@ -10,6 +10,7 @@ namespace SisGestorEmpenio.Utils
 {
     public static class ValidacionHelper
     {
+
         // *** Preview: solo dígitos y un solo punto ***
         public static bool EsDecimal(string input, string actual)
         {
@@ -104,4 +105,3 @@ namespace SisGestorEmpenio.Utils
         }
     }
 }
-

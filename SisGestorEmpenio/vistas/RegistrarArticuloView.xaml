@@ -33,6 +33,7 @@
                 <Border Background="#C2DBDB"
                         CornerRadius="8"
                         MinHeight="28">
+
                     <TextBox x:Name="txtID"
                              Background="Transparent"
                              BorderThickness="0"
@@ -52,6 +53,7 @@
                 <Border Background="#C2DBDB"
                         CornerRadius="8"
                         MinHeight="28">
+
                     <TextBox x:Name="txtDescripcion"
                              Background="Transparent"
                              BorderThickness="0"
@@ -77,6 +79,7 @@
                 <Border Background="#C2DBDB"
                         CornerRadius="8"
                         MinHeight="28">
+
                     <ComboBox x:Name="cbEstado"
                               Background="Transparent"
                               BorderThickness="0"

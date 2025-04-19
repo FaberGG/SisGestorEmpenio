@@ -7,6 +7,7 @@ using SisGestorEmpenio.Utils;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Text.RegularExpressions;
+
 namespace SisGestorEmpenio.vistas
 {
     public partial class RegistrarCliente : UserControl
@@ -91,7 +92,6 @@ namespace SisGestorEmpenio.vistas
             ValidarTelefono(); valido &= string.IsNullOrEmpty(lblTelefono.Text);
             valido &= ValidacionHelper.ValidarEntero(txtIdentidad, lblIdentidad, "Identidad");
             valido &= ValidacionHelper.ValidarCampo(cbTipoIdentidad, lblTipoIdentidad, "Tipo de Identidad");
-
             if (!valido)
             {
                 MostrarMensaje("Corrige los campos resaltados.", "Advertencia");
@@ -135,6 +135,7 @@ namespace SisGestorEmpenio.vistas
         }
 
         private void MostrarMensaje(string mensaje, string titulo)
+
         {
             new MensajeErrorOk
             {

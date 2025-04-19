@@ -7,6 +7,7 @@ using System.Windows.Media;
 using Oracle.ManagedDataAccess.Client;
 using SisGestorEmpenio.Modelos;
 using SisGestorEmpenio.Utils;
+
 namespace SisGestorEmpenio.vistas
 {
     public partial class RegistrarArticulo : UserControl
@@ -78,6 +79,7 @@ namespace SisGestorEmpenio.vistas
             ok &= ValidacionHelper.ValidarDecimal(txtValor, lblValor, "Valor");
 
             if (!ok)
+
             {
                 MostrarMensaje("Corrige los campos resaltados.", "Advertencia");
                 return;
