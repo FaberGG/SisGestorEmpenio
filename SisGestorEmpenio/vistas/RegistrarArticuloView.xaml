@@ -83,7 +83,7 @@
                               Padding="6,0"
                               VerticalContentAlignment="Center">
                         <ComboBoxItem Content="Defectuoso"/>
-                        <ComboBoxItem Content="Óptimo"/>
+                        <ComboBoxItem Content="Optimo"/>
                         <ComboBoxItem Content="Funcionable"/>
                     </ComboBox>
                 </Border>

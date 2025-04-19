@@ -26,6 +26,13 @@ namespace SisGestorEmpenio.Modelos
             prestamos = new List<Prestamo>();
 
         }
+        // Constructor que acepta una instancia de Administrador
+        public Cliente(string nombre, int id, string tipoIdentidad, string apellido, string telefono, string correo, Administrador administrador)
+            : this(nombre, id, tipoIdentidad, apellido, telefono, correo)
+        {
+            this.administrador = administrador;
+        }
+
 
         // Agregar un préstamo a la lista
         public void AgregarPrestamo(Prestamo prestamo)

@@ -9,58 +9,75 @@ using System.Windows.Media;
 using System.Text.RegularExpressions;
 namespace SisGestorEmpenio.vistas
 {
-    /// <summary>
-    /// Lógica de interacción para RegistrarCliente.xaml
-    /// </summary>
     public partial class RegistrarCliente : UserControl
     {
         public event EventHandler<Cliente> RegistroClienteCompletado;
+        private readonly int adminId;
 
         public RegistrarCliente()
         {
             InitializeComponent();
 
-            // Longitudes máximas de entrada
+            // Suponemos que el administrador activo aporta su ID
+            adminId = Sesion.Sesion.GetAdministradorActivo().GetId();
+
+            // Máximos de caracteres
             txtNombre.MaxLength = 30;
             txtApellido.MaxLength = 30;
             txtCorreo.MaxLength = 40;
             txtTelefono.MaxLength = 18;
             txtIdentidad.MaxLength = 16;
 
-            // Validaciones con LostFocus
+            // PreviewTextInput: sólo dígitos donde corresponda
+            txtTelefono.PreviewTextInput += SoloNumeros_Preview;
+            txtIdentidad.PreviewTextInput += SoloNumeros_Preview;
+
+            // LostFocus: validación inline
             txtNombre.LostFocus += (s, e) => ValidacionHelper.ValidarLongitud(txtNombre, lblNombre, "Nombre", 2, 30);
             txtApellido.LostFocus += (s, e) => ValidacionHelper.ValidarLongitud(txtApellido, lblApellido, "Apellido", 2, 30);
-            txtCorreo.LostFocus += (s, e) => ValidacionHelper.ValidarLongitud(txtCorreo, lblCorreo, "Correo", 5, 40);
-            txtTelefono.LostFocus += ValidarTelefono;
-            txtIdentidad.LostFocus += ValidarIdentidad;
+            txtCorreo.LostFocus += (s, e) => ValidarCorreo();
+            txtTelefono.LostFocus += (s, e) => ValidarTelefono();
+            txtIdentidad.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtIdentidad, lblIdentidad, "Identidad");
             cbTipoIdentidad.LostFocus += (s, e) => ValidacionHelper.ValidarCampo(cbTipoIdentidad, lblTipoIdentidad, "Tipo de Identidad");
         }
 
-        private void ValidarTelefono(object sender, RoutedEventArgs e)
+        private void SoloNumeros_Preview(object sender, TextCompositionEventArgs e)
         {
-            string telefono = txtTelefono.Text.Trim();
-            if (string.IsNullOrWhiteSpace(telefono) || !Regex.IsMatch(telefono, @"^[1-9]\d{9,17}$"))
+            e.Handled = !Regex.IsMatch(e.Text, @"^\d$");
+        }
+
+        private void ValidarCorreo()
+        {
+            var txt = txtCorreo.Text.Trim();
+            var pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            if (string.IsNullOrWhiteSpace(txt))
             {
-                lblTelefono.Text = "El número de teléfono no es válido.";
-                lblTelefono.Foreground = new SolidColorBrush(Colors.Red);
+                lblCorreo.Text = "Correo es obligatorio.";
+                lblCorreo.Foreground = Brushes.Red;
+            }
+            else if (!Regex.IsMatch(txt, pattern))
+            {
+                lblCorreo.Text = "Formato de correo inválido.";
+                lblCorreo.Foreground = Brushes.Red;
+            }
+            else
+            {
+                lblCorreo.Text = "";
+            }
+        }
+
+        private void ValidarTelefono()
+        {
+            var txt = txtTelefono.Text.Trim();
+            // 10 a 18 dígitos, no empieza con 0
+            if (string.IsNullOrWhiteSpace(txt) || !Regex.IsMatch(txt, @"^[1-9]\d{9,17}$"))
+            {
+                lblTelefono.Text = "Teléfono inválido (10–18 dígitos, sin ceros).";
+                lblTelefono.Foreground = Brushes.Red;
             }
             else
             {
                 lblTelefono.Text = "";
-            }
-        }
-
-        private void ValidarIdentidad(object sender, RoutedEventArgs e)
-        {
-            string identidad = txtIdentidad.Text.Trim();
-            if (string.IsNullOrWhiteSpace(identidad) || !Regex.IsMatch(identidad, @"^[1-9]\d{0,12}$"))
-            {
-                lblIdentidad.Text = "La identidad debe contener solo números y no empezar con 0.";
-                lblIdentidad.Foreground = new SolidColorBrush(Colors.Red);
-            }
-            else
-            {
-                lblIdentidad.Text = "";
             }
         }
 
@@ -70,31 +87,10 @@ namespace SisGestorEmpenio.vistas
 
             valido &= ValidacionHelper.ValidarLongitud(txtNombre, lblNombre, "Nombre", 2, 30);
             valido &= ValidacionHelper.ValidarLongitud(txtApellido, lblApellido, "Apellido", 2, 30);
-            valido &= ValidacionHelper.ValidarLongitud(txtCorreo, lblCorreo, "Correo", 5, 40);
+            ValidarCorreo(); valido &= string.IsNullOrEmpty(lblCorreo.Text);
+            ValidarTelefono(); valido &= string.IsNullOrEmpty(lblTelefono.Text);
+            valido &= ValidacionHelper.ValidarEntero(txtIdentidad, lblIdentidad, "Identidad");
             valido &= ValidacionHelper.ValidarCampo(cbTipoIdentidad, lblTipoIdentidad, "Tipo de Identidad");
-
-            // Validación personalizada con Regex
-            if (!Regex.IsMatch(txtTelefono.Text.Trim(), @"^[1-9]\d{9,17}$"))
-            {
-                lblTelefono.Text = "El número de teléfono no es válido.";
-                lblTelefono.Foreground = new SolidColorBrush(Colors.Red);
-                valido = false;
-            }
-            else
-            {
-                lblTelefono.Text = "";
-            }
-
-            if (!Regex.IsMatch(txtIdentidad.Text.Trim(), @"^[1-9]\d{0,12}$"))
-            {
-                lblIdentidad.Text = "La identidad debe contener solo números y no empezar con 0.";
-                lblIdentidad.Foreground = new SolidColorBrush(Colors.Red);
-                valido = false;
-            }
-            else
-            {
-                lblIdentidad.Text = "";
-            }
 
             if (!valido)
             {
@@ -102,14 +98,18 @@ namespace SisGestorEmpenio.vistas
                 return;
             }
 
+            // Crear cliente con foreign key a admin
+            var admin = Sesion.Sesion.GetAdministradorActivo();
             var cliente = new Cliente(
                 txtNombre.Text.Trim(),
                 int.Parse(txtIdentidad.Text.Trim()),
                 cbTipoIdentidad.Text.Trim(),
                 txtApellido.Text.Trim(),
                 txtTelefono.Text.Trim(),
-                txtCorreo.Text.Trim()
+                txtCorreo.Text.Trim(),
+                admin
             );
+
 
             try
             {

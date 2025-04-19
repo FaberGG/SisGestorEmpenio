@@ -15,15 +15,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using System.Text.RegularExpressions;
 namespace SisGestorEmpenio.vistas
 {
-    /// <summary>
-    /// Lógica de interacción para RegistrarPrestamo.xaml
-    /// </summary>
     public partial class RegistrarPrestamo : UserControl
     {
-
         private Cliente cliente;
         private Articulo articulo;
 
@@ -37,133 +33,153 @@ namespace SisGestorEmpenio.vistas
             txtArticuloId.Text = articulo.GetIdArticulo().ToString();
             txtClienteId.IsEnabled = false;
             txtArticuloId.IsEnabled = false;
+
+            ConfigurarValidaciones();
         }
+
         public RegistrarPrestamo(Articulo articulo)
         {
             InitializeComponent();
             this.articulo = articulo;
-            this.cliente = null;
             txtArticuloId.Text = articulo.GetIdArticulo().ToString();
             txtArticuloId.IsEnabled = false;
+
+            ConfigurarValidaciones();
         }
 
         public RegistrarPrestamo()
         {
             InitializeComponent();
-            this.cliente = null;
-            this.articulo = null;
-
+            ConfigurarValidaciones();
         }
 
-        private void txtSoloNumeros_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void ConfigurarValidaciones()
         {
-            e.Handled = !EsNumero(e.Text);
+            // Máximos de caracteres
+            txtClienteId.MaxLength = 10;
+            txtArticuloId.MaxLength = 10;
+            txtTasaInteres.MaxLength = 10;
+
+            
+
+            // Validaciones LostFocus
+            txtClienteId.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtClienteId, lblClienteId, "Cliente ID");
+            txtArticuloId.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtArticuloId, lblArticuloId, "Artículo ID");
+            txtTasaInteres.LostFocus += ValidarTasaInteres;
+            FechaFinDatePicker.LostFocus += ValidarFechaFin;
         }
 
-        private bool EsNumero(string texto)
+        private void SoloNumeros_Preview(object sender, TextCompositionEventArgs e)
         {
-            return int.TryParse(texto, out _);
+            e.Handled = !Regex.IsMatch(e.Text, @"^\d$");
+        }
+
+        private void SoloDecimal_Preview(object sender, TextCompositionEventArgs e)
+        {
+            // Permite dígitos y un punto, un solo punto máximo
+            var tb = (TextBox)sender;
+            if (!char.IsDigit(e.Text, 0) && e.Text != ".")
+            {
+                e.Handled = true;
+            }
+            else if (e.Text == "." && tb.Text.Contains("."))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void ValidarTasaInteres(object sender, RoutedEventArgs e)
+        {
+            if (!double.TryParse(txtTasaInteres.Text.Trim(), out _))
+            {
+                lblTasaInteres.Text = "Tasa debe ser número válido";
+                lblTasaInteres.Foreground = Brushes.Red;
+            }
+            else
+            {
+                lblTasaInteres.Text = "";
+            }
+        }
+
+        private void ValidarFechaFin(object sender, RoutedEventArgs e)
+        {
+            var sel = FechaFinDatePicker.SelectedDate;
+            if (!sel.HasValue || sel.Value.Date <= DateTime.Today)
+            {
+                lblFechaFin.Text = "Fecha debe ser posterior a hoy";
+                lblFechaFin.Foreground = Brushes.Red;
+            }
+            else
+            {
+                lblFechaFin.Text = "";
+            }
         }
 
         private void Guardar_Click(object sender, RoutedEventArgs e)
         {
-            
-            //Valida que los campos no esten vacios
-            if (!(ValidacionHelper.ValidarCampo(txtClienteId, lblClienteId, "Cliente ID") &&
-                  ValidacionHelper.ValidarCampo(txtArticuloId, lblArticuloId, "Artículo ID") &&
-                  ValidacionHelper.ValidarCampo(txtTasaInteres, lblTasaInteres, "Tasa de Interés") &&
-                  ValidacionHelper.ValidarCampo(FechaFinDatePicker, lblFechaFin, "Fecha Fin")))
+            bool valido = true;
+
+            // Validar campos obligatorios y formatos
+            valido &= ValidacionHelper.ValidarEntero(txtClienteId, lblClienteId, "Cliente ID");
+            valido &= ValidacionHelper.ValidarEntero(txtArticuloId, lblArticuloId, "Artículo ID");
+            valido &= ValidacionHelper.ValidarDecimal(txtTasaInteres, lblTasaInteres, "Tasa de Interés");
+            valido &= (FechaFinDatePicker.SelectedDate.HasValue && FechaFinDatePicker.SelectedDate.Value.Date > DateTime.Today);
+
+            // Si hay errores en fecha o tasa, mostrar su mensaje
+            if (lblFechaFin.Text != "" || lblTasaInteres.Text != "") valido = false;
+
+            if (!valido)
             {
-                MostrarError("Todos los campos son obligatorios.");
+                MostrarError("Corrige los campos resaltados.");
                 return;
             }
 
-            // Captura de datos luego de validación exitosa
-            string clienteId = txtClienteId.Text.Trim();
-            string articuloId = txtArticuloId.Text.Trim();
-            string tasaInteresStr = txtTasaInteres.Text.Trim();
-            DateTime fechaFin = FechaFinDatePicker.SelectedDate.Value;
-            double tasaInteres;
-            // Convertir ID a entero
-            if (!int.TryParse(clienteId, out int idCliente))
-            {
-                MostrarError("El campo Identificacion del cliente debe ser un número válido.");
-                return;
-            }
-            if (!int.TryParse(articuloId, out int idArticulo))
-            {
-                MostrarError("El campo identificador del articulo debe ser un número válido.");
-                return;
-            }
-            //convertir a double
-            if (!double.TryParse(tasaInteresStr, out tasaInteres))
-            {
-                MostrarError("El campo tasa de interes debe ser un número decimal valido.");
-                return;
-            }
-            
+            int idCliente = int.Parse(txtClienteId.Text.Trim());
+            int idArticulo = int.Parse(txtArticuloId.Text.Trim());
+            double tasa = double.Parse(txtTasaInteres.Text.Trim());
+            DateTime fecha = FechaFinDatePicker.SelectedDate.Value;
 
-
-
-            // Crear el cliente y el artículo
             if (cliente == null)
-            {
-                // Si el cliente es nulo, se crea un nuevo objeto cliente temp
                 cliente = new Cliente("", idCliente, "", "", "", "");
-            }
 
-            //PASAR LOS DATOS A ADMINISTRADOR PARA EJECUTAR LA CONSULTA
+            var prestamo = new Prestamo(cliente, articulo, fecha, tasa);
 
-            var prestamo = new Prestamo(cliente, articulo, fechaFin, tasaInteres);
-            
             try
             {
-                bool completado = Sesion.Sesion.GetAdministradorActivo().registrarPrestamo(prestamo);
-                // Mostrar mensaje de éxito
-                if (completado)
-                {
-                    MostrarExito("Prestamo registrado exitosamente.");
-                }
+                bool exito = Sesion.Sesion.GetAdministradorActivo().registrarPrestamo(prestamo);
+                if (exito)
+                    MostrarExito("Préstamo registrado exitosamente.");
                 else
-                {
-                    MostrarError("No se pudo registrar el prestamo.");
-                }
+                    MostrarError("No se pudo registrar el préstamo.");
             }
             catch (OracleException ex)
             {
-
                 MostrarError("Error de base de datos:\n" + ex.Message);
             }
             catch (Exception ex)
             {
-                MostrarError("Ocurrió un error inesperado:\n" + ex.Message);
+                MostrarError("Error inesperado:\n" + ex.Message);
             }
-            
-
         }
 
         private void MostrarError(string mensaje)
         {
-            var ventanaError = new MensajeErrorOk
+            new MensajeErrorOk
             {
                 Mensaje = mensaje,
                 Titulo = "Error",
-                TextoBotonIzquierdo = "Entendido",
-            };
-
-            ventanaError.ShowDialog();
+                TextoBotonIzquierdo = "Entendido"
+            }.ShowDialog();
         }
 
         private void MostrarExito(string mensaje)
         {
-            var ventanaExito = new MensajeErrorOk
+            new MensajeErrorOk
             {
                 Mensaje = mensaje,
                 Titulo = "Éxito",
-                TextoBotonIzquierdo = "Entendido",
-            };
-            ventanaExito.ShowDialog();
+                TextoBotonIzquierdo = "Entendido"
+            }.ShowDialog();
         }
-
     }
 }
