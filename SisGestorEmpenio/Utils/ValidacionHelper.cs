@@ -30,7 +30,7 @@ namespace SisGestorEmpenio.Utils
                 MostrarError(etiquetaError, $"El campo {nombreCampo} es obligatorio.");
                 return false;
             }
-            LimpiarError(etiquetaError);
+            LimpiarError(etiquetaError, nombreCampo);
             return true;
         }
 
@@ -51,7 +51,7 @@ namespace SisGestorEmpenio.Utils
                 MostrarError(etiquetaError, $"El campo {nombreCampo} debe ser mayor que cero.");
                 return false;
             }
-            LimpiarError(etiquetaError);
+            LimpiarError(etiquetaError, nombreCampo);
             return true;
         }
 
@@ -72,7 +72,7 @@ namespace SisGestorEmpenio.Utils
                 MostrarError(etiquetaError, $"El campo {nombreCampo} debe ser mayor que cero.");
                 return false;
             }
-            LimpiarError(etiquetaError);
+            LimpiarError(etiquetaError, nombreCampo);
             return true;
         }
 
@@ -89,7 +89,7 @@ namespace SisGestorEmpenio.Utils
                 MostrarError(etiquetaError, $"El campo {nombreCampo} debe tener entre {min} y {max} caracteres.");
                 return false;
             }
-            LimpiarError(etiquetaError);
+            LimpiarError(etiquetaError, nombreCampo);
             return true;
         }
 
@@ -99,9 +99,10 @@ namespace SisGestorEmpenio.Utils
             etiqueta.Foreground = new SolidColorBrush(Colors.Red);
         }
 
-        private static void LimpiarError(TextBlock etiqueta)
+        private static void LimpiarError(TextBlock etiqueta, string nombreCampo)
         {
-            etiqueta.Text = "";
+            etiqueta.Text = nombreCampo;
+            etiqueta.Foreground = new SolidColorBrush(Colors.Black);
         }
     }
 }

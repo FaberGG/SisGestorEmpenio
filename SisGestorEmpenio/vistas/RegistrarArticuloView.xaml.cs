@@ -31,10 +31,10 @@ namespace SisGestorEmpenio.vistas
             txtValor.PreviewTextInput += SoloDecimal_Preview;
 
             // Validaciones LostFocus
-            txtID.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtID, lblID, "ID");
+            txtID.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtID, lblID, "Identificador único");
             txtDescripcion.LostFocus += (s, e) => ValidacionHelper.ValidarLongitud(txtDescripcion, lblDescripcion, "Descripción", 5, 100);
             cbEstado.LostFocus += (s, e) => ValidarEstado();
-            txtValor.LostFocus += (s, e) => ValidacionHelper.ValidarDecimal(txtValor, lblValor, "Valor");
+            txtValor.LostFocus += (s, e) => ValidacionHelper.ValidarDecimal(txtValor, lblValor, "Valor Estimado");
         }
 
         // Sólo dígitos
@@ -54,18 +54,20 @@ namespace SisGestorEmpenio.vistas
         }
 
         // Valida que el estado esté entre los permitidos
-        private void ValidarEstado()
+        private bool ValidarEstado()
         {
             var val = cbEstado.Text.Trim().ToLower();
             if (!estadosValidos.Contains(val))
             {
                 lblEstado.Text = "Estado inválido";
                 lblEstado.Foreground = Brushes.Red;
+                return false;
             }
-            else
-            {
-                lblEstado.Text = "";
-            }
+            
+            lblEstado.Text = "Estado";
+            lblEstado.Foreground = Brushes.Black;
+            return true;
+            
         }
 
         private void Continuar_Click(object sender, RoutedEventArgs e)
@@ -73,10 +75,10 @@ namespace SisGestorEmpenio.vistas
             bool ok = true;
 
             // Validaciones inline
-            ok &= ValidacionHelper.ValidarEntero(txtID, lblID, "ID");
+            ok &= ValidacionHelper.ValidarEntero(txtID, lblID, "Identificador único");
             ok &= ValidacionHelper.ValidarLongitud(txtDescripcion, lblDescripcion, "Descripción", 5, 100);
-            ValidarEstado(); ok &= string.IsNullOrEmpty(lblEstado.Text);
-            ok &= ValidacionHelper.ValidarDecimal(txtValor, lblValor, "Valor");
+            ok &= ValidarEstado();
+            ok &= ValidacionHelper.ValidarDecimal(txtValor, lblValor, "Valor Estimado");
 
             if (!ok)
 

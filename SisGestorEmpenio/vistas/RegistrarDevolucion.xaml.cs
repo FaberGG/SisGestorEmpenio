@@ -30,8 +30,8 @@ namespace SisGestorEmpenio.vistas
             txtMontoTotal.MaxLength = 15;
 
             // 2) Validaciones automáticas con LostFocus
-            txtIdCliente.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtIdCliente, lblIdCliente, "Cliente ID");
-            txtIdArticulo.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtIdArticulo, lblIdArticulo, "Artículo ID");
+            txtIdCliente.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtIdCliente, lblIdCliente, "identificacion del cliente");
+            txtIdArticulo.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtIdArticulo, lblIdArticulo, "Identificador del artículo");
             txtMontoTotal.LostFocus += (s, e) => ValidacionHelper.ValidarDecimal(txtMontoTotal, lblMontoTotal, "Monto Total");
 
             // 3) Prevención de caracteres inválidos mientras digita
@@ -59,8 +59,8 @@ namespace SisGestorEmpenio.vistas
         private void Guardar_Click(object sender, RoutedEventArgs e)
         {
             bool ok =
-                ValidacionHelper.ValidarEntero(txtIdCliente, lblIdCliente, "Cliente ID") &
-                ValidacionHelper.ValidarEntero(txtIdArticulo, lblIdArticulo, "Artículo ID") &
+                ValidacionHelper.ValidarEntero(txtIdCliente, lblIdCliente, "Identifiacion del cliente") &
+                ValidacionHelper.ValidarEntero(txtIdArticulo, lblIdArticulo, "Identificador del artículo") &
                 ValidacionHelper.ValidarDecimal(txtMontoTotal, lblMontoTotal, "Monto Total");
 
             if (!ok)

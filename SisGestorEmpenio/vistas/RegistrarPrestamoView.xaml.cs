@@ -63,10 +63,10 @@ namespace SisGestorEmpenio.vistas
             
 
             // Validaciones LostFocus
-            txtClienteId.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtClienteId, lblClienteId, "Cliente ID");
-            txtArticuloId.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtArticuloId, lblArticuloId, "Artículo ID");
-            txtTasaInteres.LostFocus += ValidarTasaInteres;
-            FechaFinDatePicker.LostFocus += ValidarFechaFin;
+            txtClienteId.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtClienteId, lblClienteId, "Identificacion del Cliente");
+            txtArticuloId.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtArticuloId, lblArticuloId, "Identificador del Articulo");
+            txtTasaInteres.LostFocus += (s, e) => ValidacionHelper.ValidarDecimal(txtTasaInteres, lblTasaInteres, "Tasa de Interés");
+            FechaFinDatePicker.LostFocus += (s, e) =>  ValidarFechaFin();
         }
 
         private void SoloNumeros_Preview(object sender, TextCompositionEventArgs e)
@@ -88,31 +88,19 @@ namespace SisGestorEmpenio.vistas
             }
         }
 
-        private void ValidarTasaInteres(object sender, RoutedEventArgs e)
-        {
-            if (!double.TryParse(txtTasaInteres.Text.Trim(), out _))
-            {
-                lblTasaInteres.Text = "Tasa debe ser número válido";
-                lblTasaInteres.Foreground = Brushes.Red;
-            }
-            else
-            {
-                lblTasaInteres.Text = "";
-            }
-        }
 
-        private void ValidarFechaFin(object sender, RoutedEventArgs e)
+        private bool ValidarFechaFin()
         {
             var sel = FechaFinDatePicker.SelectedDate;
             if (!sel.HasValue || sel.Value.Date <= DateTime.Today)
             {
                 lblFechaFin.Text = "Fecha debe ser posterior a hoy";
                 lblFechaFin.Foreground = Brushes.Red;
+                return false;
             }
-            else
-            {
-                lblFechaFin.Text = "";
-            }
+            lblFechaFin.Text = "Fecha Fin";
+            lblFechaFin.Foreground = Brushes.Black;
+            return true;
         }
 
         private void Guardar_Click(object sender, RoutedEventArgs e)
@@ -120,13 +108,11 @@ namespace SisGestorEmpenio.vistas
             bool valido = true;
 
             // Validar campos obligatorios y formatos
-            valido &= ValidacionHelper.ValidarEntero(txtClienteId, lblClienteId, "Cliente ID");
-            valido &= ValidacionHelper.ValidarEntero(txtArticuloId, lblArticuloId, "Artículo ID");
+            valido &= ValidacionHelper.ValidarEntero(txtClienteId, lblClienteId, "Identificacion del Cliente");
+            valido &= ValidacionHelper.ValidarEntero(txtArticuloId, lblArticuloId, "Identificador Artículo");
             valido &= ValidacionHelper.ValidarDecimal(txtTasaInteres, lblTasaInteres, "Tasa de Interés");
-            valido &= (FechaFinDatePicker.SelectedDate.HasValue && FechaFinDatePicker.SelectedDate.Value.Date > DateTime.Today);
+            valido &= ValidarFechaFin();
 
-            // Si hay errores en fecha o tasa, mostrar su mensaje
-            if (lblFechaFin.Text != "" || lblTasaInteres.Text != "") valido = false;
 
             if (!valido)
             {

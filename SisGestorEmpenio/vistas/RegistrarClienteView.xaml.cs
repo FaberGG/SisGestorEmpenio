@@ -27,7 +27,7 @@ namespace SisGestorEmpenio.vistas
             txtApellido.MaxLength = 30;
             txtCorreo.MaxLength = 40;
             txtTelefono.MaxLength = 18;
-            txtIdentidad.MaxLength = 16;
+            txtIdentidad.MaxLength = 10;
 
             // PreviewTextInput: sólo dígitos donde corresponda
             txtTelefono.PreviewTextInput += SoloNumeros_Preview;
@@ -38,7 +38,7 @@ namespace SisGestorEmpenio.vistas
             txtApellido.LostFocus += (s, e) => ValidacionHelper.ValidarLongitud(txtApellido, lblApellido, "Apellido", 2, 30);
             txtCorreo.LostFocus += (s, e) => ValidarCorreo();
             txtTelefono.LostFocus += (s, e) => ValidarTelefono();
-            txtIdentidad.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtIdentidad, lblIdentidad, "Identidad");
+            txtIdentidad.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtIdentidad, lblIdentidad, "Número de identidad");
             cbTipoIdentidad.LostFocus += (s, e) => ValidacionHelper.ValidarCampo(cbTipoIdentidad, lblTipoIdentidad, "Tipo de Identidad");
         }
 
@@ -63,7 +63,8 @@ namespace SisGestorEmpenio.vistas
             }
             else
             {
-                lblCorreo.Text = "";
+                lblCorreo.Text = "Correo";
+                lblCorreo.Foreground = Brushes.Black;
             }
         }
 
@@ -90,7 +91,7 @@ namespace SisGestorEmpenio.vistas
             valido &= ValidacionHelper.ValidarLongitud(txtApellido, lblApellido, "Apellido", 2, 30);
             ValidarCorreo(); valido &= string.IsNullOrEmpty(lblCorreo.Text);
             ValidarTelefono(); valido &= string.IsNullOrEmpty(lblTelefono.Text);
-            valido &= ValidacionHelper.ValidarEntero(txtIdentidad, lblIdentidad, "Identidad");
+            valido &= ValidacionHelper.ValidarEntero(txtIdentidad, lblIdentidad, "Número de identidad");
             valido &= ValidacionHelper.ValidarCampo(cbTipoIdentidad, lblTipoIdentidad, "Tipo de Identidad");
             if (!valido)
             {
