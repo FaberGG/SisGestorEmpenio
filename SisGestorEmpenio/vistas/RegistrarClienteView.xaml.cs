@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using SisGestorEmpenio.Utils;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Text.RegularExpressions;
 
 namespace SisGestorEmpenio.vistas
 {
@@ -14,120 +15,137 @@ namespace SisGestorEmpenio.vistas
     /// </summary>
     public partial class RegistrarCliente : UserControl
     {
-        // Evento público que se disparará al finalizar el registro
         public event EventHandler<Cliente> RegistroClienteCompletado;
 
         public RegistrarCliente()
         {
             InitializeComponent();
+
+            // Longitudes máximas de entrada
+            txtNombre.MaxLength = 30;
+            txtApellido.MaxLength = 30;
+            txtCorreo.MaxLength = 40;
+            txtTelefono.MaxLength = 18;
+            txtIdentidad.MaxLength = 16;
+
+            // Validaciones con LostFocus
+            txtNombre.LostFocus += (s, e) => ValidacionHelper.ValidarLongitud(txtNombre, lblNombre, "Nombre", 2, 30);
+            txtApellido.LostFocus += (s, e) => ValidacionHelper.ValidarLongitud(txtApellido, lblApellido, "Apellido", 2, 30);
+            txtCorreo.LostFocus += (s, e) => ValidacionHelper.ValidarLongitud(txtCorreo, lblCorreo, "Correo", 5, 40);
+            txtTelefono.LostFocus += ValidarTelefono;
+            txtIdentidad.LostFocus += ValidarIdentidad;
+            cbTipoIdentidad.LostFocus += (s, e) => ValidacionHelper.ValidarCampo(cbTipoIdentidad, lblTipoIdentidad, "Tipo de Identidad");
         }
 
-
-        private void txtSoloNumeros_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void ValidarTelefono(object sender, RoutedEventArgs e)
         {
-            e.Handled = !EsNumero(e.Text);
+            string telefono = txtTelefono.Text.Trim();
+            if (string.IsNullOrWhiteSpace(telefono) || !Regex.IsMatch(telefono, @"^[1-9]\d{9,17}$"))
+            {
+                lblTelefono.Text = "El número de teléfono no es válido.";
+                lblTelefono.Foreground = new SolidColorBrush(Colors.Red);
+            }
+            else
+            {
+                lblTelefono.Text = "";
+            }
         }
 
-        private bool EsNumero(string texto)
+        private void ValidarIdentidad(object sender, RoutedEventArgs e)
         {
-            return int.TryParse(texto, out _);
+            string identidad = txtIdentidad.Text.Trim();
+            if (string.IsNullOrWhiteSpace(identidad) || !Regex.IsMatch(identidad, @"^[1-9]\d{0,12}$"))
+            {
+                lblIdentidad.Text = "La identidad debe contener solo números y no empezar con 0.";
+                lblIdentidad.Foreground = new SolidColorBrush(Colors.Red);
+            }
+            else
+            {
+                lblIdentidad.Text = "";
+            }
         }
 
         private void Continuar_Click(object sender, RoutedEventArgs e)
         {
-            // Capturar valores del formulario
-            string nombre = txtNombre.Text.Trim();
-            string apellido = txtApellido.Text.Trim();
-            string correo = txtCorreo.Text.Trim();
-            string telefono = txtTelefono.Text.Trim();
-            string tipoIdentidad = cbTipoIdentidad.Text.Trim();
-            string idTexto = txtIdentidad.Text.Trim();
+            bool valido = true;
 
+            valido &= ValidacionHelper.ValidarLongitud(txtNombre, lblNombre, "Nombre", 2, 30);
+            valido &= ValidacionHelper.ValidarLongitud(txtApellido, lblApellido, "Apellido", 2, 30);
+            valido &= ValidacionHelper.ValidarLongitud(txtCorreo, lblCorreo, "Correo", 5, 40);
+            valido &= ValidacionHelper.ValidarCampo(cbTipoIdentidad, lblTipoIdentidad, "Tipo de Identidad");
 
-            //validacion de campos
-            bool nombreValido = ValidacionHelper.ValidarCampo(txtNombre, lblNombre, "Nombre");
-            bool apellidoValido = ValidacionHelper.ValidarCampo(txtApellido, lblApellido, "Apellido");
-            bool correoValido = ValidacionHelper.ValidarCampo(txtCorreo, lblCorreo, "Correo");
-            bool telefonoValido = ValidacionHelper.ValidarCampo(txtTelefono, lblTelefono, "Teléfono");
-            bool tipoIdentidadValido = ValidacionHelper.ValidarCampo(cbTipoIdentidad, lblTipoIdentidad, "Tipo Identidad");
-            bool identidadValida = ValidacionHelper.ValidarCampo(txtIdentidad, lblIdentidad, "Identidad");
+            // Validación personalizada con Regex
+            if (!Regex.IsMatch(txtTelefono.Text.Trim(), @"^[1-9]\d{9,17}$"))
 
-            if (!nombreValido || !apellidoValido || !correoValido || !telefonoValido || !tipoIdentidadValido || !identidadValida)
             {
-                MostrarError("Todos los campos son obligatorios.");
+                lblTelefono.Text = "El número de teléfono no es válido.";
+                lblTelefono.Foreground = new SolidColorBrush(Colors.Red);
+                valido = false;
+            }
+
+            else
+            {
+                lblTelefono.Text = "";
+            }
+
+            if (!Regex.IsMatch(txtIdentidad.Text.Trim(), @"^[1-9]\d{0,12}$"))
+            {
+                lblIdentidad.Text = "La identidad debe contener solo números y no empezar con 0.";
+                lblIdentidad.Foreground = new SolidColorBrush(Colors.Red);
+                valido = false;
+            }
+            else
+            {
+                lblIdentidad.Text = "";
+            }
+
+            if (!valido)
+            {
+                MostrarMensaje("Corrige los campos resaltados.", "Advertencia");
                 return;
             }
 
-            // Convertir ID a entero
-            if (!int.TryParse(idTexto, out int id))
-            {
-                MostrarError("El campo ID debe ser un número válido.");
-                return;
-            }
+            var cliente = new Cliente(
+                txtNombre.Text.Trim(),
+                int.Parse(txtIdentidad.Text.Trim()),
+                cbTipoIdentidad.Text.Trim(),
+                txtApellido.Text.Trim(),
+                txtTelefono.Text.Trim(),
+                txtCorreo.Text.Trim()
+            );
 
-            
-            
-            /*
-            // Mostrar datos capturados (prueba)
-            
-            MessageBox.Show(
-                $"Nombre: {nombre}\nApellido: {apellido}\nCorreo: {correo}\nID: {id}\nTeléfono: {telefono}\nTipo de Identidad: {tipoIdentidad}",
-                "Datos capturados", MessageBoxButton.OK, MessageBoxImage.Information);
-            
-            */
-
-            //PASAR LOS DATOS A ADMINISTRADOR PARA EJECUTAR LA CONSULTA
-
-            var cliente = new Cliente(nombre, id, tipoIdentidad, apellido, telefono, correo);
             try
             {
                 bool completado = Sesion.Sesion.GetAdministradorActivo().registrarCliente(cliente);
-                // Mostrar mensaje de éxito
                 if (completado)
                 {
-                    MostrarExito("Cliente registrado exitosamente.");
+                    MostrarMensaje("Cliente registrado exitosamente.", "Éxito");
+                    RegistroClienteCompletado?.Invoke(this, cliente);
                 }
                 else
                 {
-                    MostrarError("No se pudo registrar el cliente.");
+                    MostrarMensaje("No se pudo registrar el cliente.", "Error");
                 }
-                RegistroClienteCompletado?.Invoke(this, cliente);
             }
             catch (OracleException ex)
             {
-
-                MostrarError("Error de base de datos:\n" + ex.Message);
+                MostrarMensaje("Error de base de datos:\n" + ex.Message, "Error");
             }
             catch (Exception ex)
             {
-                MostrarError("Ocurrió un error inesperado:\n" + ex.Message);
+                MostrarMensaje("Ocurrió un error inesperado:\n" + ex.Message, "Error");
             }
-
         }
 
+        private void MostrarMensaje(string mensaje, string titulo)
 
-
-        private void MostrarError(string mensaje)
         {
-            var ventanaError = new MensajeErrorOk
+            new MensajeErrorOk
             {
                 Mensaje = mensaje,
-                Titulo = "Error",
-                TextoBotonIzquierdo = "Entendido",
-            };
-
-            ventanaError.ShowDialog();
+                Titulo = titulo,
+                TextoBotonIzquierdo = "Entendido"
+            }.ShowDialog();
         }
-        private void MostrarExito(string mensaje)
-        {
-            var ventanaExito = new MensajeErrorOk
-            {
-                Mensaje = mensaje,
-                Titulo = "Éxito",
-                TextoBotonIzquierdo = "Entendido",
-            };
-            ventanaExito.ShowDialog();
-        }
-
     }
 }

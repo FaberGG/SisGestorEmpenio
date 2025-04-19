@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using Oracle.ManagedDataAccess.Client;
 using System.Windows.Input;
+using Oracle.ManagedDataAccess.Client;
 using SisGestorEmpenio.Modelos;
 using SisGestorEmpenio.Utils;
 
@@ -13,118 +13,100 @@ namespace SisGestorEmpenio.vistas
     /// </summary>
     public partial class RegistrarArticulo : UserControl
     {
-        // Evento público que se disparará al completar el registro del artículo
         public event EventHandler<Articulo> RegistroArticuloCompletado;
 
         public RegistrarArticulo()
         {
             InitializeComponent();
+
+            // Establecer longitudes máximas de entrada
+            txtID.MaxLength = 10;
+            txtDescripcion.MaxLength = 200;
+            txtValor.MaxLength = 15;
+
+            // Validaciones automáticas con LostFocus
+            txtID.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtID, lblID, "ID");
+            txtDescripcion.LostFocus += (s, e) => ValidacionHelper.ValidarLongitud(txtDescripcion, lblDescripcion, "Descripción", 5, 200);
+            cbEstado.LostFocus += (s, e) => ValidacionHelper.ValidarCampo(cbEstado, lblEstado, "Estado");
+            txtValor.LostFocus += (s, e) => ValidacionHelper.ValidarDecimal(txtValor, lblValor, "Valor");
+
+            // Limitar la cantidad de caracteres en tiempo real (opcional extra de seguridad)
+            txtID.TextChanged += (s, e) => {
+                if (txtID.Text.Length > 10)
+                    txtID.Text = txtID.Text.Substring(0, 10);
+            };
+
+            txtDescripcion.TextChanged += (s, e) => {
+                if (txtDescripcion.Text.Length > 200)
+                    txtDescripcion.Text = txtDescripcion.Text.Substring(0, 200);
+            };
+
+            txtValor.TextChanged += (s, e) => {
+                if (txtValor.Text.Length > 15)
+                    txtValor.Text = txtValor.Text.Substring(0, 15);
+            };
         }
 
-        private void txtSoloNumeros_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        // Método para permitir solo números o decimales (si decides activarlo)
+        private void SoloNumero_Preview(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = !EsNumero(e.Text);
-        }
-
-        private bool EsNumero(string texto)
-        {
-            return int.TryParse(texto, out _);
+            var tb = sender as TextBox;
+            e.Handled = !ValidacionHelper.EsDecimal(e.Text, tb.Text);
         }
 
         private void Continuar_Click(object sender, RoutedEventArgs e)
         {
-            // Capturar valores del formulario
-            string idTexto = txtID.Text.Trim();
-            string descripcion = txtDescripcion.Text.Trim();
-            string estado = cbEstado.Text.Trim();
-            string valorTexto = txtValor.Text.Trim();
-            double valor;
+            bool ok =
+                ValidacionHelper.ValidarEntero(txtID, lblID, "ID") &
+                ValidacionHelper.ValidarLongitud(txtDescripcion, lblDescripcion, "Descripción", 5, 200) &
+                ValidacionHelper.ValidarCampo(cbEstado, lblEstado, "Estado") &
+                ValidacionHelper.ValidarDecimal(txtValor, lblValor, "Valor");
 
+            if (!ok)
 
-            // Validar todos los campos usando ValidacionHelper
-            bool valido = true;
-            valido &= ValidacionHelper.ValidarCampo(txtID, lblID, "ID");
-            valido &= ValidacionHelper.ValidarCampo(txtDescripcion, lblDescripcion, "Descripción");
-            valido &= ValidacionHelper.ValidarCampo(cbEstado, lblEstado, "Estado");
-            valido &= ValidacionHelper.ValidarCampo(txtValor, lblValor, "Valor");
-
-            if (!valido)
             {
-                MostrarError("Todos los campos son obligatorios.");
-                return;
-            }
-            // Convertir ID a entero
-            if (!int.TryParse(idTexto, out int id))
-            {
-                MostrarError("El campo ID debe ser un número válido.");
-                return;
-            }
-            // Convertir Valor a entero
-            if (!double.TryParse(valorTexto, out valor))
-            {
-                MostrarError("El campo Valor debe ser un número válido.");
+                MostrarMensaje("Corrige los campos resaltados.", "Advertencia");
                 return;
             }
 
+            var art = new Articulo(
+                int.Parse(txtID.Text),
+                txtDescripcion.Text.Trim(),
+                double.Parse(txtValor.Text),
+                cbEstado.Text
+            );
 
-            /*
-            // Mostrar datos capturados (prueba)
-            MessageBox.Show(
-                $"ID: {id}\nDescripcion: {descripcion}\nEstado: {estado}\nValor: {valor}",
-                "Datos capturados", MessageBoxButton.OK, MessageBoxImage.Information);
-            */
-
-
-            //PASAR LOS DATOS A ADMINISTRADOR PARA EJECUTAR LA CONSULTA
-            var articulo = new Articulo(id, descripcion, valor, estado);
             try
             {
-                bool completado = Sesion.Sesion.GetAdministradorActivo().registrarArticulo(articulo);
-                // Mostrar mensaje de éxito
-                if(completado)
+                bool completado = Sesion.Sesion.GetAdministradorActivo().registrarArticulo(art);
+                if (completado)
                 {
-                    MostrarExito("Artículo registrado exitosamente.");
+                    MostrarMensaje("Artículo registrado exitosamente.", "Éxito");
+                    RegistroArticuloCompletado?.Invoke(this, art);
                 }
                 else
                 {
-                    MostrarError("No se pudo registrar el artículo.");
+                    MostrarMensaje("No se pudo registrar el artículo.", "Error");
                 }
-                RegistroArticuloCompletado?.Invoke(this, articulo);
             }
             catch (OracleException ex)
             {
-
-                MostrarError("Error de base de datos:\n" + ex.Message);
+                MostrarMensaje($"Error de base de datos:\n{ex.Message}", "Error");
             }
             catch (Exception ex)
             {
-                MostrarError("Ocurrió un error inesperado:\n" + ex.Message);
+                MostrarMensaje($"Ocurrió un error inesperado:\n{ex.Message}", "Error");
             }
-
         }
 
-        private void MostrarError(string mensaje)
+        private void MostrarMensaje(string mensaje, string titulo)
         {
-            var ventanaError = new MensajeErrorOk
+            new MensajeErrorOk
             {
                 Mensaje = mensaje,
-                Titulo = "Error",
-                TextoBotonIzquierdo = "Entendido",
-            };
-
-            ventanaError.ShowDialog();
+                Titulo = titulo,
+                TextoBotonIzquierdo = "Entendido"
+            }.ShowDialog();
         }
-
-        private void MostrarExito(string mensaje)
-        {
-            var ventanaExito = new MensajeErrorOk
-            {
-                Mensaje = mensaje,
-                Titulo = "Éxito",
-                TextoBotonIzquierdo = "Entendido",
-            };
-            ventanaExito.ShowDialog();
-        }
-
     }
 }

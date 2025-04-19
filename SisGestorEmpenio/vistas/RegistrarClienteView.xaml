@@ -115,7 +115,6 @@
                 <TextBlock x:Name="lblIdentidad" Text="Número de Identidad" Margin="7,0,0,2"/>
                 <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28" >
                     <TextBox x:Name="txtIdentidad"
-                             PreviewTextInput="txtSoloNumeros_PreviewTextInput"
                          Background="Transparent"
                          BorderThickness="0"
                          Padding="6,0"

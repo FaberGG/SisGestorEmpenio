@@ -29,61 +29,49 @@ namespace SisGestorEmpenio.vistas
         public RegistrarDevolucion()
         {
             InitializeComponent();
+
+            // Establecer máximos de caracteres permitidos
+            txtIdCliente.MaxLength = 16;
+            txtIdArticulo.MaxLength = 10;
+            txtMontoTotal.MaxLength = 10;
+
+            // Validación automática con LostFocus
+            txtIdCliente.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtIdCliente, lblIdCliente, "Cliente ID");
+            txtIdArticulo.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtIdArticulo, lblIdArticulo, "Artículo ID");
+            txtMontoTotal.LostFocus += (s, e) => ValidacionHelper.ValidarDecimal(txtMontoTotal, lblMontoTotal, "Monto Total");
         }
 
         private void Guardar_Click(object sender, RoutedEventArgs e)
         {
-            // Capturar valores del formulario
-            string strclienteId = txtIdCliente.Text.Trim();
-            string strarticuloId = txtIdArticulo.Text.Trim();
-            string strMontoTotal = txtMontoTotal.Text.Trim();
+            bool valido =
+                ValidacionHelper.ValidarEntero(txtIdCliente, lblIdCliente, "Cliente ID") &
+                ValidacionHelper.ValidarEntero(txtIdArticulo, lblIdArticulo, "Artículo ID") &
+                ValidacionHelper.ValidarDecimal(txtMontoTotal, lblMontoTotal, "Monto Total");
 
-            bool valido = ValidacionHelper.ValidarCampo(txtIdCliente, lblIdCliente, "Cliente ID");
-            valido &= ValidacionHelper.ValidarCampo(txtIdArticulo, lblIdArticulo, "Artículo ID");
-            valido &= ValidacionHelper.ValidarCampo(txtMontoTotal, lblMontoTotal, "Monto Total");
 
             if (!valido)
             {
-                MostrarError("Todos los campos son obligatorios.");
+                MostrarError("Corrige los campos resaltados.");
                 return;
             }
 
-            // Convertir ID a entero
-            if (!int.TryParse(strclienteId, out int idCliente))
-            {
-                MostrarError("El campo Identificación del cliente debe ser un número válido.");
-                return;
-            }
+            // Convertir valores a sus tipos
+            int idCliente = int.Parse(txtIdCliente.Text.Trim());
+            int idArticulo = int.Parse(txtIdArticulo.Text.Trim());
+            double montoTotal = double.Parse(txtMontoTotal.Text.Trim());
 
-            if (!int.TryParse(strarticuloId, out int idArticulo))
-            {
-                MostrarError("El campo Identificador del artículo debe ser un número válido.");
-                return;
-            }
-
-            // Convertir tasa de interés a double
-            if (!double.TryParse(strMontoTotal, out double MontoTotal))
-            {
-                MostrarError("El campo de El Monto Total debe ser un número decimal válido.");
-                return;
-            }
-
-
-            // Crear el préstamo y registrarlo
+            // Crear el préstamo y la devolución
             cliente = new Cliente("", idCliente, "", "", "", "");
             articulo = new Articulo(idArticulo, "", 0.0, "");
             Prestamo prestamo = new Prestamo(cliente, articulo, DateTime.Now, 0.0);
-
-            var devolucion = new Devolucion(MontoTotal, prestamo);
-
+            var devolucion = new Devolucion(montoTotal, prestamo);
 
             try
             {
                 bool completado = Sesion.Sesion.GetAdministradorActivo().registrarDevolución(devolucion);
-                // Mostrar mensaje de éxito
                 if (completado)
                 {
-                    MostrarExito("Devolucion registrada exitosamente.");
+                    MostrarExito("Devolución registrada exitosamente.");
                 }
                 else
                 {
@@ -111,16 +99,18 @@ namespace SisGestorEmpenio.vistas
 
             ventanaError.ShowDialog();
         }
+
         private void MostrarExito(string mensaje)
         {
             var ventanaExito = new MensajeErrorOk
             {
                 Mensaje = mensaje,
                 Titulo = "Éxito",
-                TextoBotonIzquierdo = "Entendido",
+                TextoBotonIzquierdo = "Entendido.",
             };
+
             ventanaExito.ShowDialog();
         }
-
     }
 }
+
