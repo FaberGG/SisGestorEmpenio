@@ -28,7 +28,6 @@ namespace SisGestorEmpenio.vistas
 
             // Prevención de caracteres inválidos
             txtID.PreviewTextInput += SoloNumeros_Preview;
-            txtValor.PreviewTextInput += SoloDecimal_Preview;
 
             // Validaciones LostFocus
             txtID.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtID, lblID, "Identificador único");
@@ -43,15 +42,7 @@ namespace SisGestorEmpenio.vistas
             e.Handled = !Regex.IsMatch(e.Text, @"^\d$");
         }
 
-        // Dígitos y un solo punto decimal
-        private void SoloDecimal_Preview(object sender, TextCompositionEventArgs e)
-        {
-            var tb = (TextBox)sender;
-            if (!char.IsDigit(e.Text, 0) && e.Text != ".")
-                e.Handled = true;
-            else if (e.Text == "." && tb.Text.Contains("."))
-                e.Handled = true;
-        }
+        
 
         // Valida que el estado esté entre los permitidos
         private bool ValidarEstado()
@@ -105,9 +96,15 @@ namespace SisGestorEmpenio.vistas
                 }
 
             }
+            catch (OracleException ex) when (ex.Number == 1017)
+            {
+                MostrarMensaje("No se pudo conectar a la base de datos.\nVerifique su conexión o comuníquese con soporte técnico.", "Error");
+                return;
+            }
             catch (OracleException ex)
             {
                 MostrarMensaje($"Error al validar en base de datos:\n{ex.Message}", "Error");
+                return;
             }
 
 

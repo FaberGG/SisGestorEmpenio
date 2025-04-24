@@ -128,9 +128,15 @@ namespace SisGestorEmpenio.vistas
                 }
 
             }
+            catch (OracleException ex) when (ex.Number == 1017)
+            {
+                MostrarMensaje("No se pudo conectar a la base de datos.\nVerifique su conexión o comuníquese con soporte técnico.", "Error");
+                return;
+            }
             catch (OracleException ex)
             {
                 MostrarMensaje($"Error al validar en base de datos:\n{ex.Message}", "Error");
+                return;
             }
 
             try

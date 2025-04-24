@@ -86,7 +86,7 @@ namespace SisGestorEmpenio
             Cliente clienteRegistrado = null;
             Articulo articuloRegistrado = null;
 
-            var confirmacion = new ConfirmacionWindow
+            var confirmacionCliente = new ConfirmacionWindow
             {
                 Mensaje = "¿El cliente ya está registrado?",
                 Titulo = "Cliente registrado?",
@@ -95,19 +95,38 @@ namespace SisGestorEmpenio
                 MostrarBotonDerecho = true
             };
 
-            bool? resultado = confirmacion.ShowDialog();
+            bool? resultadoCliente = confirmacionCliente.ShowDialog();
 
-            if (resultado == true && confirmacion.Confirmado)
+            if (resultadoCliente == true && confirmacionCliente.Confirmado)
             {
-                ActualizarEncabezado("Registrar Préstamo", "Artículo");
-                var vistaArticulo = new RegistrarArticulo();
-                vistaArticulo.RegistroArticuloCompletado += (s, articulo) =>
+                //pregunto si el articulo ya esta registrado
+                var confirmacionArticulo = new ConfirmacionWindow
                 {
-                    articuloRegistrado = articulo;
-                    ActualizarEncabezado("Registrar Préstamo");
-                    MainContent.Content = new RegistrarPrestamo(articuloRegistrado);
+                    Mensaje = "¿El articulo ya está registrado?",
+                    Titulo = "Articulo registrado?",
+                    TextoBotonIzquierdo = "Sí",
+                    TextoBotonDerecho = "Registrar",
+                    MostrarBotonDerecho = true
                 };
-                MainContent.Content = vistaArticulo;
+                bool? resultadoArticulo = confirmacionArticulo.ShowDialog();
+
+                if (resultadoArticulo == true && confirmacionArticulo.Confirmado)
+                {
+                    ActualizarEncabezado("Registrar Préstamo");
+                    MainContent.Content = new RegistrarPrestamo();
+                }
+                else
+                {
+                    ActualizarEncabezado("Registrar Préstamo", "Artículo");
+                    var vistaArticulo = new RegistrarArticulo();
+                    vistaArticulo.RegistroArticuloCompletado += (s, articulo) =>
+                    {
+                        articuloRegistrado = articulo;
+                        ActualizarEncabezado("Registrar Préstamo");
+                        MainContent.Content = new RegistrarPrestamo(articuloRegistrado);
+                    };
+                    MainContent.Content = vistaArticulo;
+                }
             }
             else
             {

@@ -51,8 +51,12 @@ namespace SisGestorEmpenio.vistas
                 }
                 else
                 {
-                    MostrarError("Usuario o contraseña incorrectos.");
+                    MostrarError("Usuario o contraseña incorrectos. \n Asegurese de que su empleador lo haya registrado");
                 }
+            }
+            catch (OracleException ex) when (ex.Number == 1017)
+            {
+                MostrarError("No se pudo conectar a la base de datos.\nVerifique su conexión o comuníquese con soporte técnico.");
             }
             catch (OracleException ex)
             {

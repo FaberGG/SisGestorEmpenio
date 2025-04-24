@@ -57,6 +57,12 @@ namespace SisGestorEmpenio.Utils
 
         public static bool ValidarDecimal(TextBox textBox, TextBlock etiquetaError, string nombreCampo)
         {
+            string texto = textBox.Text.Trim();
+            if (texto.Contains("."))
+            {
+                MostrarError(etiquetaError, $"El campo {nombreCampo} podria usar coma decimal en lugar de punto.");
+                return false;
+            }
             if (string.IsNullOrWhiteSpace(textBox.Text))
             {
                 MostrarError(etiquetaError, $"El campo {nombreCampo} es obligatorio.");
@@ -88,6 +94,41 @@ namespace SisGestorEmpenio.Utils
             {
                 MostrarError(etiquetaError, $"El campo {nombreCampo} debe tener entre {min} y {max} caracteres.");
                 return false;
+            }
+            LimpiarError(etiquetaError, nombreCampo);
+            return true;
+        }
+
+        public static bool ValidarFechaFin(DatePicker datePicker, TextBlock etiquetaError, string nombreCampo)
+        {
+            if (!datePicker.SelectedDate.HasValue)
+            {
+                MostrarError(etiquetaError, $"El campo {nombreCampo} es obligatorio.");
+                return false;
+            }
+            DateTime fecha = datePicker.SelectedDate.Value;
+            if (fecha.Date <= DateTime.Today)
+            {
+                MostrarError(etiquetaError, $"El campo {nombreCampo} debe ser posterior a hoy.");
+                return false;
+            }
+            LimpiarError(etiquetaError, nombreCampo);
+            return true;
+        }
+
+        public static bool ValidarPorcentaje(TextBox textBox, TextBlock etiquetaError, string nombreCampo)
+        {
+            if(!ValidarDecimal(textBox, etiquetaError, nombreCampo))
+            {
+                return false;
+            }
+            if (double.TryParse(textBox.Text.Trim(), out double tasa))
+            {
+                if (tasa < 0 || tasa > 100)
+                {
+                    MostrarError(etiquetaError, $"El campo {nombreCampo} debe estar entre 0-100%.");
+                    return false;
+                }
             }
             LimpiarError(etiquetaError, nombreCampo);
             return true;

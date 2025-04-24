@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
+using static MaterialDesignThemes.Wpf.Theme;
 namespace SisGestorEmpenio.vistas
 {
     public partial class RegistrarPrestamo : UserControl
@@ -65,8 +66,8 @@ namespace SisGestorEmpenio.vistas
             // Validaciones LostFocus
             txtClienteId.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtClienteId, lblClienteId, "Identificacion del Cliente");
             txtArticuloId.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtArticuloId, lblArticuloId, "Identificador del Articulo");
-            txtTasaInteres.LostFocus += (s, e) => ValidacionHelper.ValidarDecimal(txtTasaInteres, lblTasaInteres, "Tasa de Interés");
-            FechaFinDatePicker.LostFocus += (s, e) =>  ValidarFechaFin();
+            txtTasaInteres.LostFocus += (s, e) => ValidacionHelper.ValidarPorcentaje(txtTasaInteres, lblTasaInteres, "Tasa de Interés");
+            FechaFinDatePicker.LostFocus += (s, e) =>  ValidacionHelper.ValidarFechaFin(FechaFinDatePicker, lblFechaFin, "Fecha de Finalizacion");
         }
 
         private void SoloNumeros_Preview(object sender, TextCompositionEventArgs e)
@@ -74,34 +75,6 @@ namespace SisGestorEmpenio.vistas
             e.Handled = !Regex.IsMatch(e.Text, @"^\d$");
         }
 
-        private void SoloDecimal_Preview(object sender, TextCompositionEventArgs e)
-        {
-            // Permite dígitos y un punto, un solo punto máximo
-            var tb = (TextBox)sender;
-            if (!char.IsDigit(e.Text, 0) && e.Text != ".")
-            {
-                e.Handled = true;
-            }
-            else if (e.Text == "." && tb.Text.Contains("."))
-            {
-                e.Handled = true;
-            }
-        }
-
-
-        private bool ValidarFechaFin()
-        {
-            var sel = FechaFinDatePicker.SelectedDate;
-            if (!sel.HasValue || sel.Value.Date <= DateTime.Today)
-            {
-                lblFechaFin.Text = "Fecha debe ser posterior a hoy";
-                lblFechaFin.Foreground = Brushes.Red;
-                return false;
-            }
-            lblFechaFin.Text = "Fecha Fin";
-            lblFechaFin.Foreground = Brushes.Black;
-            return true;
-        }
 
         private void Guardar_Click(object sender, RoutedEventArgs e)
         {
@@ -110,8 +83,8 @@ namespace SisGestorEmpenio.vistas
             // Validar campos obligatorios y formatos
             valido &= ValidacionHelper.ValidarEntero(txtClienteId, lblClienteId, "Identificacion del Cliente");
             valido &= ValidacionHelper.ValidarEntero(txtArticuloId, lblArticuloId, "Identificador Artículo");
-            valido &= ValidacionHelper.ValidarDecimal(txtTasaInteres, lblTasaInteres, "Tasa de Interés");
-            valido &= ValidarFechaFin();
+            valido &= ValidacionHelper.ValidarPorcentaje(txtTasaInteres, lblTasaInteres, "Tasa de Interés");
+            valido &= ValidacionHelper.ValidarFechaFin(FechaFinDatePicker, lblFechaFin, "Fecha de Finalizacion");
 
 
             if (!valido)
@@ -129,7 +102,8 @@ namespace SisGestorEmpenio.vistas
             var articulo = this.articulo;
             if (cliente == null)
                 cliente = new Cliente("", idCliente, "", "", "", "");
-
+            if(articulo == null)
+                articulo = new Articulo(idArticulo, "", 0.0, "");
             var prestamo = new Prestamo(cliente, articulo, fecha, tasa);
 
 
@@ -156,9 +130,15 @@ namespace SisGestorEmpenio.vistas
                 }
 
             }
+            catch (OracleException ex) when (ex.Number == 1017)
+            {
+                MostrarError("No se pudo conectar a la base de datos.\nVerifique su conexión o comuníquese con soporte técnico.");
+                return;
+            }
             catch (OracleException ex)
             {
                 MostrarError($"Error al validar en base de datos:\n{ex.Message}");
+                return;
             }
 
             try
@@ -167,7 +147,7 @@ namespace SisGestorEmpenio.vistas
                 if (exito)
                     MostrarExito("Préstamo registrado exitosamente.");
                 else
-                    MostrarError("No se pudo registrar el préstamo.");
+                    MostrarError("Error desconocido: No se pudo registrar el préstamo.");
             }
             catch (OracleException ex)
             {

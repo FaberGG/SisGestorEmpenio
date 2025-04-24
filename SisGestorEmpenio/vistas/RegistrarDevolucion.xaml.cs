@@ -37,7 +37,6 @@ namespace SisGestorEmpenio.vistas
             // 3) Prevención de caracteres inválidos mientras digita
             txtIdCliente.PreviewTextInput += SoloNumeros_Preview;
             txtIdArticulo.PreviewTextInput += SoloNumeros_Preview;
-            txtMontoTotal.PreviewTextInput += SoloDecimal_Preview;
         }
 
         // Permite sólo dígitos
@@ -46,16 +45,7 @@ namespace SisGestorEmpenio.vistas
             e.Handled = !int.TryParse(e.Text, out _);
         }
 
-        // Permite dígitos y un sólo punto
-        private void SoloDecimal_Preview(object sender, TextCompositionEventArgs e)
-        {
-            var tb = (TextBox)sender;
-            if (!char.IsDigit(e.Text, 0) && e.Text != ".")
-                e.Handled = true;
-            else if (e.Text == "." && tb.Text.Contains("."))
-                e.Handled = true;
-        }
-
+        
         private void Guardar_Click(object sender, RoutedEventArgs e)
         {
             bool ok =
@@ -104,9 +94,15 @@ namespace SisGestorEmpenio.vistas
                 }
 
             }
+            catch (OracleException ex) when (ex.Number == 1017)
+            {
+                MostrarError("No se pudo conectar a la base de datos.\nVerifique su conexión o comuníquese con soporte técnico.");
+                return;
+            }
             catch (OracleException ex)
             {
                 MostrarError($"Error al validar en base de datos:\n{ex.Message}");
+                return;
             }
 
 
