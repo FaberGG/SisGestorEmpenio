@@ -14,7 +14,8 @@ namespace SisGestorEmpenio.repository
         public bool Guardar(Articulo articulo)
         {
             int filasAfectadas = 0;
-            string consulta = $"INSERT INTO Articulo VALUES ({articulo.GetIdArticulo()}, '{articulo.GetDescripcion()}', {articulo.GetValorEstimado().ToString(System.Globalization.CultureInfo.InvariantCulture)}, '{articulo.GetEstado().ToLower()}')";
+            int propiedadCasaInt = articulo.GetPropiedadCasa() ? 1 : 0;
+            string consulta = $"INSERT INTO Articulo VALUES ({articulo.GetIdArticulo()}, '{articulo.GetDescripcion()}', {articulo.GetValorEstimado().ToString(System.Globalization.CultureInfo.InvariantCulture)}, '{articulo.GetEstadoArticulo().ToLower()}', {propiedadCasaInt}, '{articulo.GetEstadoDevolucion().ToLower()}' )";
 
             filasAfectadas = dt.ejecutarDML(consulta);
             return filasAfectadas > 0;
@@ -27,6 +28,14 @@ namespace SisGestorEmpenio.repository
 
             bool isSaved = (resultado.Tables.Count > 0 && resultado.Tables[0].Rows.Count > 0);
             return isSaved;
+        }
+
+        public bool MarcarComoDevuelto(int idArticulo)
+        {
+            int filasAfectadas = 0;
+            string consulta = $"UPDATE ARTICULO SET estadoDevolucion = 'devuelto' WHERE idArticulo = {idArticulo}";
+            filasAfectadas = dt.ejecutarDML(consulta);
+            return filasAfectadas > 0;
         }
     }
 }

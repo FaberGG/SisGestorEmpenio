@@ -28,5 +28,13 @@ namespace SisGestorEmpenio.repository
             bool isSaved = (resultado.Tables.Count > 0 && resultado.Tables[0].Rows.Count > 0);
             return isSaved;
         }
+
+        public bool PoseeArticulo(int idCliente, int idArticulo)
+        {
+            string consulta = $"SELECT * FROM posee WHERE idCliente = {idCliente} AND idArticulo = {idArticulo}";
+            var resultado = dt.ejecutarSelect(consulta);
+            bool posee = (resultado.Tables.Count > 0 && resultado.Tables[0].Rows.Count > 0);
+            return posee;
+        }
     }
 }

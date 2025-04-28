@@ -29,8 +29,21 @@ namespace SisGestorEmpenio.Modelos
         }
 
         public double CalcularInteres()
-        {   
-            return tasaInteres * 0.10;
+        {
+            double valorArticulo = articulo.GetValorEstimado();
+            DateTime fechaActual = DateTime.Now;
+            //calcular la diferencia en meses entre la fecha de inicio y la fecha actual
+            int cantidadMeses = ((fechaActual.Year - fechaInicio.Year) * 12) + fechaActual.Month - fechaInicio.Month;
+            if (fechaActual.Day < fechaInicio.Day)
+            {
+                //resto 1 mes si el día actual es menor que el día de inicio
+                cantidadMeses--;
+            }
+            if (cantidadMeses == 0)
+            {
+                cantidadMeses = 1; // Si no ha pasado un mes, se cobra intereses de un mes
+            }
+            return valorArticulo * (tasaInteres/100) * cantidadMeses;
         }
 
         public double CalcularMontoTotal()
@@ -52,15 +65,11 @@ namespace SisGestorEmpenio.Modelos
             return false;
         }
 
-        public void MarcarComoDevuelto()
-        {
-            //estado = "Devuelto";
-            //devolucion = new Devolucion(DateTime.Now); // Ejemplo: devuelve hoy
-        }
+        
 
-        public DateTime CalcularFechaVencimiento()
+        public DateTime GetFechaFin()
         {
-           return fechaFin = fechaInicio.AddDays(30); // 30 días plazo por defecto
+           return fechaFin;
 
         }
 

@@ -121,7 +121,7 @@ namespace SisGestorEmpenio.vistas
                     MostrarError("El artículo no existe.");
                     return;
                 }
-
+                
                 //validar que prestamo no exista
                 if (Sesion.Sesion.GetAdministradorActivo().ExistePrestamo(prestamo))
                 {
@@ -129,6 +129,13 @@ namespace SisGestorEmpenio.vistas
                     return;
                 }
 
+                
+                //validar que el cliente posea ese articulo
+                //if (!Sesion.Sesion.GetAdministradorActivo().ClientePoseeArticulo(cliente, articulo))
+                //{
+                //    MostrarError("EL CLIENTE NO POSEE EL ARTICULO: \n El cliente no posee el articulo con este identificador");
+                //    return;
+                //}
             }
             catch (OracleException ex) when (ex.Number == 1017)
             {

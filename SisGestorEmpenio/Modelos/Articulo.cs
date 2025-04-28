@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SisGestorEmpenio.repository;
 
 namespace SisGestorEmpenio.Modelos
 {
@@ -12,7 +13,9 @@ namespace SisGestorEmpenio.Modelos
         private int idArticulo;
         private string descripcion;
         private double valorEstimado;
-        private string estado;
+        private string estadoArticulo;
+        private bool propiedadCasa;
+        private string estadoDevolucion;
         private Administrador administrador;
         // Constructor vacío
         public Articulo()
@@ -20,20 +23,31 @@ namespace SisGestorEmpenio.Modelos
         }
 
         // Constructor para registrar un artículo
-        public Articulo(int id, string descripcion, double valorEstimado, string estado)
+        public Articulo(int id, string descripcion, double valorEstimado, string estadoArticulo)
         {
             this.idArticulo = id;
             this.descripcion = descripcion;
             this.valorEstimado = valorEstimado;
-            this.estado = estado;
+            this.estadoArticulo = estadoArticulo;
+            this.propiedadCasa = false; // Por defecto, no es propiedad de la casa
+            this.estadoDevolucion = "libre"; // Por defecto, no ha sido devuelto
         }
 
         // Método para mostrar los detalles del artículo
         public string MostrarDetalleArticulo()
         {
-            return $"ID: {idArticulo}\nDescripción: {descripcion}\nValor Estimado: ${valorEstimado:F2}\nEstado: {estado}";
+            return $"ID: {idArticulo}\nDescripción: {descripcion}\nValor Estimado: ${valorEstimado:F2}\nEstado: {estadoArticulo}";
         }
-
+        public bool marcarComoDevuelto()
+        {
+            estadoDevolucion = "devuelto";
+            ArticuloRepository articuloRepository = new ArticuloRepository();
+            return articuloRepository.MarcarComoDevuelto(idArticulo);
+        }
+        public void marcarComoLibre()
+        {
+            estadoDevolucion = "libre";
+        }
         //Set y get de las propiedades del artículo 
         public Administrador GetAdministrador()
         {
@@ -73,14 +87,32 @@ namespace SisGestorEmpenio.Modelos
             valorEstimado = value;
         }
 
-        public string GetEstado()
+        public string GetEstadoArticulo()
         {
-            return estado;
+            return estadoArticulo;
         }
 
-        public void SetEstado(string value)
+        public void SetEstadoArticulo(string value)
         {
-            estado = value;
+            estadoArticulo = value;
+        }
+
+        public bool GetPropiedadCasa()
+        {
+            return propiedadCasa;
+        }
+        public void SetPropiedadCasa(bool value)
+        {
+            propiedadCasa = value;
+        }
+
+        public string GetEstadoDevolucion()
+        {
+            return estadoDevolucion;
+        }
+        public void SetEstadoDevolucion(string value)
+        {
+            estadoDevolucion = value;
         }
     }
 }

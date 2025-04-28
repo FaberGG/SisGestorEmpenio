@@ -92,7 +92,7 @@ namespace SisGestorEmpenio.vistas
                     MostrarError("LA DEVOLUCION YA EXISTE: \n Un prestamo con este cliente y articulo ya tiene una devolucion registrada");
                     return;
                 }
-
+                
             }
             catch (OracleException ex) when (ex.Number == 1017)
             {

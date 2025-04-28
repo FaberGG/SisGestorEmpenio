@@ -51,7 +51,11 @@ namespace SisGestorEmpenio.Modelos
         {
             DevolucionRepository devolucionRepository=new DevolucionRepository();
             bool guardarDevExitoso = devolucionRepository.Guardar(devolucion);
-            if (guardarDevExitoso) devolucion.GetPrestamo().ActualizarEstadoPrestamo("Devuelto");
+            if (guardarDevExitoso)
+            {
+                devolucion.GetPrestamo().ActualizarEstadoPrestamo("Inactivo");
+                devolucion.GetPrestamo().GetArticulo().marcarComoDevuelto();
+            }
             return guardarDevExitoso;
         }
 
@@ -85,6 +89,14 @@ namespace SisGestorEmpenio.Modelos
             int articuloId = devolucion.GetPrestamo().GetArticulo().GetIdArticulo();
             DevolucionRepository devolucionRepository = new DevolucionRepository();
             return devolucionRepository.EstaGuardado(clienteId, articuloId);
+        }
+
+        public bool ClientePoseeArticulo(Cliente cliente, Articulo articulo)
+        {
+            int clienteId = cliente.GetId();
+            int articuloId = articulo.GetIdArticulo();
+            ClienteRepository clienteRepository = new ClienteRepository();
+            return clienteRepository.PoseeArticulo(clienteId, articuloId);
         }
 
         //SETTERS Y GETTERS
