@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 using Oracle.ManagedDataAccess.Client;
 
 namespace SisGestorEmpenio.repository
@@ -11,7 +12,8 @@ namespace SisGestorEmpenio.repository
     internal class ConexionDB
     {
         //paso 1: crear la cadena de conexion
-        string cadenaConexion = "Data Source=localhost:1521/XEPDB1;User ID=BDD1;Password=oracle";
+        //La configuracion para la cadena de conexion se movio a App.config en la raiz del proyecto
+        string cadenaConexion = ConfigurationManager.ConnectionStrings["MiConexionOracle"].ConnectionString;
         //string cadenaConexion = "Data Source=localhost;User ID=system;Password=oracle";
 
         /*paso 2: crear el metodo que permite ejecutar

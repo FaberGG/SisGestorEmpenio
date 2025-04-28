@@ -48,4 +48,12 @@
     </Resource>
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\jhonn\OneDrive\Unicauca\Semestre V\Ingenieria-de-Software-I\Proyecto-Software\SisGestorEmpenio\SisGestorEmpenio\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\jhonn\OneDrive\Unicauca\Semestre V\Ingenieria-de-Software-I\Proyecto-Software\SisGestorEmpenio\SisGestorEmpenio\.editorconfig" />
+  </ItemGroup>
+
 </Project>
