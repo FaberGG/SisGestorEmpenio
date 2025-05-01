@@ -33,6 +33,17 @@ namespace SisGestorEmpenio.Modelos
             this.estadoDevolucion = "libre"; // Por defecto, no ha sido devuelto
         }
 
+        // Constructor para buscar un artículo
+        public Articulo(int id, string descripcion, double valorEstimado, string estadoArticulo, bool propiedadCasa, string estadoDevolucion)
+        {
+            this.idArticulo = id;
+            this.descripcion = descripcion;
+            this.valorEstimado = valorEstimado;
+            this.estadoArticulo = estadoArticulo;
+            this.propiedadCasa = propiedadCasa;
+            this.estadoDevolucion = estadoDevolucion;
+        }
+
         // Método para mostrar los detalles del artículo
         public string MostrarDetalleArticulo()
         {

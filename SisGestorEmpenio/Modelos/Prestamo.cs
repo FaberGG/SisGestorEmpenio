@@ -28,6 +28,16 @@ namespace SisGestorEmpenio.Modelos
             this.tasaInteres = tasaInteres;
         }
 
+        public Prestamo(Cliente cliente, Articulo articulo, string estado, DateTime fechaInicio, DateTime fechaFin, double tasaInteres, double montoTotal)
+        {
+            this.cliente = cliente;
+            this.articulo = articulo;
+            this.estado = estado;
+            this.fechaInicio = fechaInicio;
+            this.fechaFin = fechaFin;
+            this.tasaInteres = tasaInteres;
+            this.montoTotal = montoTotal;
+        }
         public double CalcularInteres()
         {
             double valorArticulo = articulo.GetValorEstimado();

@@ -28,5 +28,24 @@ namespace SisGestorEmpenio.repository
             bool isSaved = (resultado.Tables.Count > 0 && resultado.Tables[0].Rows.Count > 0);
             return isSaved;
         }
+
+        public Devolucion Buscar(int clienteId, int articuloId)
+        {
+            PrestamoRepository prestamoRepository = new PrestamoRepository();
+            string consulta = $"SELECT * FROM devolucion WHERE numeroIdentidadCliente = {clienteId} AND idArticulo = {articuloId}";
+            var resultado = dt.ejecutarSelect(consulta);
+            if (resultado.Tables.Count > 0 && resultado.Tables[0].Rows.Count > 0)
+            {
+                var row = resultado.Tables[0].Rows[0];
+                return new Devolucion(
+                    Convert.ToInt32(row["numConvenio"]),
+                    //capturar fechaDevolucion
+                    DateTime.Parse(row["fechaDevolucion"].ToString()),
+                    Convert.ToDouble(row["montoPagado"]),
+                    prestamoRepository.Buscar(Convert.ToInt32(row["numeroIdentidadCliente"]), Convert.ToInt32(row["idArticulo"]))
+                );
+            }
+            return null;
+        }
     }
 }

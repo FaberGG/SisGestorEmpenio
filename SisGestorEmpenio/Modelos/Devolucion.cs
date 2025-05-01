@@ -24,7 +24,15 @@ namespace SisGestorEmpenio.Modelos
             this.fechaDevolucion = DateTime.Now;
         }
 
-       //get y set de la clase 
+        public Devolucion(int numeroConvenio, DateTime fechaDevolucion, double montoPagado, Prestamo prestamo)
+        {
+            this.numeroConvenio = numeroConvenio;
+            this.fechaDevolucion = fechaDevolucion;
+            this.montoPagado = montoPagado;
+            this.prestamo = prestamo;
+        }
+
+        //get y set de la clase 
 
         public int GetNumeroConvenio()
         {

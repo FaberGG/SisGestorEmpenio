@@ -90,8 +90,8 @@ namespace SisGestorEmpenio
             {
                 Mensaje = "¿El cliente ya está registrado?",
                 Titulo = "Cliente registrado?",
-                TextoBotonIzquierdo = "Sí",
-                TextoBotonDerecho = "Registrar",
+                TextoBotonIzquierdo = "Registrar",
+                TextoBotonDerecho = "Si",
                 MostrarBotonDerecho = true
             };
 
@@ -104,8 +104,8 @@ namespace SisGestorEmpenio
                 {
                     Mensaje = "¿El articulo ya está registrado?",
                     Titulo = "Articulo registrado?",
-                    TextoBotonIzquierdo = "Sí",
-                    TextoBotonDerecho = "Registrar",
+                    TextoBotonIzquierdo = "Registrar",
+                    TextoBotonDerecho = "Si",
                     MostrarBotonDerecho = true
                 };
                 bool? resultadoArticulo = confirmacionArticulo.ShowDialog();
@@ -148,6 +148,26 @@ namespace SisGestorEmpenio
                 };
                 MainContent.Content = vistaCliente;
             }
+        }
+        // Modificar Prestamo
+        private void GoToModificarPrestamo(object sender, MouseButtonEventArgs e)
+        {
+            SeleccionarOpcion(TxtModificarPrestamo);
+            ActualizarEncabezado("Modificar Prestamo");
+
+            BuscarPrestamoPorIdWindow buscarPrestamo = new BuscarPrestamoPorIdWindow();
+            bool? resultado = buscarPrestamo.ShowDialog();
+
+            if(resultado == true)
+            {
+                Prestamo prestamo = buscarPrestamo.Prestamo;
+                if (prestamo != null)
+                {
+                    ActualizarEncabezado("Modificar Prestamo");
+                    MainContent.Content = new ModificarPrestamoView(prestamo);
+                }
+            }
+            
         }
 
         private void GoToRegistrarDevolucion(object sender, MouseButtonEventArgs e)

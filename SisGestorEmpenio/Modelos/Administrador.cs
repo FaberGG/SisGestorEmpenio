@@ -25,8 +25,8 @@ namespace SisGestorEmpenio.Modelos
             this.contrasenia = contrasenia;
             this.usuario = usuario;
         }
-       
 
+        //METODOS DE REGISTRO
         public bool registrarCliente(Cliente cliente)
         { 
             ClienteRepository clienteRepository = new ClienteRepository();
@@ -59,6 +59,31 @@ namespace SisGestorEmpenio.Modelos
             return guardarDevExitoso;
         }
 
+        //METODOS DE BUSQUEDA
+
+        public Cliente buscarCliente(int id)
+        {
+            ClienteRepository clienteRepository = new ClienteRepository();
+            return clienteRepository.Buscar(id);
+        }
+
+        public Articulo buscarArticulo(int id)
+        {
+            ArticuloRepository articuloRepository = new ArticuloRepository();
+            return articuloRepository.Buscar(id);
+        }
+
+        public Prestamo buscarPrestamo(int clienteId, int articuloId)
+        {
+            PrestamoRepository prestamoRepository = new PrestamoRepository();
+            return prestamoRepository.Buscar(clienteId, articuloId);
+        }
+
+        public Devolucion buscarDevolucion(int clienteId, int articuloId)
+        {
+            DevolucionRepository devolucionRepository = new DevolucionRepository();
+            return devolucionRepository.Buscar(clienteId, articuloId);
+        }
 
         //METODOS DE VALIDACION
         public bool ExisteCliente(Cliente cliente)

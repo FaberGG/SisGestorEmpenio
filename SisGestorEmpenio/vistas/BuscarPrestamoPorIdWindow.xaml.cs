@@ -13,26 +13,33 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SisGestorEmpenio.vistas
 {
-    public partial class RegistrarDevolucion : UserControl
+    /// <summary>
+    /// Lógica de interacción para BuscarPrestamoPorIdWindow.xaml
+    /// </summary>
+    public partial class BuscarPrestamoPorIdWindow : Window
     {
-        public RegistrarDevolucion()
+
+        // Propiedades para almacenar los datos del préstamo
+        public Prestamo Prestamo { get; set; }
+
+
+        public BuscarPrestamoPorIdWindow()
         {
             InitializeComponent();
 
+
             // 1) Máximos de caracteres
-            txtIdCliente.MaxLength = 16;
+            txtIdCliente.MaxLength = 10;
             txtIdArticulo.MaxLength = 10;
-            txtMontoTotal.MaxLength = 15;
+
 
             // 2) Validaciones automáticas con LostFocus
             txtIdCliente.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtIdCliente, lblIdCliente, "identificacion del cliente");
             txtIdArticulo.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtIdArticulo, lblIdArticulo, "Identificador del artículo");
-            txtMontoTotal.LostFocus += (s, e) => ValidacionHelper.ValidarDecimal(txtMontoTotal, lblMontoTotal, "Monto Total");
 
             // 3) Prevención de caracteres inválidos mientras digita
             txtIdCliente.PreviewTextInput += SoloNumeros_Preview;
@@ -44,15 +51,12 @@ namespace SisGestorEmpenio.vistas
         {
             e.Handled = !int.TryParse(e.Text, out _);
         }
-
-        
-        private void Guardar_Click(object sender, RoutedEventArgs e)
+        private void btnBuscar_Click(object sender, RoutedEventArgs e)
         {
+
             bool ok =
                 ValidacionHelper.ValidarEntero(txtIdCliente, lblIdCliente, "Identifiacion del cliente") &
-                ValidacionHelper.ValidarEntero(txtIdArticulo, lblIdArticulo, "Identificador del artículo") &
-                ValidacionHelper.ValidarDecimal(txtMontoTotal, lblMontoTotal, "Monto Total");
-
+                ValidacionHelper.ValidarEntero(txtIdArticulo, lblIdArticulo, "Identificador del artículo");
             if (!ok)
             {
                 MostrarError("Corrige los campos resaltados.");
@@ -62,74 +66,39 @@ namespace SisGestorEmpenio.vistas
             // Parseo seguro
             int idCliente = int.Parse(txtIdCliente.Text.Trim());
             int idArticulo = int.Parse(txtIdArticulo.Text.Trim());
-            double monto = double.Parse(txtMontoTotal.Text.Trim());
 
+
+
+            // Lógica para buscar el préstamo por ID
             var admin = Sesion.Sesion.GetAdministradorActivo();
-
-            
-
-
-            
 
             try
             {
-                // Construcción de objetos
+                //construccion de objetos
                 var prestamo = admin.buscarPrestamo(idCliente, idArticulo);
-                var devolucion = new Devolucion(monto, prestamo);
-
 
                 // Validar que el prestamo exista
-
                 if (prestamo == null)
                 {
-                    MostrarError("EL PRESTAMO NO EXISTE: \n No existe un prestamo asociado a un cliente y articulo con estas identificaciones. \n Asegurese de registrar el prestamo antes de hacer una devolucion");
+                    MostrarError("No existe un préstamo asociado a este cliente y articulo.");
                     return;
                 }
-                // validar que la devolucion ya se hizo
-                if (admin.ExisteDevolucion(devolucion))
-                {
-                    MostrarError("LA DEVOLUCION YA EXISTE: \n Un prestamo con este cliente y articulo ya tiene una devolucion registrada");
-                    return;
-                }
-
-
-                var confirmacion = new ConfirmacionWindow
-                {
-                    Mensaje = "¿Desea continuar con el proceso?",
-                    Titulo = "Registrar Devolucion?",
-                    TextoBotonIzquierdo = "Cancelar",
-                    TextoBotonDerecho = "Continuar",
-                    MostrarBotonDerecho = true
-                };
-
-                bool? resultadoConfir = confirmacion.ShowDialog();
-
-                if (resultadoConfir == true && confirmacion.Confirmado)
-                {
-                    bool completado = admin.registrarDevolución(devolucion);
-                    if (completado)
-                        MostrarExito("Devolución registrada exitosamente.");
-                    else
-                        MostrarError("No se pudo registrar la devolución.");
-                }
-
-            }
-            catch (OracleException ex) when (ex.Number == 1017)
-            {
-                MostrarError("No se pudo conectar a la base de datos.\nVerifique su conexión o comuníquese con soporte técnico.");
-                return;
+                this.Prestamo = prestamo;
+                this.DialogResult = true; // Indica que la búsqueda fue exitosa
             }
             catch (OracleException ex)
             {
-                MostrarError($"Error al validar en base de datos:\n{ex.Message}");
+                // Manejo de excepciones específicas de Oracle
+                MostrarError("Error al buscar el préstamo: " + ex.Message);
                 return;
             }
             catch (Exception ex)
             {
-                MostrarError("Ocurrió un error inesperado:\n" + ex.Message);
+                // Manejo de excepciones generales
+                MostrarError("Error inesperado: " + ex.Message);
+                return;
             }
         }
-
         private void MostrarError(string mensaje)
         {
             new MensajeErrorOk

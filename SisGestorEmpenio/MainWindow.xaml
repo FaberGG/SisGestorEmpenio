@@ -170,20 +170,22 @@
                         Margin="0,6,0,0"
                         Padding="5,0"
                         CornerRadius="8"
-                        Cursor="Hand">
+                        Cursor="Hand"
+                        MouseLeftButtonUp="GoToModificarPrestamo">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"/>
-                            <TextBlock Grid.Column="1"
-                           Text="Modifica un préstamo"
-                           FontSize="12"
-                           FontWeight="DemiBold"
-                           Margin="3,0,0,0" 
-                           VerticalAlignment="Center"
-                           Foreground="#83C4C4"/>
+                            <TextBlock x:Name="TxtModificarPrestamo"
+                                Grid.Column="1"
+                                Text="Modifica un préstamo"
+                                FontSize="12"
+                                FontWeight="DemiBold"
+                                Margin="3,0,0,0" 
+                                VerticalAlignment="Center"
+                                Foreground="#83C4C4"/>
                         </Grid>
                     </Border>
 
