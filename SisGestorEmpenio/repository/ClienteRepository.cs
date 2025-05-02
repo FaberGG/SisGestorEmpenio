@@ -64,5 +64,13 @@ namespace SisGestorEmpenio.repository
             }
             return null;
         }
+
+        public bool Actualizar(Cliente cliente)
+        {
+            int filasAfectadas = 0;
+            string consulta = $"UPDATE cliente SET nombre = '{cliente.GetNombre()}', apellido = '{cliente.GetApellido()}', telefono = '{cliente.GetTelefono()}', correo = '{cliente.GetCorreo()}' WHERE numeroIdentidad = {cliente.GetId()}";
+            filasAfectadas = dt.ejecutarDML(consulta);
+            return filasAfectadas > 0;
+        }
     }
 }

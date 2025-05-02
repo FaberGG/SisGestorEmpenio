@@ -13,8 +13,11 @@
     <None Remove="Resources\chevron_right_22.png" />
     <None Remove="Resources\close_34.png" />
     <None Remove="Resources\logo48x48.png" />
+    <None Remove="Resources\person_25.png" />
     <None Remove="Resources\real_estate_agent_20.png" />
+    <None Remove="Resources\real_estate_agent_25.png" />
     <None Remove="Resources\redo_25.png" />
+    <None Remove="Resources\shopping_bag25.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,10 +43,19 @@
     <Resource Include="Resources\logo48x48.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\person_25.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\real_estate_agent_20.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\real_estate_agent_25.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\redo_25.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\shopping_bag25.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

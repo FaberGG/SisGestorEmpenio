@@ -131,7 +131,7 @@ namespace SisGestorEmpenio
             else
             {
                 ActualizarEncabezado("Registrar Préstamo", "Cliente");
-                var vistaCliente = new RegistrarCliente();
+                var vistaCliente = new ClienteView();
                 vistaCliente.RegistroClienteCompletado += (s1, cliente) =>
                 {
                     clienteRegistrado = cliente;
@@ -152,14 +152,15 @@ namespace SisGestorEmpenio
         // Modificar Prestamo
         private void GoToModificarPrestamo(object sender, MouseButtonEventArgs e)
         {
-            SeleccionarOpcion(TxtModificarPrestamo);
-            ActualizarEncabezado("Modificar Prestamo");
+            
 
             BuscarPrestamoPorIdWindow buscarPrestamo = new BuscarPrestamoPorIdWindow();
             bool? resultado = buscarPrestamo.ShowDialog();
 
             if(resultado == true)
             {
+                SeleccionarOpcion(TxtModificarPrestamo);
+                ActualizarEncabezado("Modificar Prestamo");
                 Prestamo prestamo = buscarPrestamo.Prestamo;
                 if (prestamo != null)
                 {

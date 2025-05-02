@@ -110,7 +110,7 @@ namespace SisGestorEmpenio.vistas
 
             try
             {
-                bool completado = Sesion.Sesion.GetAdministradorActivo().registrarArticulo(art);
+                bool completado = Sesion.Sesion.GetAdministradorActivo().RegistrarArticulo(art);
                 if (completado)
                 {
                     MostrarMensaje("Artículo registrado exitosamente.", "Éxito");

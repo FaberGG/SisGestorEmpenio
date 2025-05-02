@@ -74,7 +74,7 @@ namespace SisGestorEmpenio.vistas
             try
             {
                 // Construcción de objetos
-                var prestamo = admin.buscarPrestamo(idCliente, idArticulo);
+                var prestamo = admin.BuscarPrestamo(idCliente, idArticulo);
                 var devolucion = new Devolucion(monto, prestamo);
 
 
@@ -106,7 +106,7 @@ namespace SisGestorEmpenio.vistas
 
                 if (resultadoConfir == true && confirmacion.Confirmado)
                 {
-                    bool completado = admin.registrarDevolución(devolucion);
+                    bool completado = admin.RegistrarDevolución(devolucion);
                     if (completado)
                         MostrarExito("Devolución registrada exitosamente.");
                     else

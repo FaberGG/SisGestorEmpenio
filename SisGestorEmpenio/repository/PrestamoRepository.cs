@@ -59,5 +59,13 @@ namespace SisGestorEmpenio.repository
             }
             return null;
         }
+
+        public bool Actualizar(Prestamo prestamo)
+        {
+            int filasAfectadas = 0;
+            string consulta = $"UPDATE prestamo SET estadoPrestamo = '{prestamo.GetEstado().ToLower()}', fechaInicio = DATE '{prestamo.GetFechaInicio().ToString("yyyy-MM-dd")}', fechaFin = DATE '{prestamo.GetFechaFin().ToString("yyyy-MM-dd")}', tasaInteres = {prestamo.GetTasaInteres().ToString(System.Globalization.CultureInfo.InvariantCulture)}, montoTotal = {prestamo.CalcularMontoTotal().ToString(System.Globalization.CultureInfo.InvariantCulture)} WHERE numeroIdentidadCliente = {prestamo.GetCliente().GetId()} AND idArticulo = {prestamo.GetArticulo().GetIdArticulo()}";
+            filasAfectadas = dt.ejecutarDML(consulta);
+            return filasAfectadas > 0;
+        }
     }
 }

@@ -85,8 +85,7 @@ namespace SisGestorEmpenio.Modelos
 
         public string MostrarDetalle()
         {
-            //return $"Cliente: {cliente.Apellido}\nArtículo: {articulo.Descripcion}\nMonto Total: {montoTotal:F2}\nEstado: {estado}\nFecha Vencimiento: {fechaFin.ToShortDateString()}";
-            return "";
+            return $"Cliente: {cliente.GetApellido()}\nArtículo: {articulo.GetDescripcion()}\nMonto Total: {montoTotal:F2}\nEstado: {estado}\nFecha Vencimiento: {fechaFin.ToShortDateString()}";
         }
 
 

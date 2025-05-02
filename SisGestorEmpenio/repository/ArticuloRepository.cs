@@ -56,5 +56,14 @@ namespace SisGestorEmpenio.repository
             }
             return null;
         }
+
+        public bool Actualizar(Articulo articulo)
+        {
+            int filasAfectadas = 0;
+            int propiedadCasaInt = articulo.GetPropiedadCasa() ? 1 : 0;
+            string consulta = $"UPDATE ARTICULO SET descripcion = '{articulo.GetDescripcion()}', valorEstimado = {articulo.GetValorEstimado().ToString(System.Globalization.CultureInfo.InvariantCulture)}, estadoArticulo = '{articulo.GetEstadoArticulo().ToLower()}', propiedadCasa = {propiedadCasaInt}, estadoDevolucion = '{articulo.GetEstadoDevolucion().ToLower()}' WHERE idArticulo = {articulo.GetIdArticulo()}";
+            filasAfectadas = dt.ejecutarDML(consulta);
+            return filasAfectadas > 0;
+        }
     }
 }

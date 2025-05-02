@@ -47,5 +47,14 @@ namespace SisGestorEmpenio.repository
             }
             return null;
         }
+
+        //actualizar devolucion con fechaDevolucion y montoPagado
+        public bool Actualizar(Devolucion devolucion)
+        {
+            int filasAfectadas = 0;
+            string consulta = $"UPDATE devolucion SET fechaDevolucion = DATE '{devolucion.GetFechaDevolucion().ToString("yyyy-MM-dd")}', montoPagado = {devolucion.GetMontoPagado().ToString(System.Globalization.CultureInfo.InvariantCulture)} WHERE numeroIdentidadCliente = {devolucion.GetPrestamo().GetCliente().GetId()} AND idArticulo = {devolucion.GetPrestamo().GetArticulo().GetIdArticulo()}";
+            filasAfectadas = dt.ejecutarDML(consulta);
+            return filasAfectadas > 0;
+        }
     }
 }

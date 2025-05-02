@@ -27,27 +27,27 @@ namespace SisGestorEmpenio.Modelos
         }
 
         //METODOS DE REGISTRO
-        public bool registrarCliente(Cliente cliente)
+        public bool RegistrarCliente(Cliente cliente)
         { 
             ClienteRepository clienteRepository = new ClienteRepository();
             cliente.SetAdministrador(this); // Asignar el administrador al cliente
             return clienteRepository.Guardar(cliente);
         }
 
-        public bool registrarArticulo(Articulo articulo)
+        public bool RegistrarArticulo(Articulo articulo)
         {
             ArticuloRepository articuloRepository=new ArticuloRepository();
             articulo.SetAdministrador(this); // Asignar el administrador al artículo
             return articuloRepository.Guardar(articulo);
         }
 
-        public bool registrarPrestamo(Prestamo prestamo)
+        public bool RegistrarPrestamo(Prestamo prestamo)
         {
             PrestamoRepository prestamoRepository = new PrestamoRepository();
             return prestamoRepository.Guardar(prestamo);
         }
 
-        public bool registrarDevolución(Devolucion devolucion)
+        public bool RegistrarDevolución(Devolucion devolucion)
         {
             DevolucionRepository devolucionRepository=new DevolucionRepository();
             bool guardarDevExitoso = devolucionRepository.Guardar(devolucion);
@@ -61,29 +61,55 @@ namespace SisGestorEmpenio.Modelos
 
         //METODOS DE BUSQUEDA
 
-        public Cliente buscarCliente(int id)
+        public Cliente BuscarCliente(int id)
         {
             ClienteRepository clienteRepository = new ClienteRepository();
             return clienteRepository.Buscar(id);
         }
 
-        public Articulo buscarArticulo(int id)
+        public Articulo BuscarArticulo(int id)
         {
             ArticuloRepository articuloRepository = new ArticuloRepository();
             return articuloRepository.Buscar(id);
         }
 
-        public Prestamo buscarPrestamo(int clienteId, int articuloId)
+        public Prestamo BuscarPrestamo(int clienteId, int articuloId)
         {
             PrestamoRepository prestamoRepository = new PrestamoRepository();
             return prestamoRepository.Buscar(clienteId, articuloId);
         }
 
-        public Devolucion buscarDevolucion(int clienteId, int articuloId)
+        public Devolucion BuscarDevolucion(int clienteId, int articuloId)
         {
             DevolucionRepository devolucionRepository = new DevolucionRepository();
             return devolucionRepository.Buscar(clienteId, articuloId);
         }
+
+        //METODOS DE ACTUALIZACION
+        public bool ActualizarCliente(Cliente cliente)
+        {
+            ClienteRepository clienteRepository = new ClienteRepository();
+            return clienteRepository.Actualizar(cliente);
+        }
+
+        public bool ActualizarArticulo(Articulo articulo)
+        {
+            ArticuloRepository articuloRepository = new ArticuloRepository();
+            return articuloRepository.Actualizar(articulo);
+        }
+
+        public bool ActualizarPrestamo(Prestamo prestamo)
+        {
+            PrestamoRepository prestamoRepository = new PrestamoRepository();
+            return prestamoRepository.Actualizar(prestamo);
+        }
+
+        public bool ActualizarDevolucion(Devolucion devolucion)
+        {
+            DevolucionRepository devolucionRepository = new DevolucionRepository();
+            return devolucionRepository.Actualizar(devolucion);
+        }
+
 
         //METODOS DE VALIDACION
         public bool ExisteCliente(Cliente cliente)

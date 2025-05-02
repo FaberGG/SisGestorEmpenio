@@ -150,7 +150,7 @@ namespace SisGestorEmpenio.vistas
 
             try
             {
-                bool exito = Sesion.Sesion.GetAdministradorActivo().registrarPrestamo(prestamo);
+                bool exito = Sesion.Sesion.GetAdministradorActivo().RegistrarPrestamo(prestamo);
                 if (exito)
                     MostrarExito("Préstamo registrado exitosamente.");
                 else

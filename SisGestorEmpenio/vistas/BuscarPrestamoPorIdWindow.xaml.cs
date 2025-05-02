@@ -75,7 +75,7 @@ namespace SisGestorEmpenio.vistas
             try
             {
                 //construccion de objetos
-                var prestamo = admin.buscarPrestamo(idCliente, idArticulo);
+                var prestamo = admin.BuscarPrestamo(idCliente, idArticulo);
 
                 // Validar que el prestamo exista
                 if (prestamo == null)
@@ -84,6 +84,9 @@ namespace SisGestorEmpenio.vistas
                     return;
                 }
                 this.Prestamo = prestamo;
+                //mostrar los datos del prestamo encontrado
+                //MessageBox.Show(prestamo.MostrarDetalle(), "Detalles del Préstamo", MessageBoxButton.OK, MessageBoxImage.Information);
+
                 this.DialogResult = true; // Indica que la búsqueda fue exitosa
             }
             catch (OracleException ex)

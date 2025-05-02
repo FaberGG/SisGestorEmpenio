@@ -5,8 +5,58 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SisGestorEmpenio.vistas"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+            HorizontalAlignment="Stretch"
+            FontSize="13"
+            FontWeight="SemiBold"
+             >
     <Grid>
-            
+        <StackPanel Orientation="Vertical">
+
+            <!-- Barra de navegación -->
+            <StackPanel Orientation="Horizontal" Height="32" Background="White" HorizontalAlignment="Stretch" Margin="0">
+                <StackPanel.Resources>
+                    <!-- Estilo para las opciones -->
+                    <Style x:Key="TabOptionStyle" TargetType="Border">
+                        <Setter Property="Height" Value="32"/>
+                        <Setter Property="MinWidth" Value="100"/>
+                        <Setter Property="Margin" Value="0,0,30,0"/>
+                        <Setter Property="Cursor" Value="Hand"/>
+                        <Setter Property="BorderBrush" Value="Transparent"/>
+                        <Setter Property="BorderThickness" Value="0,0,0,2"/>
+                        <Setter Property="VerticalAlignment" Value="Top"/>
+                    </Style>
+                </StackPanel.Resources>
+
+                <!-- Opción 1 -->
+                <Border x:Name="Tab1" Style="{StaticResource TabOptionStyle}" MouseLeftButtonUp="Tab1_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/person_25.png" Width="22" Height="22" VerticalAlignment="Top"/>
+                        <Label x:Name="Label1" Content="Datos del cliente" VerticalAlignment="Top" Margin="5,0,0,0" Foreground="#095858" FontWeight="Normal"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Opción 2 -->
+                <Border x:Name="Tab2" Style="{StaticResource TabOptionStyle}" MouseLeftButtonUp="Tab2_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/shopping_bag25.png" Width="22" Height="22" VerticalAlignment="Top"/>
+                        <Label x:Name="Label2" Content="Datos del articulo" VerticalAlignment="Top" Margin="5,0,0,0" Foreground="#095858" FontWeight="Normal"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Opción 3 -->
+                <Border x:Name="Tab3" Style="{StaticResource TabOptionStyle}" MouseLeftButtonUp="Tab3_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/real_estate_agent_25.png" Width="22" Height="22" VerticalAlignment="Top"/>
+                        <Label x:Name="Label3" Content="Datos del prestamo" VerticalAlignment="Top" Margin="5,0,0,0" Foreground="#095858" FontWeight="Normal"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <!-- Contenedor de contenido -->
+            <Border Padding="0" Margin="0,35,0,0">
+                <ContentControl x:Name="ContentArea"/>
+            </Border>
+        </StackPanel>
     </Grid>
+
 </UserControl>

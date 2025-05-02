@@ -10,18 +10,42 @@ using System.Text.RegularExpressions;
 
 namespace SisGestorEmpenio.vistas
 {
-    public partial class RegistrarCliente : UserControl
+    public partial class ClienteView : UserControl
     {
         public event EventHandler<Cliente> RegistroClienteCompletado;
-        private readonly int adminId;
-
-        public RegistrarCliente()
+        private bool _isAdding = true;
+        public ClienteView()
         {
             InitializeComponent();
 
-            // Suponemos que el administrador activo aporta su ID
-            adminId = Sesion.Sesion.GetAdministradorActivo().GetId();
+            cargarValidaciones();
+        }
 
+        //constructor para ver y editar un cliente existente
+        public ClienteView(Cliente cliente) : this()
+        {
+            InitializeComponent();
+            _isAdding = false; // Cambiar a modo edición
+            btnLabel.Text = "Guardar Cambios";
+
+            // Cargar datos del cliente en los campos
+            txtIdentidad.IsEnabled = false; // Deshabilitar el campo de ID
+            cbTipoIdentidad.IsEnabled = false; // Deshabilitar el campo de tipo de identidad
+            txtNombre.Text = cliente.GetNombre();
+            txtApellido.Text = cliente.GetApellido();
+            txtIdentidad.Text = cliente.GetId().ToString();
+            cbTipoIdentidad.Text = cliente.GetTipoIdentidad();
+            txtTelefono.Text = cliente.GetTelefono();
+            txtCorreo.Text = cliente.GetCorreo();
+
+            cargarValidaciones();
+
+        }
+
+        //cargar validaciones
+
+        private void cargarValidaciones()
+        {
             // Máximos de caracteres
             txtNombre.MaxLength = 30;
             txtApellido.MaxLength = 30;
@@ -119,12 +143,37 @@ namespace SisGestorEmpenio.vistas
 
             try
             {
-
-                // Validar que el cliente no exista
+                if(!_isAdding)
+                {
+                    // Si no es un nuevo cliente, actualizar el cliente existente
+                    bool actualizado = Sesion.Sesion.GetAdministradorActivo().ActualizarCliente(cliente);
+                    if (actualizado)
+                    {
+                        MostrarMensaje("Cliente actualizado exitosamente.", "Éxito");
+                        RegistroClienteCompletado?.Invoke(this, cliente);
+                    }
+                    else
+                    {
+                        MostrarMensaje("No se pudo actualizar el cliente.", "Error");
+                    }
+                    return;
+                }
+                // Validar que el cliente no exista en caso de estar en registro
                 if (Sesion.Sesion.GetAdministradorActivo().ExisteCliente(cliente))
                 {
                     MostrarMensaje("EL CLIENTE YA EXISTE: \n Un cliente con esta identificacion ya esta registrado", "Error");
                     return;
+                }
+
+                bool completado = Sesion.Sesion.GetAdministradorActivo().RegistrarCliente(cliente);
+                if (completado)
+                {
+                    MostrarMensaje("Cliente registrado exitosamente.", "Éxito");
+                    RegistroClienteCompletado?.Invoke(this, cliente);
+                }
+                else
+                {
+                    MostrarMensaje("No se pudo registrar el cliente.", "Error");
                 }
 
             }
@@ -135,31 +184,14 @@ namespace SisGestorEmpenio.vistas
             }
             catch (OracleException ex)
             {
-                MostrarMensaje($"Error al validar en base de datos:\n{ex.Message}", "Error");
+                MostrarMensaje($"Error en la base de datos:\n{ex.Message}", "Error");
                 return;
-            }
-
-            try
-            {
-                bool completado = Sesion.Sesion.GetAdministradorActivo().registrarCliente(cliente);
-                if (completado)
-                {
-                    MostrarMensaje("Cliente registrado exitosamente.", "Éxito");
-                    RegistroClienteCompletado?.Invoke(this, cliente);
-                }
-                else
-                {
-                    MostrarMensaje("No se pudo registrar el cliente.", "Error");
-                }
-            }
-            catch (OracleException ex)
-            {
-                MostrarMensaje("Error de base de datos:\n" + ex.Message, "Error");
             }
             catch (Exception ex)
             {
                 MostrarMensaje("Ocurrió un error inesperado:\n" + ex.Message, "Error");
             }
+
         }
 
         private void MostrarMensaje(string mensaje, string titulo)
