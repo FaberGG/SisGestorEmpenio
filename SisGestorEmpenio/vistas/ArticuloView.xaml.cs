@@ -10,17 +10,44 @@ using SisGestorEmpenio.Utils;
 
 namespace SisGestorEmpenio.vistas
 {
-    public partial class RegistrarArticulo : UserControl
+    public partial class ArticuloView : UserControl
     {
         // Valores válidos para estadoArticulo en la BD
         private readonly string[] estadosValidos = { "defectuoso", "optimo", "funcionable" };
 
         public event EventHandler<Articulo> RegistroArticuloCompletado;
+        private Articulo articulo;
+        private bool isAdding = true;
 
-        public RegistrarArticulo()
+        public ArticuloView()
         {
             InitializeComponent();
+            configurarValidaciones();
+        }
 
+        //constructor para editar un articulo existente
+        public ArticuloView(Articulo articulo) : this()
+        {
+            isAdding = false;
+            this.articulo = articulo;
+            // Cargar datos del artículo en los campos
+            txtID.Text = articulo.GetIdArticulo().ToString();
+            txtID.IsEnabled = false; // Deshabilitar el campo de ID
+            txtDescripcion.Text = articulo.GetDescripcion();
+            txtValor.Text = articulo.GetValorEstimado().ToString();
+            foreach (ComboBoxItem item in cbEstado.Items)
+            {
+                if (string.Equals(item.Content.ToString(), articulo.GetEstadoArticulo(), StringComparison.OrdinalIgnoreCase))
+                {
+                    cbEstado.SelectedItem = item;
+                    break;
+                }
+            }
+        }
+
+        //cargar validaciones
+        private void configurarValidaciones()
+        {
             // Máximas longitudes según tabla
             txtID.MaxLength = 10;   // INT
             txtDescripcion.MaxLength = 100;  // VARCHAR2(100)
@@ -78,7 +105,7 @@ namespace SisGestorEmpenio.vistas
                 return;
             }
 
-            // Crear y registrar
+            // Crear
             var art = new Articulo(
                 int.Parse(txtID.Text.Trim()),
                 txtDescripcion.Text.Trim(),
@@ -88,28 +115,28 @@ namespace SisGestorEmpenio.vistas
 
             try
             {
+                // Si no es un nuevo artículo, actualizar el artículo existente
+                if (!isAdding)
+                {
+                    bool actualizado = Sesion.Sesion.GetAdministradorActivo().ActualizarArticulo(this.articulo);
+                    if (actualizado)
+                    {
+                        MostrarMensaje("Artículo actualizado exitosamente.", "Éxito");
+                        RegistroArticuloCompletado?.Invoke(this, art);
+                    }
+                    else
+                    {
+                        MostrarMensaje("No se pudo actualizar el artículo.", "Error");
+                    }
+                    return;
+                }
+
                 //validar que el articulo no exista
                 if (Sesion.Sesion.GetAdministradorActivo().ExisteArticulo(art))
                 {
                     MostrarMensaje("EL ARTICULO YA EXISTE: \n Un articulo con este ID ya esta registrado", "Error");
                     return;
                 }
-
-            }
-            catch (OracleException ex) when (ex.Number == 1017)
-            {
-                MostrarMensaje("No se pudo conectar a la base de datos.\nVerifique su conexión o comuníquese con soporte técnico.", "Error");
-                return;
-            }
-            catch (OracleException ex)
-            {
-                MostrarMensaje($"Error al validar en base de datos:\n{ex.Message}", "Error");
-                return;
-            }
-
-
-            try
-            {
                 bool completado = Sesion.Sesion.GetAdministradorActivo().RegistrarArticulo(art);
                 if (completado)
                 {
@@ -120,6 +147,12 @@ namespace SisGestorEmpenio.vistas
                 {
                     MostrarMensaje("No se pudo registrar el artículo.", "Error");
                 }
+
+            }
+            catch (OracleException ex) when (ex.Number == 1017)
+            {
+                MostrarMensaje("No se pudo conectar a la base de datos.\nVerifique su conexión o comuníquese con soporte técnico.", "Error");
+                return;
             }
             catch (OracleException ex)
             {
@@ -129,7 +162,12 @@ namespace SisGestorEmpenio.vistas
             {
                 MostrarMensaje($"Ocurrió un error inesperado:\n{ex.Message}", "Error");
             }
+        
+
+
+            
         }
+            
 
         private void MostrarMensaje(string mensaje, string titulo)
         {

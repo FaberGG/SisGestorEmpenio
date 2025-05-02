@@ -72,7 +72,7 @@ namespace SisGestorEmpenio
         {
             SeleccionarOpcion(TxtRegistrarArticulo);
             ActualizarEncabezado("Registrar Artículo");
-            MainContent.Content = new RegistrarArticulo();
+            MainContent.Content = new ArticuloView();
         }
 
 
@@ -113,17 +113,17 @@ namespace SisGestorEmpenio
                 if (resultadoArticulo == true && confirmacionArticulo.Confirmado)
                 {
                     ActualizarEncabezado("Registrar Préstamo");
-                    MainContent.Content = new RegistrarPrestamo();
+                    MainContent.Content = new PrestamoView();
                 }
                 else
                 {
                     ActualizarEncabezado("Registrar Préstamo", "Artículo");
-                    var vistaArticulo = new RegistrarArticulo();
+                    var vistaArticulo = new ArticuloView();
                     vistaArticulo.RegistroArticuloCompletado += (s, articulo) =>
                     {
                         articuloRegistrado = articulo;
                         ActualizarEncabezado("Registrar Préstamo");
-                        MainContent.Content = new RegistrarPrestamo(articuloRegistrado);
+                        MainContent.Content = new PrestamoView(articuloRegistrado);
                     };
                     MainContent.Content = vistaArticulo;
                 }
@@ -136,13 +136,13 @@ namespace SisGestorEmpenio
                 {
                     clienteRegistrado = cliente;
                     ActualizarEncabezado("Registrar Préstamo", "Artículo");
-                    var vistaArticulo = new RegistrarArticulo();
+                    var vistaArticulo = new ArticuloView();
                     vistaArticulo.RegistroArticuloCompletado += (s2, articulo) =>
                     {
                         articuloRegistrado = articulo;
                         ActualizarEncabezado("Registrar Préstamo");
 
-                        MainContent.Content = new RegistrarPrestamo(cliente, articulo);
+                        MainContent.Content = new PrestamoView(cliente, articulo);
                     };
                     MainContent.Content = vistaArticulo;
                 };

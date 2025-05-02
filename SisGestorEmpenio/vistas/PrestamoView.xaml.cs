@@ -19,12 +19,14 @@ using System.Text.RegularExpressions;
 using static MaterialDesignThemes.Wpf.Theme;
 namespace SisGestorEmpenio.vistas
 {
-    public partial class RegistrarPrestamo : UserControl
+    public partial class PrestamoView: UserControl
     {
         private Cliente cliente;
         private Articulo articulo;
+        private Prestamo prestamo;
+        private bool isAdding = true;
 
-        public RegistrarPrestamo(Cliente cliente, Articulo articulo)
+        public PrestamoView(Cliente cliente, Articulo articulo)
         {
             InitializeComponent();
             this.cliente = cliente;
@@ -38,7 +40,7 @@ namespace SisGestorEmpenio.vistas
             ConfigurarValidaciones();
         }
 
-        public RegistrarPrestamo(Articulo articulo)
+        public PrestamoView(Articulo articulo)
         {
             InitializeComponent();
             this.articulo = articulo;
@@ -48,7 +50,42 @@ namespace SisGestorEmpenio.vistas
             ConfigurarValidaciones();
         }
 
-        public RegistrarPrestamo()
+        public PrestamoView(Cliente cliente)
+        {
+            InitializeComponent();
+            this.cliente = cliente;
+            txtClienteId.Text = cliente.GetId().ToString();
+            txtClienteId.IsEnabled = false;
+            ConfigurarValidaciones();
+        }
+
+        //constructor para editar prestamo desde esta vista
+        public PrestamoView(Prestamo prestamo)
+        {
+            InitializeComponent();
+
+            isAdding = false;
+            this.prestamo = prestamo;
+
+            //desactivar campos
+            txtArticuloId.IsEnabled = false;
+            txtClienteId.IsEnabled = false;
+            this.cliente = prestamo.GetCliente();
+            this.articulo = prestamo.GetArticulo();
+            txtClienteId.Text = cliente.GetId().ToString();
+            txtArticuloId.Text = articulo.GetIdArticulo().ToString();
+            txtTasaInteres.Text = prestamo.GetTasaInteres().ToString();
+            txtClienteId.IsEnabled = false;
+            txtArticuloId.IsEnabled = false;
+            Loaded += MainWindow_Loaded;
+            ConfigurarValidaciones();
+        }
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            FechaFinDatePicker.SelectedDate = prestamo.GetFechaFin();
+        }
+
+        public PrestamoView()
         {
             InitializeComponent();
             ConfigurarValidaciones();
@@ -109,6 +146,21 @@ namespace SisGestorEmpenio.vistas
 
             try
             {
+                //actualizar el prestamo si se esta editando
+                if (!isAdding)
+                {
+                    bool actualizado = Sesion.Sesion.GetAdministradorActivo().ActualizarPrestamo(prestamo);
+                    if (actualizado)
+                    {
+                        MostrarExito("Préstamo actualizado exitosamente.");
+                        return;
+                    }
+                    else
+                    {
+                        MostrarError("No se pudo actualizar el préstamo.");
+                        return;
+                    }
+                }
 
                 // Validar que el cliente y el artículo existan
                 if (!Sesion.Sesion.GetAdministradorActivo().ExisteCliente(cliente))
@@ -136,25 +188,17 @@ namespace SisGestorEmpenio.vistas
                 //    MostrarError("EL CLIENTE NO POSEE EL ARTICULO: \n El cliente no posee el articulo con este identificador");
                 //    return;
                 //}
-            }
-            catch (OracleException ex) when (ex.Number == 1017)
-            {
-                MostrarError("No se pudo conectar a la base de datos.\nVerifique su conexión o comuníquese con soporte técnico.");
-                return;
-            }
-            catch (OracleException ex)
-            {
-                MostrarError($"Error al validar en base de datos:\n{ex.Message}");
-                return;
-            }
-
-            try
-            {
+            
                 bool exito = Sesion.Sesion.GetAdministradorActivo().RegistrarPrestamo(prestamo);
                 if (exito)
                     MostrarExito("Préstamo registrado exitosamente.");
                 else
                     MostrarError("Error desconocido: No se pudo registrar el préstamo.");
+            }
+            catch (OracleException ex) when (ex.Number == 1017)
+            {
+                MostrarError("No se pudo conectar a la base de datos.\nVerifique su conexión o comuníquese con soporte técnico.");
+                return;
             }
             catch (OracleException ex)
             {
@@ -164,6 +208,9 @@ namespace SisGestorEmpenio.vistas
             {
                 MostrarError("Error inesperado:\n" + ex.Message);
             }
+
+            
+            
         }
 
         private void MostrarError(string mensaje)

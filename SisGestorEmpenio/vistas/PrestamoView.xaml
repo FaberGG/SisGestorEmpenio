@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SisGestorEmpenio.vistas.RegistrarPrestamo"
+﻿<UserControl x:Class="SisGestorEmpenio.vistas.PrestamoView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -119,7 +119,7 @@
                     </Style>
                 </Border.Style>
 
-                <TextBlock Text="GUARDAR AQUÍ"
+                <TextBlock x:Name="btnLabel" Text="GUARDAR AQUÍ"
                FontWeight="Bold"
                FontStyle="Italic"
                FontSize="16"

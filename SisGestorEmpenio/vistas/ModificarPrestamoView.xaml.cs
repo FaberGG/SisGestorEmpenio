@@ -48,12 +48,12 @@ namespace SisGestorEmpenio.vistas
                 case 2:
                     Tab2.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#095858");
                     Label2.FontWeight = FontWeights.Bold;
-                    ContentArea.Content = new TextBlock { Text = "Contenido de Opción 2" };
+                    ContentArea.Content = new ArticuloView(prestamo.GetArticulo());
                     break;
                 case 3:
                     Tab3.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#095858");
                     Label3.FontWeight = FontWeights.Bold;
-                    ContentArea.Content = new TextBlock { Text = "Contenido de Opción 3" };
+                    ContentArea.Content = new PrestamoView(prestamo);
                     break;
             }
         }
