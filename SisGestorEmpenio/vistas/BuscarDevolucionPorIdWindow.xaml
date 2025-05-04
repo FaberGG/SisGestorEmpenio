@@ -5,10 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Buscar Devolución"
-        Height="200" Width="530"
         WindowStartupLocation="CenterScreen"
         WindowStyle="SingleBorderWindow"
-        Background="White">
+        Background="White"
+        SizeToContent="WidthAndHeight"
+        MinWidth="550"
+        MinHeight="260">
     <Border Background="White" Padding="20">
         <StackPanel VerticalAlignment="Center">
             <TextBlock Text="Ingrese los datos de la devolución a modificar"
@@ -70,3 +72,4 @@
         </StackPanel>
     </Border>
 </Window>
+
