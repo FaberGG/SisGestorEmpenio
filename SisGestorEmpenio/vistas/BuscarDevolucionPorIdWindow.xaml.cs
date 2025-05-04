@@ -8,58 +8,55 @@ using System.Windows.Input;
 
 namespace SisGestorEmpenio.vistas
 {
-    /// <summary>
-    /// Lógica de interacción para BuscarDevolucionPorIdWindow.xaml
-    /// </summary>
     public partial class BuscarDevolucionPorIdWindow : Window
     {
-        // Propiedad para almacenar la devolución encontrada
+        // Propiedad para exponer la devolución seleccionada al exterior
         public Devolucion DevolucionSeleccionada { get; private set; }
 
         public BuscarDevolucionPorIdWindow()
         {
             InitializeComponent();
 
-            // Máximos de caracteres
+            // Máximo de caracteres para los TextBox
             txtClienteId.MaxLength = 10;
             txtArticuloId.MaxLength = 10;
 
-            // Validaciones automáticas con LostFocus
-            txtClienteId.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtClienteId, lblIdCliente, "identificación del cliente");
-            txtArticuloId.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtArticuloId, lblIdArticulo, "identificador del artículo");
+            // Validaciones automáticas al perder foco
+            txtClienteId.LostFocus += (s, e) =>
+                ValidacionHelper.ValidarEntero(txtClienteId, lblIdCliente, "identificación del cliente");
+            txtArticuloId.LostFocus += (s, e) =>
+                ValidacionHelper.ValidarEntero(txtArticuloId, lblIdArticulo, "identificador del artículo");
 
-            // Prevención de caracteres inválidos mientras digita
+            // Prevenir caracteres no numéricos
             txtClienteId.PreviewTextInput += SoloNumeros_Preview;
             txtArticuloId.PreviewTextInput += SoloNumeros_Preview;
         }
 
-        // Sólo dígitos
+        // Solo permite dígitos
         private void SoloNumeros_Preview(object sender, TextCompositionEventArgs e)
         {
             e.Handled = !int.TryParse(e.Text, out _);
         }
 
+        // Evento click del botón Buscar
         private void btnBuscar_Click(object sender, MouseButtonEventArgs e)
         {
-            // Validar ambos campos
-            bool ok =
-                ValidacionHelper.ValidarEntero(txtClienteId, lblIdCliente, "Identificación del cliente") &
-                ValidacionHelper.ValidarEntero(txtArticuloId, lblIdArticulo, "Identificador del artículo");
+            bool valido =
+                ValidacionHelper.ValidarEntero(txtClienteId, lblIdCliente, "identificación del cliente") &
+                ValidacionHelper.ValidarEntero(txtArticuloId, lblIdArticulo, "identificador del artículo");
 
-            if (!ok)
+            if (!valido)
             {
                 MostrarError("Corrige los campos resaltados.");
                 return;
             }
 
-            // Parseo seguro
             int clienteId = int.Parse(txtClienteId.Text.Trim());
             int articuloId = int.Parse(txtArticuloId.Text.Trim());
 
             var admin = Sesion.Sesion.GetAdministradorActivo();
             try
             {
-                // Buscar la devolución
                 var dev = admin.BuscarDevolucion(clienteId, articuloId);
                 if (dev == null)
                 {
@@ -80,11 +77,7 @@ namespace SisGestorEmpenio.vistas
             }
         }
 
-        private void btnCancelar_Click(object sender, MouseButtonEventArgs e)
-        {
-            DialogResult = false;
-        }
-
+        // Muestra un cuadro de diálogo de error
         private void MostrarError(string mensaje)
         {
             new MensajeErrorOk

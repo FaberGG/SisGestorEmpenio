@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Buscar Devolución"
-        Height="236" Width="530"
+        Height="200" Width="530"
         WindowStartupLocation="CenterScreen"
         WindowStyle="SingleBorderWindow"
         Background="White">
@@ -14,8 +14,9 @@
             <TextBlock Text="Ingrese los datos de la devolución a modificar"
                        FontSize="16" FontWeight="Bold"
                        TextAlignment="Center" Margin="0,0,0,20"/>
+
             <!-- Contenedor: ID Cliente - ID Artículo -->
-            <Grid MinHeight="46" Margin="0">
+            <Grid MinHeight="46">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -50,9 +51,8 @@
                 </StackPanel>
             </Grid>
 
-            <!-- Botones -->
+            <!-- Botón Buscar al centro -->
             <StackPanel Margin="0,30,0,0"
-                        Orientation="Horizontal"
                         HorizontalAlignment="Center">
                 <Border CornerRadius="13"
                         Width="126" Height="30"
@@ -66,21 +66,7 @@
                                HorizontalAlignment="Center"
                                FontWeight="SemiBold"/>
                 </Border>
-                <Border CornerRadius="13"
-                        Width="126" Height="30"
-                        Background="#D9534F"
-                        Margin="20,0,0,0"
-                        MouseLeftButtonDown="btnCancelar_Click"
-                        Cursor="Hand">
-                    <TextBlock Text="Cancelar"
-                               FontSize="15"
-                               Foreground="White"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Center"
-                               FontWeight="SemiBold"/>
-                </Border>
             </StackPanel>
         </StackPanel>
     </Border>
 </Window>
-
