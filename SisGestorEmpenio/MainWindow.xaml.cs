@@ -178,6 +178,24 @@ namespace SisGestorEmpenio
             MainContent.Content = new RegistrarDevolucion();
         }
 
+        // Modificar Devolución
+        private void GoToModificarDevolucion(object sender, MouseButtonEventArgs e)
+        {
+            // Resalta la opción en el menú
+            SeleccionarOpcion(TxtModificarDevolucion);
+
+            // Abre el diálogo de búsqueda
+            var buscarWin = new BuscarDevolucionPorIdWindow();
+            bool? resultado = buscarWin.ShowDialog();
+            if (resultado != true || buscarWin.DevolucionSeleccionada == null)
+                return;
+
+            // Carga el UserControl de modificación
+            ActualizarEncabezado("Modificar Devolución");
+            MainContent.Content = new ModificarDevolucion(buscarWin.DevolucionSeleccionada);
+        }
+
+
         private void ToggleGestPrestamo_Click(object sender, MouseButtonEventArgs e)
         {
             bool estaVisible = OpcionesPrestamos.Visibility == Visibility.Visible;
