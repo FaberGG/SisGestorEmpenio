@@ -176,7 +176,7 @@ namespace SisGestorEmpenio
             SeleccionarOpcion(TxtRegistrarDevolucion);
             ActualizarEncabezado("Registrar Devolución");
             // Antes: new RegistrarDevolucion()
-            MainContent.Content = new DevolucionForm();    // ← Aquí instanciamos el nuevo control en modo “crear”
+            MainContent.Content = new DevolucionView();    // ← Aquí instanciamos el nuevo control en modo “crear”
         }
 
         private void GoToModificarDevolucion(object sender, MouseButtonEventArgs e)
@@ -190,7 +190,7 @@ namespace SisGestorEmpenio
 
             ActualizarEncabezado("Modificar Devolución");
             // Antes: new ModificarDevolucion(buscarWin.DevolucionSeleccionada)
-            MainContent.Content = new DevolucionForm(buscarWin.DevolucionSeleccionada);  // ← Aquí en modo “editar”
+            MainContent.Content = new DevolucionView(buscarWin.DevolucionSeleccionada);  // ← Aquí en modo “editar”
         }
 
 

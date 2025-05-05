@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace SisGestorEmpenio.vistas
 {
-    public partial class DevolucionForm : UserControl
+    public partial class DevolucionView : UserControl
     {
         private readonly bool _isEditMode;
         private readonly Devolucion _original;
@@ -16,12 +16,12 @@ namespace SisGestorEmpenio.vistas
         /// <summary>
         /// Constructor para modo “crear”.
         /// </summary>
-        public DevolucionForm() : this(null) { }
+        public DevolucionView() : this(null) { }
 
         /// <summary>
         /// Si pasas una devolución existente, entra en modo “editar”.
         /// </summary>
-        public DevolucionForm(Devolucion devolucion)
+        public DevolucionView(Devolucion devolucion)
         {
             InitializeComponent();
 
