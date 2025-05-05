@@ -1,0 +1,81 @@
+﻿<UserControl x:Class="SisGestorEmpenio.vistas.DevolucionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             HorizontalAlignment="Stretch"
+             FontSize="13"
+             FontWeight="SemiBold"
+             FontFamily="Arimo">
+    <StackPanel x:Name="Root"
+              VerticalAlignment="Top"
+              Background="White"
+              HorizontalAlignment="Stretch"
+              MinWidth="440"
+              Margin="10">
+        <!-- IDs -->
+        <Grid MinHeight="46" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Cliente -->
+            <StackPanel Grid.Column="0" Margin="0,0,25,0">
+                <TextBlock x:Name="lblIdCliente" Text="Identificación del cliente" Margin="7,0,0,2"/>
+                <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28">
+                    <TextBox x:Name="txtIdCliente"
+                   Background="Transparent"
+                   BorderThickness="0"
+                   Padding="6,0"
+                   VerticalContentAlignment="Center"
+                   MaxLength="16"/>
+                </Border>
+            </StackPanel>
+
+            <!-- Artículo -->
+            <StackPanel Grid.Column="1">
+                <TextBlock x:Name="lblIdArticulo" Text="Identificador del artículo" Margin="7,0,0,2"/>
+                <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28">
+                    <TextBox x:Name="txtIdArticulo"
+                   Background="Transparent"
+                   BorderThickness="0"
+                   Padding="6,0"
+                   VerticalContentAlignment="Center"
+                   MaxLength="10"/>
+                </Border>
+            </StackPanel>
+        </Grid>
+
+        <!-- Monto Total -->
+        <StackPanel Margin="0,0,0,20">
+            <TextBlock x:Name="lblMontoTotal" Text="Monto Total" Margin="7,0,0,2"/>
+            <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28" Width="300">
+                <TextBox x:Name="txtMontoTotal"
+                 Background="Transparent"
+                 BorderThickness="0"
+                 Padding="6,0"
+                 VerticalContentAlignment="Center"
+                 MaxLength="15"/>
+            </Border>
+        </StackPanel>
+
+        <!-- Botón única acción -->
+        <Border x:Name="btnAction"
+            CornerRadius="8"
+            Cursor="Hand"
+            Background="#3A7575"
+            Padding="10"
+            MouseLeftButtonUp="Action_Click">
+            <TextBlock x:Name="lblAction"
+                 Text="GUARDAR"
+                 FontWeight="Bold"
+                 FontStyle="Italic"
+                 FontSize="16"
+                 Foreground="White"
+                 HorizontalAlignment="Center"/>
+        </Border>
+    </StackPanel>
+</UserControl>
+

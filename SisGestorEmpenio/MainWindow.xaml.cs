@@ -175,8 +175,24 @@ namespace SisGestorEmpenio
         {
             SeleccionarOpcion(TxtRegistrarDevolucion);
             ActualizarEncabezado("Registrar Devolución");
-            MainContent.Content = new RegistrarDevolucion();
+            // Antes: new RegistrarDevolucion()
+            MainContent.Content = new DevolucionView();    // ← Aquí instanciamos el nuevo control en modo “crear”
         }
+
+        private void GoToModificarDevolucion(object sender, MouseButtonEventArgs e)
+        {
+            SeleccionarOpcion(TxtModificarDevolucion);
+
+            var buscarWin = new BuscarDevolucionPorIdWindow();
+            bool? resultado = buscarWin.ShowDialog();
+            if (resultado != true || buscarWin.DevolucionSeleccionada == null)
+                return;
+
+            ActualizarEncabezado("Modificar Devolución");
+            // Antes: new ModificarDevolucion(buscarWin.DevolucionSeleccionada)
+            MainContent.Content = new DevolucionView(buscarWin.DevolucionSeleccionada);  // ← Aquí en modo “editar”
+        }
+
 
         private void ToggleGestPrestamo_Click(object sender, MouseButtonEventArgs e)
         {
