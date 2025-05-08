@@ -215,5 +215,23 @@ namespace SisGestorEmpenio
             //Rota la flecha
             ArticuloFlechaTransform.Angle = estaVisible ? 90 : -90;
         }
+
+        private void GoToModificarArticulo(object sender, MouseButtonEventArgs e)
+        {
+            var buscarArticulo = new BuscarArticuloPorId();
+            bool? resultado = buscarArticulo.ShowDialog();
+
+            if (resultado == true)
+            {
+                SeleccionarOpcion(TxtModificarArticulo);
+                ActualizarEncabezado("Modificar Artículo");
+                var articulo = buscarArticulo.Articulo;
+                if (articulo != null)
+                {
+                    MainContent.Content = new ArticuloView(articulo);
+                }
+            }
+        }
+
     }
 }
