@@ -1,0 +1,75 @@
+﻿<Window x:Class="SisGestorEmpenio.vistas.BuscarDevolucionPorIdWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Buscar Devolución"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="SingleBorderWindow"
+        Background="White"
+        SizeToContent="WidthAndHeight"
+        MinWidth="550"
+        MinHeight="260">
+    <Border Background="White" Padding="20">
+        <StackPanel VerticalAlignment="Center">
+            <TextBlock Text="Ingrese los datos de la devolución a modificar"
+                       FontSize="16" FontWeight="Bold"
+                       TextAlignment="Center" Margin="0,0,0,20"/>
+
+            <!-- Contenedor: ID Cliente - ID Artículo -->
+            <Grid MinHeight="46">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- ID Cliente -->
+                <StackPanel Grid.Column="0" Margin="0,0,25,0">
+                    <TextBlock x:Name="lblIdCliente"
+                               Text="Identificación del cliente"
+                               Margin="7,0,0,2"/>
+                    <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28">
+                        <TextBox x:Name="txtClienteId"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 Padding="6,0"
+                                 VerticalContentAlignment="Center"/>
+                    </Border>
+                </StackPanel>
+
+                <!-- ID Artículo -->
+                <StackPanel Grid.Column="1">
+                    <TextBlock x:Name="lblIdArticulo"
+                               Text="Identificador del artículo"
+                               Margin="7,0,0,2"/>
+                    <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28">
+                        <TextBox x:Name="txtArticuloId"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 Padding="6,0"
+                                 VerticalContentAlignment="Center"/>
+                    </Border>
+                </StackPanel>
+            </Grid>
+
+            <!-- Botón Buscar al centro -->
+            <StackPanel Margin="0,30,0,0"
+                        HorizontalAlignment="Center">
+                <Border CornerRadius="13"
+                        Width="126" Height="30"
+                        Background="#3A7575"
+                        MouseLeftButtonDown="btnBuscar_Click"
+                        Cursor="Hand">
+                    <TextBlock Text="Buscar"
+                               FontSize="15"
+                               Foreground="White"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               FontWeight="SemiBold"/>
+                </Border>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Window>
+

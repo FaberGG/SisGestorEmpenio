@@ -75,8 +75,8 @@
                    Foreground="#83C4C4"
                            />
 
-                
-                
+
+
                 <!--DESPLEGABLE PARA PRESTAMOS-->
                 <!-- "Botón" principal con estilo de Border -->
                 <Border Width="230" x:Name="PrestamoBotonPrincipal"
@@ -88,7 +88,7 @@
                         
                     MouseLeftButtonUp="ToggleGestPrestamo_Click"
                     Cursor="Hand">
-                    
+
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -133,7 +133,7 @@
                 </Border>
 
                 <!-- Contenedor oculto de sub-opciones -->
-                <StackPanel x:Name="OpcionesPrestamos" Visibility="Visible">
+                <StackPanel x:Name="OpcionesPrestamos" Visibility="Collapsed">
                     <!-- Sub-opciones con mismo estilo -->
 
 
@@ -277,12 +277,10 @@
 
                         <!-- Icono derecho -->
                         <Border Width="22" Height="22" Background="Transparent" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
-                               <Image x:Name="DevolucionIconoFlecha"
+                            <Image x:Name="DevolucionIconoFlecha"
                                Source="pack://application:,,,/SisGestorEmpenio;component/resources/chevron_right_22.png" 
                                HorizontalAlignment="Center" 
-                               VerticalAlignment="Top" 
-                               Width="22" 
-                               Height="22">
+                               Width="22" Height="22" VerticalAlignment="Top">
                                 <Image.RenderTransform>
                                     <RotateTransform x:Name="DevolucionFlechaTransform" Angle="90" CenterX="11" CenterY="11"/>
                                 </Image.RenderTransform>
@@ -292,7 +290,7 @@
                 </Border>
 
                 <!-- Contenedor oculto de sub-opciones -->
-                <StackPanel x:Name="OpcionesDevoluciones" Visibility="Collapsed">
+                <StackPanel x:Name="OpcionesDevoluciones" Visibility="Visible">
                     <!-- Sub-opciones con mismo estilo -->
 
 
@@ -324,29 +322,34 @@
                     </Border>
 
 
-                    <!--MODIFICAR DEVOLUCION-->
-                    <Border Width="230"
-                        Height="28"
-                        Margin="0,6,0,0"
-                        Padding="5,0"
-                        CornerRadius="8"
-                        Cursor="Hand">
+                    <!-- MODIFICAR DEVOLUCIÓN -->
+                   <Border x:Name="BtnModificarDevolucion"
+                    Width="230"
+                    Height="28"
+                    Margin="0,6,0,0"
+                    Padding="5,0"
+                    CornerRadius="8"
+                    Cursor="Hand"
+                    MouseLeftButtonUp="GoToModificarDevolucion">    
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"/>
-                            <TextBlock Grid.Column="1"
-                               Text="Modifica una devolucion"
-                               FontSize="12"
-                               FontWeight="DemiBold"
-                               Margin="3,0,0,0" 
-                               VerticalAlignment="Center"
-                               Foreground="#83C4C4"/>
+                            <Border Width="24" Height="24"
+                        Background="Transparent"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TxtModificarDevolucion"
+                           Grid.Column="1"
+                           Text="Modifica una devolución"
+                           FontSize="12"
+                           FontWeight="DemiBold"
+                           Margin="3,0,0,0"
+                           VerticalAlignment="Center"
+                           Foreground="#83C4C4"/>   
                         </Grid>
                     </Border>
-
                 </StackPanel>
 
                 <!--GESTION INVENTARIO - ARTICULOS-->
@@ -438,28 +441,32 @@
                     </Border>
 
 
-                    <!--MODIFICAR ARTICULO-->
+                    <!-- MODIFICAR ARTICULO -->
                     <Border Width="230"
-                        Height="28"
-                        Margin="0,6,0,0"
-                        Padding="5,0"
-                        CornerRadius="8"
-                        Cursor="Hand">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
+                    Height="28"
+                    Margin="0,6,0,0"
+                    Padding="5,0"
+                    CornerRadius="8"
+                    Cursor="Hand"
+                    MouseDown="GoToModificarArticulo">      
+
+                    <Grid>
+                         <Grid.ColumnDefinitions>
+                              <ColumnDefinition Width="Auto"/>
+                              <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"/>
-                            <TextBlock Grid.Column="1"
-                               Text="Modifica un articulo"
-                               FontSize="12"
-                               FontWeight="DemiBold"
-                               Margin="3,0,0,0" 
-                               VerticalAlignment="Center"
-                               Foreground="#83C4C4"/>
-                        </Grid>
-                    </Border>
+                            <TextBlock x:Name="TxtModificarArticulo" 
+                       Grid.Column="1"
+                       Text="Modifica un articulo"
+                       FontSize="12"
+                       FontWeight="DemiBold"
+                       Margin="3,0,0,0" 
+                       VerticalAlignment="Center"
+                       Foreground="#83C4C4"/>
+                     </Grid>
+                   </Border>
+
 
                 </StackPanel>
             </StackPanel>
@@ -503,7 +510,7 @@
 
                         <!-- Título -->
                         <Border Height="29" Margin="0,28,0,0" Background="Transparent">
-                        <TextBlock x:Name="TxtTitulo"
+                            <TextBlock x:Name="TxtTitulo"
                                 Text="Bienvenido administrador a J-LHYS"
                                 FontSize="24"
                                 FontWeight="Bold"

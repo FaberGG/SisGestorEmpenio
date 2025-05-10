@@ -122,4 +122,5 @@ namespace SisGestorEmpenio.vistas
             }.ShowDialog();
         }
     }
+   
 }

@@ -14,44 +14,44 @@
             <TextBlock Text="Ingrese los datos del prestamo a actualizar" 
                    FontSize="16" FontWeight="Bold" 
                    TextAlignment="Center" Margin="0,0,0,20"/>
-                <!-- Primer contenedor: ID Articulo - ID Cliente -->
-                <Grid MinHeight="46" Margin="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"  />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+            <!-- Primer contenedor: ID Articulo - ID Cliente -->
+            <Grid MinHeight="46" Margin="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"  />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-                    <!-- ID Cliente -->
-                    <StackPanel Grid.Column="0" Margin="0,0,25,0">
-                        <TextBlock x:Name="lblIdCliente" Text="Identificacion del cliente" Margin="7,0,0,2" HorizontalAlignment="Left"/>
-                        <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28">
-                                        <TextBox x:Name="txtIdCliente"
+                <!-- ID Cliente -->
+                <StackPanel Grid.Column="0" Margin="0,0,25,0">
+                    <TextBlock x:Name="lblIdCliente" Text="Identificacion del cliente" Margin="7,0,0,2" HorizontalAlignment="Left"/>
+                    <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28">
+                        <TextBox x:Name="txtIdCliente"
                                      Background="Transparent"
                                      BorderThickness="0"
                                      Padding="6,0"
                                      VerticalContentAlignment="Center"/>
-                        </Border>
-                    </StackPanel>
+                    </Border>
+                </StackPanel>
 
-                    <!-- Id Articulo -->
-                    <StackPanel Grid.Column="1">
-                        <TextBlock x:Name="lblIdArticulo" Text="Identificador del articulo " Margin="7,0,0,2" HorizontalAlignment="Left"/>
-                        <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28" >
-                            <TextBox x:Name="txtIdArticulo"
+                <!-- Id Articulo -->
+                <StackPanel Grid.Column="1">
+                    <TextBlock x:Name="lblIdArticulo" Text="Identificador del articulo " Margin="7,0,0,2" HorizontalAlignment="Left"/>
+                    <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28" >
+                        <TextBox x:Name="txtIdArticulo"
                                  Background="Transparent"
                                  BorderThickness="0"
                                  Padding="6,0"
                                  VerticalContentAlignment="Center"/>
-                        </Border>
-                    </StackPanel>
-                </Grid>
+                    </Border>
+                </StackPanel>
+            </Grid>
 
             <StackPanel Margin="0,30,0,0" Orientation="Horizontal" HorizontalAlignment="Center" >
                 <Border CornerRadius="13" Width="126" Height="30"
                         Background="#3A7575"
                         MouseLeftButtonDown="btnBuscar_Click"
                         Cursor="Hand">
-                                    <TextBlock Text="Buscar"
+                    <TextBlock Text="Buscar"
                        FontSize="15"
                        Foreground="White"
                        VerticalAlignment="Center" 
@@ -59,7 +59,7 @@
                        FontWeight="SemiBold"/>
                 </Border>
 
-               
+
             </StackPanel>
         </StackPanel>
     </Border>
