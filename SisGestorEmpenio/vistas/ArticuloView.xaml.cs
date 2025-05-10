@@ -69,7 +69,7 @@ namespace SisGestorEmpenio.vistas
             e.Handled = !Regex.IsMatch(e.Text, @"^\d$");
         }
 
-        
+
 
         // Valida que el estado esté entre los permitidos
         private bool ValidarEstado()
@@ -81,11 +81,11 @@ namespace SisGestorEmpenio.vistas
                 lblEstado.Foreground = Brushes.Red;
                 return false;
             }
-            
+
             lblEstado.Text = "Estado";
             lblEstado.Foreground = Brushes.Black;
             return true;
-            
+
         }
 
         private void Continuar_Click(object sender, RoutedEventArgs e)
@@ -115,7 +115,6 @@ namespace SisGestorEmpenio.vistas
 
             try
             {
-                // Si no es un nuevo artículo, actualizar el artículo existente
                 if (!isAdding)
                 {
                     // Actualizar los valores del artículo original
@@ -128,7 +127,7 @@ namespace SisGestorEmpenio.vistas
                     if (actualizado)
                     {
                         MostrarMensaje("Artículo actualizado exitosamente.", "Éxito");
-                        RegistroArticuloCompletado?.Invoke(this, art);
+                        RegistroArticuloCompletado?.Invoke(this, this.articulo);
                     }
                     else
                     {
@@ -136,6 +135,7 @@ namespace SisGestorEmpenio.vistas
                     }
                     return;
                 }
+
 
                 //validar que el articulo no exista
                 if (Sesion.Sesion.GetAdministradorActivo().ExisteArticulo(art))
@@ -168,12 +168,7 @@ namespace SisGestorEmpenio.vistas
             {
                 MostrarMensaje($"Ocurrió un error inesperado:\n{ex.Message}", "Error");
             }
-        
-
-
-            
         }
-            
 
         private void MostrarMensaje(string mensaje, string titulo)
         {
