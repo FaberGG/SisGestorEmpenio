@@ -117,12 +117,13 @@ namespace SisGestorEmpenio.vistas
             {
                 if (!isAdding)
                 {
-                    // Actualizar los campos del artículo existente antes de enviarlo a la base de datos
-                    articulo.SetDescripcion(txtDescripcion.Text.Trim());
-                    articulo.SetEstadoArticulo(cbEstado.Text.Trim().ToLower());
-                    articulo.SetValorEstimado(double.Parse(txtValor.Text.Trim()));
+                    // Actualizar los valores del artículo original
+                    this.articulo.SetDescripcion(txtDescripcion.Text.Trim());
+                    this.articulo.SetValorEstimado(double.Parse(txtValor.Text.Trim()));
+                    this.articulo.SetEstadoArticulo(cbEstado.Text.Trim().ToLower());
 
                     bool actualizado = Sesion.Sesion.GetAdministradorActivo().ActualizarArticulo(this.articulo);
+
                     if (actualizado)
                     {
                         MostrarMensaje("Artículo actualizado exitosamente.", "Éxito");
@@ -177,6 +178,15 @@ namespace SisGestorEmpenio.vistas
                 Titulo = titulo,
                 TextoBotonIzquierdo = "Entendido"
             }.ShowDialog();
+        }
+        public int? ArticuloId
+        {
+            get
+            {
+                if (int.TryParse(txtID.Text, out var id))
+                    return id;
+                return null;
+            }
         }
     }
 }
