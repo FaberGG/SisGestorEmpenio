@@ -23,9 +23,9 @@ namespace SisGestorEmpenio.vistas
 
             // Validaciones automáticas al perder foco
             txtClienteId.LostFocus += (s, e) =>
-                ValidacionHelper.ValidarEntero(txtClienteId, lblIdCliente, "identificación del cliente");
+                ValidacionHelper.ValidarEntero(txtClienteId, lblIdCliente, "identificación del cliente*");
             txtArticuloId.LostFocus += (s, e) =>
-                ValidacionHelper.ValidarEntero(txtArticuloId, lblIdArticulo, "identificador del artículo");
+                ValidacionHelper.ValidarEntero(txtArticuloId, lblIdArticulo, "identificador del artículo*");
 
             // Prevenir caracteres no numéricos
             txtClienteId.PreviewTextInput += SoloNumeros_Preview;
@@ -42,8 +42,8 @@ namespace SisGestorEmpenio.vistas
         private void btnBuscar_Click(object sender, MouseButtonEventArgs e)
         {
             bool valido =
-                ValidacionHelper.ValidarEntero(txtClienteId, lblIdCliente, "identificación del cliente") &
-                ValidacionHelper.ValidarEntero(txtArticuloId, lblIdArticulo, "identificador del artículo");
+                ValidacionHelper.ValidarEntero(txtClienteId, lblIdCliente, "identificación del cliente*") &
+                ValidacionHelper.ValidarEntero(txtArticuloId, lblIdArticulo, "identificador del artículo*");
 
             if (!valido)
             {

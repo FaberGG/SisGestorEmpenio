@@ -35,11 +35,11 @@ namespace SisGestorEmpenio.vistas
 
             // Validaciones automáticas
             txtIdCliente.LostFocus += (s, e) =>
-                ValidacionHelper.ValidarEntero(txtIdCliente, lblIdCliente, "identificación del cliente");
+                ValidacionHelper.ValidarEntero(txtIdCliente, lblIdCliente, "identificación del cliente*");
             txtIdArticulo.LostFocus += (s, e) =>
-                ValidacionHelper.ValidarEntero(txtIdArticulo, lblIdArticulo, "identificador del artículo");
+                ValidacionHelper.ValidarEntero(txtIdArticulo, lblIdArticulo, "identificador del artículo*");
             txtMontoTotal.LostFocus += (s, e) =>
-                ValidacionHelper.ValidarDecimal(txtMontoTotal, lblMontoTotal, "monto total");
+                ValidacionHelper.ValidarDecimal(txtMontoTotal, lblMontoTotal, "monto total*");
 
             // Sólo números al tipear
             txtIdCliente.PreviewTextInput += SoloNumeros_Preview;

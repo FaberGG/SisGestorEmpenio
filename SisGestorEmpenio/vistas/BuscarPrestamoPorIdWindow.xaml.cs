@@ -38,8 +38,8 @@ namespace SisGestorEmpenio.vistas
 
 
             // 2) Validaciones automáticas con LostFocus
-            txtIdCliente.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtIdCliente, lblIdCliente, "identificacion del cliente");
-            txtIdArticulo.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtIdArticulo, lblIdArticulo, "Identificador del artículo");
+            txtIdCliente.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtIdCliente, lblIdCliente, "identificacion del cliente*");
+            txtIdArticulo.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtIdArticulo, lblIdArticulo, "Identificador del artículo*");
 
             // 3) Prevención de caracteres inválidos mientras digita
             txtIdCliente.PreviewTextInput += SoloNumeros_Preview;
@@ -55,8 +55,8 @@ namespace SisGestorEmpenio.vistas
         {
 
             bool ok =
-                ValidacionHelper.ValidarEntero(txtIdCliente, lblIdCliente, "Identifiacion del cliente") &
-                ValidacionHelper.ValidarEntero(txtIdArticulo, lblIdArticulo, "Identificador del artículo");
+                ValidacionHelper.ValidarEntero(txtIdCliente, lblIdCliente, "Identifiacion del cliente*") &
+                ValidacionHelper.ValidarEntero(txtIdArticulo, lblIdArticulo, "Identificador del artículo*");
             if (!ok)
             {
                 MostrarError("Corrige los campos resaltados.");
