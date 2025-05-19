@@ -98,13 +98,18 @@ namespace SisGestorEmpenio.vistas
             txtArticuloId.MaxLength = 10;
             txtTasaInteres.MaxLength = 10;
 
-            
+            // Fecha mínima permitida: hoy
+            FechaFinDatePicker.DisplayDateStart = DateTime.Today;
+            //además mostrar en gris (no seleccionables) todas las fechas anteriores
+            FechaFinDatePicker.BlackoutDates.Add(
+                new CalendarDateRange(DateTime.MinValue, DateTime.Today.AddDays(-1))
+            );
 
             // Validaciones LostFocus
-            txtClienteId.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtClienteId, lblClienteId, "Identificacion del Cliente");
-            txtArticuloId.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtArticuloId, lblArticuloId, "Identificador del Articulo");
-            txtTasaInteres.LostFocus += (s, e) => ValidacionHelper.ValidarPorcentaje(txtTasaInteres, lblTasaInteres, "Tasa de Interés");
-            FechaFinDatePicker.LostFocus += (s, e) =>  ValidacionHelper.ValidarFechaFin(FechaFinDatePicker, lblFechaFin, "Fecha de Finalizacion");
+            txtClienteId.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtClienteId, lblClienteId, "Identificacion del Cliente*");
+            txtArticuloId.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtArticuloId, lblArticuloId, "Identificador del Articulo*");
+            txtTasaInteres.LostFocus += (s, e) => ValidacionHelper.ValidarPorcentaje(txtTasaInteres, lblTasaInteres, "Tasa de Interés*");
+            FechaFinDatePicker.LostFocus += (s, e) =>  ValidacionHelper.ValidarFechaFin(FechaFinDatePicker, lblFechaFin, "Fecha de Finalizacion*");
         }
 
         private void SoloNumeros_Preview(object sender, TextCompositionEventArgs e)
@@ -118,10 +123,10 @@ namespace SisGestorEmpenio.vistas
             bool valido = true;
 
             // Validar campos obligatorios y formatos
-            valido &= ValidacionHelper.ValidarEntero(txtClienteId, lblClienteId, "Identificacion del Cliente");
-            valido &= ValidacionHelper.ValidarEntero(txtArticuloId, lblArticuloId, "Identificador Artículo");
-            valido &= ValidacionHelper.ValidarPorcentaje(txtTasaInteres, lblTasaInteres, "Tasa de Interés");
-            valido &= ValidacionHelper.ValidarFechaFin(FechaFinDatePicker, lblFechaFin, "Fecha de Finalizacion");
+            valido &= ValidacionHelper.ValidarEntero(txtClienteId, lblClienteId, "Identificacion del Cliente*");
+            valido &= ValidacionHelper.ValidarEntero(txtArticuloId, lblArticuloId, "Identificador Artículo*");
+            valido &= ValidacionHelper.ValidarPorcentaje(txtTasaInteres, lblTasaInteres, "Tasa de Interés*");
+            valido &= ValidacionHelper.ValidarFechaFin(FechaFinDatePicker, lblFechaFin, "Fecha de Finalizacion*");
 
 
             if (!valido)

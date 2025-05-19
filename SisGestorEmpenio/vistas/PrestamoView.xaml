@@ -25,7 +25,7 @@
 
             <!-- ID Cliente -->
             <StackPanel Grid.Column="0" Margin="0,0,25,0">
-                <TextBlock x:Name="lblClienteId" Text="Identificacion del Cliente" Margin="7,0,0,2" HorizontalAlignment="Left"/>
+                <TextBlock x:Name="lblClienteId" Margin="7,0,0,2" HorizontalAlignment="Left"><Run Text="Identificac"/><Run Language="es-co" Text="ió"/><Run Text="n del Cliente"/><Run Text="*"/></TextBlock>
                 <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28">
                     <TextBox x:Name="txtClienteId"
                      Background="Transparent"
@@ -37,7 +37,7 @@
 
             <!-- ID Articulo -->
             <StackPanel Grid.Column="1">
-                <TextBlock x:Name="lblArticuloId" Text="Identificador del Articulo" Margin="7,0,0,2" HorizontalAlignment="Left"/>
+                <TextBlock x:Name="lblArticuloId" Margin="7,0,0,2" HorizontalAlignment="Left"><Run Text="Identificador del Articulo"/><Run Language="es-co" Text="*"/></TextBlock>
                 <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28" >
                     <TextBox x:Name="txtArticuloId"
                      Background="Transparent"
@@ -57,7 +57,7 @@
 
             <!-- Fecha Fin -->
             <StackPanel Grid.Column="0" Margin="0,0,25,0">
-                <TextBlock x:Name="lblFechaFin" Text="Fecha de Finalizacion" Margin="7,0,0,2"/>
+                <TextBlock x:Name="lblFechaFin" Margin="7,0,0,2"><Run Text="Fecha de Finalizacion"/><Run Language="es-co" Text="*"/></TextBlock>
                 <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28" >
                     <DatePicker x:Name="FechaFinDatePicker"
                     Background="Transparent"
@@ -72,7 +72,7 @@
 
             <!-- TasaInteres -->
             <StackPanel Grid.Column="1">
-                <TextBlock x:Name="lblTasaInteres" Text="Tasa de Interés" Margin="7,0,0,2"/>
+                <TextBlock x:Name="lblTasaInteres" Margin="7,0,0,2"><Run Text="Tasa de Interés"/><Run Language="es-co" Text="*"/></TextBlock>
                 <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28" >
                     <TextBox x:Name="txtTasaInteres"
                  Background="Transparent"

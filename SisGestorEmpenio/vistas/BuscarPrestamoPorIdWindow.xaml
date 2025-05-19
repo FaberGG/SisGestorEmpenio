@@ -23,7 +23,7 @@
 
                 <!-- ID Cliente -->
                 <StackPanel Grid.Column="0" Margin="0,0,25,0">
-                    <TextBlock x:Name="lblIdCliente" Text="Identificacion del cliente" Margin="7,0,0,2" HorizontalAlignment="Left"/>
+                    <TextBlock x:Name="lblIdCliente" Margin="7,0,0,2" HorizontalAlignment="Left"><Run Text="Identificacion del cliente"/><Run Text=" *"/><Run Text=" "/></TextBlock>
                     <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28">
                         <TextBox x:Name="txtIdCliente"
                                      Background="Transparent"
@@ -35,7 +35,7 @@
 
                 <!-- Id Articulo -->
                 <StackPanel Grid.Column="1">
-                    <TextBlock x:Name="lblIdArticulo" Text="Identificador del articulo " Margin="7,0,0,2" HorizontalAlignment="Left"/>
+                    <TextBlock x:Name="lblIdArticulo" Text="Identificador del articulo *" Margin="7,0,0,2" HorizontalAlignment="Left"/>
                     <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28" >
                         <TextBox x:Name="txtIdArticulo"
                                  Background="Transparent"
