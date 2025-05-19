@@ -57,10 +57,10 @@ namespace SisGestorEmpenio.vistas
             txtID.PreviewTextInput += SoloNumeros_Preview;
 
             // Validaciones LostFocus
-            txtID.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtID, lblID, "Identificador único");
-            txtDescripcion.LostFocus += (s, e) => ValidacionHelper.ValidarLongitud(txtDescripcion, lblDescripcion, "Descripción", 5, 100);
+            txtID.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtID, lblID, "Identificador único*");
+            txtDescripcion.LostFocus += (s, e) => ValidacionHelper.ValidarLongitud(txtDescripcion, lblDescripcion, "Descripción*", 5, 100);
             cbEstado.LostFocus += (s, e) => ValidarEstado();
-            txtValor.LostFocus += (s, e) => ValidacionHelper.ValidarDecimal(txtValor, lblValor, "Valor Estimado");
+            txtValor.LostFocus += (s, e) => ValidacionHelper.ValidarDecimal(txtValor, lblValor, "Valor Estimado*");
         }
 
         // Sólo dígitos
@@ -82,7 +82,7 @@ namespace SisGestorEmpenio.vistas
                 return false;
             }
 
-            lblEstado.Text = "Estado";
+            lblEstado.Text = "Estado*";
             lblEstado.Foreground = Brushes.Black;
             return true;
 
@@ -93,10 +93,10 @@ namespace SisGestorEmpenio.vistas
             bool ok = true;
 
             // Validaciones inline
-            ok &= ValidacionHelper.ValidarEntero(txtID, lblID, "Identificador único");
-            ok &= ValidacionHelper.ValidarLongitud(txtDescripcion, lblDescripcion, "Descripción", 5, 100);
+            ok &= ValidacionHelper.ValidarEntero(txtID, lblID, "Identificador único*");
+            ok &= ValidacionHelper.ValidarLongitud(txtDescripcion, lblDescripcion, "Descripción*", 5, 100);
             ok &= ValidarEstado();
-            ok &= ValidacionHelper.ValidarDecimal(txtValor, lblValor, "Valor Estimado");
+            ok &= ValidacionHelper.ValidarDecimal(txtValor, lblValor, "Valor Estimado*");
 
             if (!ok)
 

@@ -133,7 +133,7 @@
                 </Border>
 
                 <!-- Contenedor oculto de sub-opciones -->
-                <StackPanel x:Name="OpcionesPrestamos" Visibility="Collapsed">
+                <StackPanel x:Name="OpcionesPrestamos" Visibility="Visible">
                     <!-- Sub-opciones con mismo estilo -->
 
 
@@ -290,7 +290,7 @@
                 </Border>
 
                 <!-- Contenedor oculto de sub-opciones -->
-                <StackPanel x:Name="OpcionesDevoluciones" Visibility="Visible">
+                <StackPanel x:Name="OpcionesDevoluciones" Visibility="Collapsed">
                     <!-- Sub-opciones con mismo estilo -->
 
 

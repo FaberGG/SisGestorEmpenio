@@ -25,6 +25,7 @@ namespace SisGestorEmpenio.vistas
         private Articulo articulo;
         private Prestamo prestamo;
         private bool isAdding = true;
+        private DateTime fechaInicio;
 
         public PrestamoView(Cliente cliente, Articulo articulo)
         {
@@ -98,13 +99,24 @@ namespace SisGestorEmpenio.vistas
             txtArticuloId.MaxLength = 10;
             txtTasaInteres.MaxLength = 10;
 
+            this.fechaInicio = DateTime.Today;
+            //si esta editando la fecha minima permitida es la creacion del prestamo
+            if (!isAdding)
+            {
+                this.fechaInicio = prestamo.GetFechaInicio();
+            }
             
+            FechaFinDatePicker.DisplayDateStart = this.fechaInicio;
+            //además mostrar en gris (no seleccionables) todas las fechas anteriores
+            FechaFinDatePicker.BlackoutDates.Add(
+                new CalendarDateRange(DateTime.MinValue, this.fechaInicio.AddDays(-1))
+            );
 
             // Validaciones LostFocus
-            txtClienteId.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtClienteId, lblClienteId, "Identificacion del Cliente");
-            txtArticuloId.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtArticuloId, lblArticuloId, "Identificador del Articulo");
-            txtTasaInteres.LostFocus += (s, e) => ValidacionHelper.ValidarPorcentaje(txtTasaInteres, lblTasaInteres, "Tasa de Interés");
-            FechaFinDatePicker.LostFocus += (s, e) =>  ValidacionHelper.ValidarFechaFin(FechaFinDatePicker, lblFechaFin, "Fecha de Finalizacion");
+            txtClienteId.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtClienteId, lblClienteId, "Identificacion del Cliente*");
+            txtArticuloId.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtArticuloId, lblArticuloId, "Identificador del Articulo*");
+            txtTasaInteres.LostFocus += (s, e) => ValidacionHelper.ValidarPorcentaje(txtTasaInteres, lblTasaInteres, "Tasa de Interés*");
+            FechaFinDatePicker.LostFocus += (s, e) =>  ValidacionHelper.ValidarFechaFin(FechaFinDatePicker, lblFechaFin, "Fecha de Finalizacion*", this.fechaInicio);
         }
 
         private void SoloNumeros_Preview(object sender, TextCompositionEventArgs e)
@@ -118,10 +130,10 @@ namespace SisGestorEmpenio.vistas
             bool valido = true;
 
             // Validar campos obligatorios y formatos
-            valido &= ValidacionHelper.ValidarEntero(txtClienteId, lblClienteId, "Identificacion del Cliente");
-            valido &= ValidacionHelper.ValidarEntero(txtArticuloId, lblArticuloId, "Identificador Artículo");
-            valido &= ValidacionHelper.ValidarPorcentaje(txtTasaInteres, lblTasaInteres, "Tasa de Interés");
-            valido &= ValidacionHelper.ValidarFechaFin(FechaFinDatePicker, lblFechaFin, "Fecha de Finalizacion");
+            valido &= ValidacionHelper.ValidarEntero(txtClienteId, lblClienteId, "Identificacion del Cliente*");
+            valido &= ValidacionHelper.ValidarEntero(txtArticuloId, lblArticuloId, "Identificador Artículo*");
+            valido &= ValidacionHelper.ValidarPorcentaje(txtTasaInteres, lblTasaInteres, "Tasa de Interés*");
+            valido &= ValidacionHelper.ValidarFechaFin(FechaFinDatePicker, lblFechaFin, "Fecha de Finalizacion*", this.fechaInicio);
 
 
             if (!valido)
