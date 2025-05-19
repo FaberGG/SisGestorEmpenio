@@ -14,9 +14,9 @@
 
             <!-- Contenedor: ID Articulo -->
             <StackPanel Margin="0,0,0,10">
-                <TextBlock Text="Identificador del artículo"
+                <TextBlock
                            Margin="7,0,0,2"
-                           HorizontalAlignment="Left"/>
+                           HorizontalAlignment="Left"><Run Text="Identificador del artículo"/><Run Language="es-es" Text=" *"/></TextBlock>
                 <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28">
                     <TextBox x:Name="txtIdArticulo"
                              Background="Transparent"

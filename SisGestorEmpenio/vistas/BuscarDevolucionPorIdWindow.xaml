@@ -27,8 +27,7 @@
                 <!-- ID Cliente -->
                 <StackPanel Grid.Column="0" Margin="0,0,25,0">
                     <TextBlock x:Name="lblIdCliente"
-                               Text="Identificación del cliente"
-                               Margin="7,0,0,2"/>
+                               Margin="7,0,0,2"><Run Text="Identificación del cliente"/><Run Language="es-es" Text="*"/></TextBlock>
                     <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28">
                         <TextBox x:Name="txtClienteId"
                                  Background="Transparent"
@@ -41,8 +40,7 @@
                 <!-- ID Artículo -->
                 <StackPanel Grid.Column="1">
                     <TextBlock x:Name="lblIdArticulo"
-                               Text="Identificador del artículo"
-                               Margin="7,0,0,2"/>
+                               Margin="7,0,0,2"><Run Text="Identificador del artículo"/><Run Language="es-es" Text="*"/></TextBlock>
                     <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28">
                         <TextBox x:Name="txtArticuloId"
                                  Background="Transparent"
