@@ -98,7 +98,12 @@ namespace SisGestorEmpenio.vistas
             txtArticuloId.MaxLength = 10;
             txtTasaInteres.MaxLength = 10;
 
-            
+            // Fecha mínima permitida: hoy
+            FechaFinDatePicker.DisplayDateStart = DateTime.Today;
+            //además mostrar en gris (no seleccionables) todas las fechas anteriores
+            FechaFinDatePicker.BlackoutDates.Add(
+                new CalendarDateRange(DateTime.MinValue, DateTime.Today.AddDays(-1))
+            );
 
             // Validaciones LostFocus
             txtClienteId.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtClienteId, lblClienteId, "Identificacion del Cliente*");
