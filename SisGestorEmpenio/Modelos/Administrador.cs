@@ -188,6 +188,12 @@ namespace SisGestorEmpenio.Modelos
         {
             contrasenia = nuevaContrasenia;
         }
+
+        public List<Prestamo> ObtenerTodosPrestamos()
+        {
+            var repo = new PrestamoRepository();
+            return repo.ObtenerTodos();
+        }
     }
 }
 

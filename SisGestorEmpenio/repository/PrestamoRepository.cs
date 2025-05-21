@@ -67,5 +67,32 @@ namespace SisGestorEmpenio.repository
             filasAfectadas = dt.ejecutarDML(consulta);
             return filasAfectadas > 0;
         }
+        // SisGestorEmpenio/repository/PrestamoRepository.cs
+        public List<Prestamo> ObtenerTodos()
+        {
+            var list = new List<Prestamo>();
+            string sql = "SELECT * FROM prestamo";
+            var ds = dt.ejecutarSelect(sql);
+            if (ds.Tables.Count == 0) return list;
+
+            var clienteRepo = new ClienteRepository();
+            var articuloRepo = new ArticuloRepository();
+
+            foreach (System.Data.DataRow row in ds.Tables[0].Rows)
+            {
+                var cli = clienteRepo.Buscar(Convert.ToInt32(row["numeroIdentidadCliente"]));
+                var art = articuloRepo.Buscar(Convert.ToInt32(row["idArticulo"]));
+                var estado = row["estadoPrestamo"].ToString();
+                var fi = DateTime.Parse(row["fechaInicio"].ToString());
+                var ff = DateTime.Parse(row["fechaFin"].ToString());
+                var tasa = Convert.ToDouble(row["tasaInteres"]);
+                var monto = Convert.ToDouble(row["montoTotal"]);
+
+                list.Add(new Prestamo(cli, art, estado, fi, ff, tasa, monto));
+            }
+
+            return list;
+        }
+
     }
 }
