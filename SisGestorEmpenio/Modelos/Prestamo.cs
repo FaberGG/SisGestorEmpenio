@@ -1,7 +1,9 @@
 ﻿using SisGestorEmpenio.repository;
 using System;
-using SisGestorEmpenio.Modelos;
-using SisGestorEmpenio.repository;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace SisGestorEmpenio.Modelos
 {
@@ -26,7 +28,6 @@ namespace SisGestorEmpenio.Modelos
             this.tasaInteres = tasaInteres;
         }
 
-       
         public Prestamo(Cliente cliente, Articulo articulo, string estado, DateTime fechaInicio, DateTime fechaFin, double tasaInteres, double montoTotal)
         {
             this.cliente = cliente;
@@ -55,72 +56,111 @@ namespace SisGestorEmpenio.Modelos
             return valorArticulo * (tasaInteres/100) * cantidadMeses;
         }
 
-        // Métodos originales...
- 
-        public double CalcularMontoTotal() { /* ... */ throw new NotImplementedException(); }
-        public bool ActualizarEstadoPrestamo(string nuevoEstado) { /* ... */ throw new NotImplementedException(); }
-        public DateTime GetFechaFin() => fechaFin;
-        public string MostrarDetalle() { /* ... */ throw new NotImplementedException(); }
-        public DateTime GetFechaInicio() => fechaInicio;
-        public void SetFechaInicio(DateTime value) => fechaInicio = value;
-        public double GetTasaInteres() => tasaInteres;
-        public double GetMontoTotal() => montoTotal;
-        public void SetMontoTotal(double value) => montoTotal = value;
-        public void SetTasaInteres(double value) => tasaInteres = value;
-        public string GetEstado() => estado;
-        public void SetEstado(string value) => estado = value;
-        public Cliente GetCliente() => cliente;
-        public void SetCliente(Cliente value) => cliente = value;
-        public Articulo GetArticulo() => articulo;
-        public void SetArticulo(Articulo value) => articulo = value;
-        public Devolucion GetDevolucion() => devolucion;
-        public void SetDevolucion(Devolucion value) => devolucion = value;
+        public double CalcularMontoTotal()
+        {
+            double interes = CalcularInteres();
+            double valorArticulo = articulo.GetValorEstimado();
+            montoTotal = valorArticulo + interes;
+            return montoTotal; // Devuelve el cálculo total
+        }
 
-        // === PROPIEDADES PÚBLICAS PARA BINDING EN WPF ===
+        public bool ActualizarEstadoPrestamo(string nuevoEstado)
+        {
+            if (!string.IsNullOrWhiteSpace(nuevoEstado))
+            {
+                PrestamoRepository prestamoRepository = new PrestamoRepository();
+                estado = nuevoEstado;
+                return prestamoRepository.ActualizarEstado(this);
+            }
+            return false;
+        }
 
-        /// <summary>
-        /// Identificador que usa el DataGrid para acciones (aquí usamos IdArticulo)
-        /// </summary>
-        public int IdPrestamo => ArticuloId;
+        
 
-        /// <summary>
-        /// ID del cliente
-        /// </summary>
-        public int ClienteId => cliente.GetId();
+        public DateTime GetFechaFin()
+        {
+           return fechaFin;
 
-        /// <summary>
-        /// Nombre completo del cliente
-        /// </summary>
-        public string ClienteNombre => $"{cliente.GetNombre()} {cliente.GetApellido()}";
+        }
 
-        /// <summary>
-        /// ID del artículo prestado
-        /// </summary>
-        public int ArticuloId => articulo.GetIdArticulo();
+        public string MostrarDetalle()
+        {
+            return $"Cliente: {cliente.GetApellido()}\nArtículo: {articulo.GetDescripcion()}\nMonto Total: {montoTotal:F2}\nEstado: {estado}\nFecha Vencimiento: {fechaFin.ToShortDateString()}";
+        }
 
-        /// <summary>
-        /// Descripción del artículo
-        /// </summary>
-        public string ArticuloNombre => articulo.GetDescripcion();
 
-        /// <summary>
-        /// Fecha de inicio del préstamo (formateada)
-        /// </summary>
-        public string FechaInicio => fechaInicio.ToString("dd/MM/yyyy");
+        //Get y set del préstamo 
 
-        /// <summary>
-        /// Fecha de vencimiento del préstamo (formateada)
-        /// </summary>
-        public string FechaFin => fechaFin.ToString("dd/MM/yyyy");
 
-        /// <summary>
-        /// Estado del préstamo (Activo/Inactivo)
-        /// </summary>
-        public string Estado => estado;
+        public DateTime GetFechaInicio()
+        {
+            return fechaInicio;
+        }
 
-        /// <summary>
-        /// Monto total calculado (puedes enlazar si lo requieres)
-        /// </summary>
-        public double MontoTotal => montoTotal;
+        public void SetFechaInicio(DateTime value)
+        {
+            fechaInicio = value;
+        }
+
+
+        public double GetTasaInteres()
+        {
+            return tasaInteres;
+        }
+
+        public double GetMontoTotal()
+        {
+            return montoTotal;
+        }
+
+        public void SetMontoTotal(double value)
+        {
+            montoTotal = value;
+        }
+        public void SetTasaInteres(double value)
+        {
+            tasaInteres = value;
+        }
+
+     
+        public string GetEstado()
+        {
+            return estado;
+        }
+
+        public void SetEstado(string value)
+        {
+            estado = value;
+        }
+
+        public Cliente GetCliente()
+        {
+            return cliente;
+        }
+
+        public void SetCliente(Cliente value)
+        {
+            cliente = value;
+        }
+
+        public Articulo GetArticulo()
+        {
+            return articulo;
+        }
+
+        public void SetArticulo(Articulo value)
+        {
+            articulo = value;
+        }
+
+        public Devolucion GetDevolucion()
+        {
+            return devolucion;
+        }
+
+        public void SetDevolucion(Devolucion value)
+        {
+            devolucion = value;
+        }
     }
 }

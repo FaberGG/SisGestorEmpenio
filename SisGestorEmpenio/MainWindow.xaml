@@ -199,8 +199,7 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="23*"/>
-                                <ColumnDefinition Width="75*"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"/>
                             <TextBlock Grid.Column="1"
@@ -209,38 +208,33 @@
                                Margin="3,0,0,0"
                                FontWeight="DemiBold"
                                VerticalAlignment="Center"
-                               Foreground="#83C4C4" Grid.ColumnSpan="2"/>
+                               Foreground="#83C4C4"/>
                         </Grid>
                     </Border>
 
 
-                    <!-- CONSULTA UN PRÉSTAMO -->
-                        <Border x:Name="BdConsultaPrestamo"
-                        Width="230"
+                    <!--CONSULTA UN PRESTAMO-->
+                    <Border Width="230"
                         Height="28"
                         Margin="0,6,0,0"
                         Padding="5,0"
                         CornerRadius="8"
-                        Cursor="Hand"
-                        MouseLeftButtonUp="GoToConsultarPrestamo">
-                        <Grid>  
+                        Cursor="Hand">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"/>
                             <TextBlock Grid.Column="1"
-                   x:Name="TxtConsultarPrestamo"
-                   Text="Consulta un préstamo"
-                   FontSize="12"
-                   Margin="3,0,0,0"
-                   VerticalAlignment="Center"
-                   FontWeight="DemiBold"
-                   Foreground="#83C4C4"/>
+                               Text="Consulta un préstamo"
+                               FontSize="12"
+                               Margin="3,0,0,0"
+                               VerticalAlignment="Center"
+                               FontWeight="DemiBold"
+                               Foreground="#83C4C4"/>
                         </Grid>
                     </Border>
-
-
 
                 </StackPanel>
 
@@ -329,14 +323,14 @@
 
 
                     <!-- MODIFICAR DEVOLUCIÓN -->
-                    <Border x:Name="BtnModificarDevolucion"
+                   <Border x:Name="BtnModificarDevolucion"
                     Width="230"
                     Height="28"
                     Margin="0,6,0,0"
                     Padding="5,0"
                     CornerRadius="8"
                     Cursor="Hand"
-                    MouseLeftButtonUp="GoToModificarDevolucion">
+                    MouseLeftButtonUp="GoToModificarDevolucion">    
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -353,7 +347,7 @@
                            FontWeight="DemiBold"
                            Margin="3,0,0,0"
                            VerticalAlignment="Center"
-                           Foreground="#83C4C4"/>
+                           Foreground="#83C4C4"/>   
                         </Grid>
                     </Border>
                 </StackPanel>
@@ -454,12 +448,12 @@
                     Padding="5,0"
                     CornerRadius="8"
                     Cursor="Hand"
-                    MouseDown="GoToModificarArticulo">
+                    MouseDown="GoToModificarArticulo">      
 
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
+                    <Grid>
+                         <Grid.ColumnDefinitions>
+                              <ColumnDefinition Width="Auto"/>
+                              <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"/>
                             <TextBlock x:Name="TxtModificarArticulo" 
@@ -470,8 +464,8 @@
                        Margin="3,0,0,0" 
                        VerticalAlignment="Center"
                        Foreground="#83C4C4"/>
-                        </Grid>
-                    </Border>
+                     </Grid>
+                   </Border>
 
 
                 </StackPanel>

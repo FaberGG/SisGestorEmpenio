@@ -19,18 +19,14 @@ namespace SisGestorEmpenio
     /// </summary>
     public partial class MainWindow : Window
     {
+        //para el menu
         private TextBlock textoSeleccionadoActual = null;
-        private Administrador admin;
 
         public MainWindow()
         {
             InitializeComponent();
-
-            // Obtener administrador activo
-            admin = Sesion.Sesion.GetAdministradorActivo();
-
-            // Cargar vista de inicio
-            MainContent.Content = new vistas.HomeView();
+            // Por ejemplo, cargar la vista de inicio
+            MainContent.Content = new vistas.HomeView(); // Asegúrate de que esta clase exista
         }
 
         private void CerrarSesion_Click(object sender, MouseButtonEventArgs e)
@@ -252,42 +248,6 @@ namespace SisGestorEmpenio
                 }
             }
         }
-
-
-        private void GoToConsultarPrestamo(object sender, MouseButtonEventArgs e)
-        {
-            try
-            {
-                SeleccionarOpcion(TxtConsultarPrestamo);
-                ActualizarEncabezado("Consultar Préstamo");
-
-                // Crear y suscribir evento
-                var consulta = new ConsultarPrestamos();
-                consulta.PrestamoSeleccionado += OnPrestamoSeleccionado;
-                MainContent.Content = consulta;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al cargar la vista de consulta: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-        // Manejador del evento lanzado por ConsultarPrestamos
-        private void OnPrestamoSeleccionado(object sender, int idArticulo)
-        {
-            // Buscar el préstamo completo
-            var prestamo = admin.ObtenerTodosPrestamos()
-                                 .FirstOrDefault(p => p.GetArticulo().GetIdArticulo() == idArticulo);
-            if (prestamo == null) return;
-
-            // Crear vista de detalles y cargar datos
-            var detalles = new DetallesPrestamo();
-            detalles.CargarDatos(prestamo);
-
-            // Navegar a detalles
-            MainContent.Content = detalles;
-        }
-
-
 
     }
 }
