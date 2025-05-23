@@ -22,6 +22,9 @@ namespace SisGestorEmpenio.vistas
         private int registrosPorPagina = 10;
         private int totalPaginas = 0;
 
+        // Variable de cancelación para el filtrado
+        private CancellationTokenSource ctsFiltrado = new CancellationTokenSource();
+
         // Evento para comunicarse con la ventana contenedora
         public event EventHandler<string> PrestamoSeleccionado;
 
@@ -49,7 +52,7 @@ namespace SisGestorEmpenio.vistas
         {
             try
             {
-                prestamosOriginales = admin?.ObtenerTodosPrestamos() ?? new List<Prestamo>();
+                prestamosOriginales = admin?.ConsultarPrestamosCoincidentes() ?? new List<Prestamo>();
                 prestamosFiltrados = new List<Prestamo>(prestamosOriginales);
                 paginaActual = 1;
                 ActualizarVisualizacion();
@@ -256,45 +259,59 @@ namespace SisGestorEmpenio.vistas
         /// <summary>
         /// Aplica todos los filtros a la lista de préstamos
         /// </summary>
-        private void FiltrarPrestamos()
+        private async void FiltrarPrestamos()
         {
-            if (prestamosOriginales == null || !isInitialized) return;
+            if (prestamosOriginales == null || !isInitialized)
+                return;
 
-            // Obtenemos los valores de los filtros
-            string estado = (cmbEstado.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "";
-            string rangoTiempo = (cmbRangoTiempo.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "";
-            string identificacion = txtIdentificacion.Text.Trim().ToLower();
+            // Cancelar solicitud anterior
+            ctsFiltrado.Cancel();
+            ctsFiltrado = new CancellationTokenSource();
+            var token = ctsFiltrado.Token;
 
-            // Filtrar por estado
-            var resultadoFiltrado = prestamosOriginales.AsEnumerable();
-
-            if (estado != "Estado" && estado != "Todos")
-                resultadoFiltrado = resultadoFiltrado.Where(p => p.GetEstado().Equals(estado, StringComparison.OrdinalIgnoreCase));
-
-            // Filtrar por identificación
-            if (!string.IsNullOrWhiteSpace(identificacion) && identificacion != "identificación...")
-                resultadoFiltrado = resultadoFiltrado.Where(p => p.GetCliente().GetId().ToString().Contains(identificacion));
-
-            // Filtrar por rango de tiempo
-            if (rangoTiempo != "Rango de tiempo" && rangoTiempo != "Todo el tiempo")
+            try
             {
-                DateTime fechaActual = DateTime.Now;
-                resultadoFiltrado = rangoTiempo switch
-                {
-                    "Hoy" => resultadoFiltrado.Where(p => p.GetFechaInicio().Date == fechaActual.Date),
-                    "Últimos 5 días" => resultadoFiltrado.Where(p => p.GetFechaInicio() >= fechaActual.AddDays(-5)),
-                    "Últimos 8 días" => resultadoFiltrado.Where(p => p.GetFechaInicio() >= fechaActual.AddDays(-8)),
-                    "Últimos 15 días" => resultadoFiltrado.Where(p => p.GetFechaInicio() >= fechaActual.AddDays(-15)),
-                    "Últimos 30 días" => resultadoFiltrado.Where(p => p.GetFechaInicio() >= fechaActual.AddDays(-30)),
-                    _ => resultadoFiltrado
-                };
-            }
+                // Delay antes de aplicar el filtro (debounce de 500 ms)
+                await Task.Delay(300, token);
 
-            // Actualizar lista filtrada y resetear a página 1
-            prestamosFiltrados = resultadoFiltrado.ToList();
-            paginaActual = 1;
-            ActualizarVisualizacion();
+                // Obtener filtros
+                string estado = (cmbEstado.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "";
+                string rangoTiempo = (cmbRangoTiempo.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "";
+                string identificacion = txtIdentificacion.Text.Trim().ToLower();
+
+                int clienteId = int.TryParse(identificacion, out var tempId) ? tempId : -1;
+
+                int rangoTiempoInt = rangoTiempo switch
+                {
+                    "Hoy" => 0,
+                    "Últimos 5 días" => 5,
+                    "Últimos 8 días" => 8,
+                    "Últimos 15 días" => 15,
+                    "Últimos 30 días" => 30,
+                    _ => -1,
+                };
+
+                var listaPrestamosFiltrados = admin.ConsultarPrestamosCoincidentes(
+                    cantidadMaxPrestamos: 100,
+                    clienteId: clienteId,
+                    estado: (estado == "Todos" || estado == "Estado") ? "" : estado,
+                    rangoDias: rangoTiempoInt
+                );
+
+                prestamosFiltrados = listaPrestamosFiltrados;
+                paginaActual = 1;
+                ActualizarVisualizacion();
+            }
+            catch (TaskCanceledException)
+            {
+                // Se canceló la tarea anterior, no hacer nada
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al filtrar préstamos: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
+
 
         /// <summary>
         /// Gestiona el comportamiento de placeholder cuando el control recibe el foco

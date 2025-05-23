@@ -94,5 +94,59 @@ namespace SisGestorEmpenio.repository
             return list;
         }
 
+        public List<Prestamo> BuscarPrestamosCoincidentes(int cantidadMaxPrestamos, int clienteId, string estado, int rangoDias)
+        {
+            var prestamos = new List<Prestamo>();
+            var condiciones = new List<string>();
+
+            if (clienteId != -1)
+            {
+                condiciones.Add($"CAST(numeroIdentidadCliente AS VARCHAR2(20)) LIKE '{clienteId}%'");
+            }
+
+            if (estado.ToLower().Contains("activo") || estado.ToLower().Contains("inactivo"))
+            {
+                condiciones.Add($"LOWER(estadoPrestamo) = '{estado.ToLower()}'");
+            }
+
+            if (rangoDias > -1)
+            {
+                condiciones.Add($"fechaInicio >= SYSDATE - {rangoDias}");
+            }
+
+            string whereClause = condiciones.Count > 0 ? "WHERE " + string.Join(" AND ", condiciones) : "";
+
+            string consulta = $@"
+                    SELECT * FROM (
+                        SELECT * FROM prestamo
+                        {whereClause}
+                        ORDER BY fechaInicio DESC
+                    ) 
+                    WHERE ROWNUM <= {cantidadMaxPrestamos}";
+
+            var resultado = dt.ejecutarSelect(consulta);
+            if (resultado.Tables.Count == 0 || resultado.Tables[0].Rows.Count == 0)
+                return prestamos;
+
+            var clienteRepo = new ClienteRepository();
+            var articuloRepo = new ArticuloRepository();
+
+            foreach (System.Data.DataRow row in resultado.Tables[0].Rows)
+            {
+                var cliente = clienteRepo.Buscar(Convert.ToInt32(row["numeroIdentidadCliente"]));
+                var articulo = articuloRepo.Buscar(Convert.ToInt32(row["idArticulo"]));
+                var estadoPrestamo = row["estadoPrestamo"].ToString();
+                var fechaInicio = DateTime.Parse(row["fechaInicio"].ToString());
+                var fechaFin = DateTime.Parse(row["fechaFin"].ToString());
+                var tasaInteres = Convert.ToDouble(row["tasaInteres"]);
+                var montoTotal = Convert.ToDouble(row["montoTotal"]);
+
+                prestamos.Add(new Prestamo(cliente, articulo, estadoPrestamo, fechaInicio, fechaFin, tasaInteres, montoTotal));
+            }
+
+            return prestamos;
+        }
+
+
     }
 }
