@@ -191,24 +191,24 @@ VALUES (32109876, 1001, 'activo', DATE '2024-05-01', DATE '2024-11-01', 16.75, 1
 -- Las devoluciones incluyen pagos completos y parciales
 COMMIT;
 
-
-
+-- ========================================
 
 -- BLOQUE PL/SQL SIMPLIFICADO PARA GENERAR 5000 PRÉSTAMOS
 
 DECLARE
     v_cliente_id NUMBER := 100000;  -- Inicio de IDs de clientes
     v_articulo_id NUMBER := 2000;   -- Inicio de IDs de artículos
-    
+    v_cantidad_prestamos NUMBER := 50000; -- Cantidad de préstamos a generar
 BEGIN
-    DBMS_OUTPUT.PUT_LINE('Iniciando generación de 5000 préstamos...');
-    
-    -- Loop para crear 5000 préstamos
-    FOR i IN 1..5000 LOOP
+    DBMS_OUTPUT.PUT_LINE('Iniciando generación de ' || v_cantidad_prestamos || ' préstamos...');
+    INSERT INTO Administrador (numeroIdentidad, nombre, tipoIdentidad, salario, aniosExperiencia, usuario, contrasenia) 
+    VALUES (23432343, 'Maria Rodriguez', 'Cedula', 3500000.00, 5, 'mrodriguez', 'admin123');
+    -- Loop para crear n  préstamos
+    FOR i IN 1..v_cantidad_prestamos LOOP
         
         -- Insertar cliente (datos fijos, solo cambia ID)
         INSERT INTO Cliente (numeroIdentidad, nombre, apellido, telefono, correo, tipoIdentidad, numeroIdentidadAdministrador)
-        VALUES (v_cliente_id, 'Cliente', 'Numero' || i, '3001234567', 'cliente' || i || '@email.com', 'Cedula', 12345678);
+        VALUES (v_cliente_id, 'Cliente', 'Numero' || i, '3001234567', 'cliente' || i || '@email.com', 'Cedula', 23432343);
         
         -- Insertar artículo (datos fijos, solo cambia ID)
         INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion)
@@ -235,7 +235,7 @@ BEGIN
     END LOOP;
     
     COMMIT;
-    DBMS_OUTPUT.PUT_LINE('¡Generación completada! 5000 préstamos creados.');
+    DBMS_OUTPUT.PUT_LINE('¡Generación completada!' || v_cantidad_prestamos || 'préstamos creados.');
     
 EXCEPTION
     WHEN OTHERS THEN
