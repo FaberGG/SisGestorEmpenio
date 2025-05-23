@@ -262,7 +262,7 @@ namespace SisGestorEmpenio
                 ActualizarEncabezado("Consultar Préstamo");
 
                 // Crear y suscribir evento
-                var consulta = new ConsultarPrestamos();
+                var consulta = new ConsultarPrestamosView();
                 consulta.PrestamoSeleccionado += OnPrestamoSeleccionado;
                 MainContent.Content = consulta;
             }
@@ -272,22 +272,25 @@ namespace SisGestorEmpenio
             }
         }
         // Manejador del evento lanzado por ConsultarPrestamos
-        private void OnPrestamoSeleccionado(object sender, int idArticulo)
+        private void OnPrestamoSeleccionado(object sender, string idPrestamo)
         {
-            // Buscar el préstamo completo
-            var prestamo = admin.ObtenerTodosPrestamos()
-                                 .FirstOrDefault(p => p.GetArticulo().GetIdArticulo() == idArticulo);
+            // Separar los IDs
+            var partes = idPrestamo.Split('_');
+            if (partes.Length != 2) return;
+
+            if (!int.TryParse(partes[0], out int clienteId)) return;
+            if (!int.TryParse(partes[1], out int articuloId)) return;
+
+            // Buscar el préstamo con la función específica
+            var prestamo = admin.BuscarPrestamo(clienteId, articuloId);
             if (prestamo == null) return;
 
             // Crear vista de detalles y cargar datos
-            var detalles = new DetallesPrestamo();
+            var detalles = new DetallesPrestamoView();
             detalles.CargarDatos(prestamo);
 
             // Navegar a detalles
             MainContent.Content = detalles;
         }
-
-
-
     }
 }

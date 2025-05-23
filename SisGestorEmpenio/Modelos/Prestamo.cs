@@ -55,12 +55,33 @@ namespace SisGestorEmpenio.Modelos
             return valorArticulo * (tasaInteres/100) * cantidadMeses;
         }
 
-        // Métodos originales...
- 
-        public double CalcularMontoTotal() { /* ... */ throw new NotImplementedException(); }
-        public bool ActualizarEstadoPrestamo(string nuevoEstado) { /* ... */ throw new NotImplementedException(); }
+
+        public double CalcularMontoTotal()
+        {
+            double interes = CalcularInteres();
+            double valorArticulo = articulo.GetValorEstimado();
+            montoTotal = valorArticulo + interes;
+            return montoTotal; // Devuelve el cálculo total
+        }
+
+        public bool ActualizarEstadoPrestamo(string nuevoEstado)
+        {
+            if (!string.IsNullOrWhiteSpace(nuevoEstado))
+            {
+                PrestamoRepository prestamoRepository = new PrestamoRepository();
+                estado = nuevoEstado;
+                return prestamoRepository.ActualizarEstado(this);
+            }
+            return false;
+        }
+
+        public string MostrarDetalle()
+        {
+            return $"Cliente: {cliente.GetApellido()}\nArtículo: {articulo.GetDescripcion()}\nMonto Total: {montoTotal:F2}\nEstado: {estado}\nFecha Vencimiento: {fechaFin.ToShortDateString()}";
+        }
+
+
         public DateTime GetFechaFin() => fechaFin;
-        public string MostrarDetalle() { /* ... */ throw new NotImplementedException(); }
         public DateTime GetFechaInicio() => fechaInicio;
         public void SetFechaInicio(DateTime value) => fechaInicio = value;
         public double GetTasaInteres() => tasaInteres;
@@ -76,51 +97,6 @@ namespace SisGestorEmpenio.Modelos
         public Devolucion GetDevolucion() => devolucion;
         public void SetDevolucion(Devolucion value) => devolucion = value;
 
-        // === PROPIEDADES PÚBLICAS PARA BINDING EN WPF ===
-
-        /// <summary>
-        /// Identificador que usa el DataGrid para acciones (aquí usamos IdArticulo)
-        /// </summary>
-        public int IdPrestamo => ArticuloId;
-
-        /// <summary>
-        /// ID del cliente
-        /// </summary>
-        public int ClienteId => cliente.GetId();
-
-        /// <summary>
-        /// Nombre completo del cliente
-        /// </summary>
-        public string ClienteNombre => $"{cliente.GetNombre()} {cliente.GetApellido()}";
-
-        /// <summary>
-        /// ID del artículo prestado
-        /// </summary>
-        public int ArticuloId => articulo.GetIdArticulo();
-
-        /// <summary>
-        /// Descripción del artículo
-        /// </summary>
-        public string ArticuloNombre => articulo.GetDescripcion();
-
-        /// <summary>
-        /// Fecha de inicio del préstamo (formateada)
-        /// </summary>
-        public string FechaInicio => fechaInicio.ToString("dd/MM/yyyy");
-
-        /// <summary>
-        /// Fecha de vencimiento del préstamo (formateada)
-        /// </summary>
-        public string FechaFin => fechaFin.ToString("dd/MM/yyyy");
-
-        /// <summary>
-        /// Estado del préstamo (Activo/Inactivo)
-        /// </summary>
-        public string Estado => estado;
-
-        /// <summary>
-        /// Monto total calculado (puedes enlazar si lo requieres)
-        /// </summary>
-        public double MontoTotal => montoTotal;
+        
     }
 }

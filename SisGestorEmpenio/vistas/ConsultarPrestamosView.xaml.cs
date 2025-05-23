@@ -9,7 +9,7 @@ using SisGestorEmpenio.repository;
 
 namespace SisGestorEmpenio.vistas
 {
-    public partial class ConsultarPrestamos : UserControl
+    public partial class ConsultarPrestamosView : UserControl
     {
         // Campo modificado para no ser readonly, permitiendo su asignación en el evento Loaded
         private Administrador admin;
@@ -23,10 +23,10 @@ namespace SisGestorEmpenio.vistas
         private int totalPaginas = 0;
 
         // Evento para comunicarse con la ventana contenedora
-        public event EventHandler<int> PrestamoSeleccionado;
+        public event EventHandler<string> PrestamoSeleccionado;
 
         // Constructor sin recibir administrador por parámetro
-        public ConsultarPrestamos()
+        public ConsultarPrestamosView()
         {
             InitializeComponent();
 
@@ -89,6 +89,16 @@ namespace SisGestorEmpenio.vistas
             var registrosPagina = prestamosFiltrados
                 .Skip((paginaActual - 1) * registrosPorPagina)
                 .Take(registrosPorPagina)
+                .Select(p => new
+                {
+                    ClienteId = p.GetCliente().GetId(),
+                    ClienteNombre = p.GetCliente().GetNombre(),
+                    ArticuloNombre = p.GetArticulo().GetDescripcion(),
+                    FechaInicio = p.GetFechaInicio().ToShortDateString(),
+                    FechaFin = p.GetFechaFin().ToShortDateString(),
+                    Estado = p.GetEstado(),   
+                    IdPrestamo = $"{p.GetCliente().GetId()}_{p.GetArticulo().GetIdArticulo()}"
+                })
                 .ToList();
 
             // Actualizar DataGrid
@@ -328,10 +338,10 @@ namespace SisGestorEmpenio.vistas
         /// </summary>
         private void MenuVerDetalles_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is MenuItem menuItem && int.TryParse(menuItem.Tag?.ToString(), out int idArticulo))
+            if (sender is MenuItem menuItem)
             {
                 // Disparamos el evento para que la ventana padre maneje la navegación
-                PrestamoSeleccionado?.Invoke(this, idArticulo);
+                PrestamoSeleccionado?.Invoke(this, menuItem.Tag?.ToString());
             }
         }
 

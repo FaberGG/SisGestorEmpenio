@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SisGestorEmpenio.vistas.ConsultarPrestamos"
+﻿<UserControl x:Class="SisGestorEmpenio.vistas.ConsultarPrestamosView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Height="500" Width="850"
