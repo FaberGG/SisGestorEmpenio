@@ -103,6 +103,11 @@ namespace SisGestorEmpenio.Modelos
         }
 
 
+        public void SetFechaFin(DateTime value)
+        {
+            fechaFin = value;
+        }
+
         public double GetTasaInteres()
         {
             return tasaInteres;
