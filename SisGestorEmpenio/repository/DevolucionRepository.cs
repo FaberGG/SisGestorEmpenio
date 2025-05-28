@@ -56,5 +56,119 @@ namespace SisGestorEmpenio.repository
             filasAfectadas = dt.ejecutarDML(consulta);
             return filasAfectadas > 0;
         }
+
+        public List<Devolucion> BuscarDevolucionesCoincidentes(int cantidadMaxDevoluciones, int clienteId, int articuloId, int rangoDias)
+        {
+            var devoluciones = new List<Devolucion>();
+            var condiciones = new List<string>();
+
+            if (clienteId != -1)
+            {
+                condiciones.Add($"CAST(numeroIdentidadCliente AS VARCHAR2(20)) LIKE '{clienteId}%'");
+            }
+
+            if (articuloId != -1)
+            {
+                condiciones.Add($"CAST(idArticulo AS VARCHAR2(20)) LIKE '{articuloId}%'");
+            }
+
+            if (rangoDias > -1)
+            {
+                condiciones.Add($"fechaDevolucion >= SYSDATE - {rangoDias}");
+            }
+
+            string whereClause = condiciones.Count > 0 ? "WHERE " + string.Join(" AND ", condiciones) : "";
+
+            string consulta = $@"
+        SELECT * FROM (
+            SELECT * FROM devolucion
+            {whereClause}
+            ORDER BY fechaDevolucion DESC
+        )
+        WHERE ROWNUM <= {cantidadMaxDevoluciones}";
+
+            var resultado = dt.ejecutarSelect(consulta);
+            if (resultado.Tables.Count == 0 || resultado.Tables[0].Rows.Count == 0)
+                return devoluciones;
+
+            var prestamoRepo = new PrestamoRepository();
+
+            foreach (System.Data.DataRow row in resultado.Tables[0].Rows)
+            {
+                int numConvenio = Convert.ToInt32(row["numConvenio"]);
+                DateTime fechaDevolucion = DateTime.Parse(row["fechaDevolucion"].ToString());
+                double montoPagado = Convert.ToDouble(row["montoPagado"]);
+                int idCliente = Convert.ToInt32(row["numeroIdentidadCliente"]);
+                int idArticulo = Convert.ToInt32(row["idArticulo"]);
+
+                // Obtener el préstamo relacionado
+                var prestamo = prestamoRepo.Buscar(idCliente, idArticulo);
+
+                // Crear objeto Devolucion
+                var devolucion = new Devolucion(numConvenio, fechaDevolucion, montoPagado, prestamo);
+
+                devoluciones.Add(devolucion);
+            }
+
+            return devoluciones;
+        }
+        public List<Devolucion> ConsultarDevoluciones(int? clienteId = null, int? articuloId = null, int? rangoDias = null)
+        {
+            var devoluciones = new List<Devolucion>();
+            var condiciones = new List<string>();
+
+            // Filtrar por cliente si se proporciona
+            if (clienteId.HasValue)
+            {
+                condiciones.Add($"numeroIdentidadCliente = {clienteId.Value}");
+            }
+
+            // Filtrar por articulo si se proporciona
+            if (articuloId.HasValue)
+            {
+                condiciones.Add($"idArticulo = {articuloId.Value}");
+            }
+
+            // Filtrar por rango de dias si se proporciona
+            if (rangoDias.HasValue)
+            {
+                condiciones.Add($"fechaDevolucion >= SYSDATE - {rangoDias.Value}");
+            }
+
+            // Combinar condiciones en el WHERE
+            string whereClause = condiciones.Count > 0 ? "WHERE " + string.Join(" AND ", condiciones) : "";
+
+            string consulta = $@"
+        SELECT * FROM (
+            SELECT * FROM devolucion
+            {whereClause}
+            ORDER BY fechaDevolucion DESC
+        )
+        WHERE ROWNUM <= 100"; // Puedes ajustar el límite si quieres
+
+            var resultado = dt.ejecutarSelect(consulta);
+            if (resultado.Tables.Count == 0 || resultado.Tables[0].Rows.Count == 0)
+                return devoluciones;
+
+            var prestamoRepo = new PrestamoRepository();
+
+            foreach (System.Data.DataRow row in resultado.Tables[0].Rows)
+            {
+                int numConvenio = Convert.ToInt32(row["numConvenio"]);
+                DateTime fechaDevolucion = DateTime.Parse(row["fechaDevolucion"].ToString());
+                double montoPagado = Convert.ToDouble(row["montoPagado"]);
+                int idCliente = Convert.ToInt32(row["numeroIdentidadCliente"]);
+                int idArticulo = Convert.ToInt32(row["idArticulo"]);
+
+                var prestamo = prestamoRepo.Buscar(idCliente, idArticulo);
+
+                var devolucion = new Devolucion(numConvenio, fechaDevolucion, montoPagado, prestamo);
+                devoluciones.Add(devolucion);
+            }
+
+            return devoluciones;
+        }
+
+
     }
 }

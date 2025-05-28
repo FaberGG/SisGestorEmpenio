@@ -353,47 +353,30 @@ namespace SisGestorEmpenio.vistas
         /// <summary>
         /// Muestra los detalles del préstamo seleccionado
         /// </summary>
-        private void MenuVerDetalles_Click(object sender, RoutedEventArgs e)
+        private void MenuVerDetallesDevolucion_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is MenuItem menuItem)
+            if (sender is Button btn && btn.Tag is Devolucion devolucion)
             {
-                // Disparamos el evento para que la ventana padre maneje la navegación
-                PrestamoSeleccionado?.Invoke(this, menuItem.Tag?.ToString());
+                MostrarDetalleDevolucion(devolucion);
             }
         }
+
 
         /// <summary>
         /// Muestra los detalles del préstamo
         /// </summary>
-        private void MostrarDetalle(int idArticulo)
+        private void MostrarDetalleDevolucion(Devolucion devolucion)
         {
             try
             {
-                var prestamo = prestamosOriginales?.FirstOrDefault(x => x.GetArticulo().GetIdArticulo() == idArticulo);
-                if (prestamo != null)
-                {
-                    MessageBox.Show(
-                        prestamo.MostrarDetalle(),
-                        "Detalles del Préstamo",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Information);
-                }
-                else
-                {
-                    MessageBox.Show(
-                        $"No se encontró el préstamo con ID de artículo {idArticulo}",
-                        "Préstamo no encontrado",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Warning);
-                }
+                var ventana = new DetallesDevolucion();
+                ventana.CargarDetalles(devolucion);
+                ventana.Owner = Window.GetWindow(this);  // Asocia con ventana actual
+                ventana.ShowDialog();  // Abre como ventana modal
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    $"Error al mostrar detalles: {ex.Message}",
-                    "Error",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                MessageBox.Show($"Error al mostrar detalles: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

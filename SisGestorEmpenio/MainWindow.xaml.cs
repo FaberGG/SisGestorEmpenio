@@ -292,5 +292,26 @@ namespace SisGestorEmpenio
             // Navegar a detalles
             MainContent.Content = detalles;
         }
+
+        //Cuando te lnazan a consultar una devolucion
+        private void GoToConsultarDevolucion(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                SeleccionarOpcion(TxtConsultarDevolucion);
+                ActualizarEncabezado("Consultar Devolución");
+
+                // Crear instancia de la vista
+                var consulta = new ConsultarDevolucionView();
+
+                // Cargar la vista en el contenedor principal
+                MainContent.Content = consulta;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar la vista de consulta: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
     }
 }

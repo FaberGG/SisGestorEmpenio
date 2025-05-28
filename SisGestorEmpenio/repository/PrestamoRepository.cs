@@ -147,6 +147,5 @@ namespace SisGestorEmpenio.repository
             return prestamos;
         }
 
-
     }
 }

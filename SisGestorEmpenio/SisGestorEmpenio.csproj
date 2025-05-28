@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="vistas\UserControl1.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Resources\category_25.png" />
     <None Remove="Resources\chevron_right_22.png" />
     <None Remove="Resources\close_34.png" />
@@ -62,6 +66,10 @@
 
   <ItemGroup>
     <EditorConfigFiles Remove="C:\Users\jhonn\OneDrive\Unicauca\Semestre V\Ingenieria-de-Software-I\Proyecto-Software\SisGestorEmpenio\SisGestorEmpenio\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="vistas\UserControl1.xaml" />
   </ItemGroup>
 
   <ItemGroup>
