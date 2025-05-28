@@ -1,171 +1,218 @@
-﻿<Window x:Class="SisGestorEmpenio.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-                   
-        xmlns:local="clr-namespace:SisGestorEmpenio"
-        mc:Ignorable="d"
-        Title="Gestor de Empeños" Height="600" Width="1000"
-        Background="#3A7575"
-         WindowStartupLocation="CenterScreen"
-        >
+﻿<Window
+    x:Class="SisGestorEmpenio.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SisGestorEmpenio"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Gestor de Empeños"
+    Width="1200"
+    Height="800"
+    Background="#3A7575"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
+    mc:Ignorable="d">
     <Grid>
-        <!-- Columnas: Menú lateral | Contenido principal -->
+        <!--  Columnas: Menú lateral | Contenido principal  -->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="278"/>
-            <!-- Ancho del menú -->
-            <ColumnDefinition Width="*"/>
-            <!-- Resto para el contenido -->
+            <ColumnDefinition Width="278" />
+            <!--  Ancho del menú  -->
+            <ColumnDefinition Width="*" />
+            <!--  Resto para el contenido  -->
         </Grid.ColumnDefinitions>
 
 
 
-        <!-- Menú lateral permanente -->
+        <!--  Menú lateral permanente  -->
 
 
         <StackPanel Width="278" Background="#3A7575">
-            <!-- Primer sub-contenedor -->
-            <Border Width="220" Height="50" Margin="0,25,0,0" HorizontalAlignment="Center" Background="Transparent">
+            <!--  Primer sub-contenedor  -->
+            <Border
+                Width="220"
+                Height="50"
+                Margin="0,25,0,0"
+                HorizontalAlignment="Center"
+                Background="Transparent">
 
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50"/>
-                        <!-- Icono -->
-                        <ColumnDefinition Width="*"/>
-                        <!-- Textos -->
-                        <ColumnDefinition Width="Auto"/>
-                        <!-- Botón a la derecha -->
+                        <ColumnDefinition Width="50" />
+                        <!--  Icono  -->
+                        <ColumnDefinition Width="*" />
+                        <!--  Textos  -->
+                        <ColumnDefinition Width="Auto" />
+                        <!--  Botón a la derecha  -->
                     </Grid.ColumnDefinitions>
 
-                    <!-- Div con fondo -->
-                    <Border Width="50" Height="50" Background="#83C4C4" CornerRadius="11" Grid.Column="0" />
+                    <!--  Div con fondo  -->
+                    <Border
+                        Grid.Column="0"
+                        Width="50"
+                        Height="50"
+                        Background="#83C4C4"
+                        CornerRadius="11" />
 
-                    <!-- Textos -->
-                    <StackPanel Grid.Column="1" Orientation="Vertical" Margin="5,0,0,0" VerticalAlignment="Center">
-                        <TextBlock Text="Administrador"
-                       FontWeight="Bold"
-                       FontSize="16"
-                       Foreground="White"/>
-                        <TextBlock 
+                    <!--  Textos  -->
+                    <StackPanel
+                        Grid.Column="1"
+                        Margin="5,0,0,0"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical">
+                        <TextBlock
+                            FontSize="16"
+                            FontWeight="Bold"
+                            Foreground="White"
+                            Text="Administrador" />
+                        <TextBlock
                             Cursor="Hand"
-                            MouseLeftButtonDown="CerrarSesion_Click"
-                            Text="Cerrar sesión"
                             FontSize="12"
-                            Foreground="#83C4C4"/>
+                            Foreground="#83C4C4"
+                            MouseLeftButtonDown="CerrarSesion_Click"
+                            Text="Cerrar sesión" />
                     </StackPanel>
 
-                    <!-- Div a la derecha -->
-                    <Border Grid.Column="2" Width="24" Height="24" Padding="0,3,0,0" HorizontalAlignment="Right" Background="Transparent">
-                    </Border>
+                    <!--  Div a la derecha  -->
+                    <Border
+                        Grid.Column="2"
+                        Width="24"
+                        Height="24"
+                        Padding="0,3,0,0"
+                        HorizontalAlignment="Right"
+                        Background="Transparent" />
                 </Grid>
 
             </Border>
 
-            <!-- Segundo sub-contenedor -->
-            <StackPanel Width="230" Margin="0,39,0,0" HorizontalAlignment="Center">
-                <!-- Aquí irá el contenido del menú -->
+            <!--  Segundo sub-contenedor  -->
+            <StackPanel
+                Width="230"
+                Margin="0,39,0,0"
+                HorizontalAlignment="Center">
+                <!--  Aquí irá el contenido del menú  -->
 
-                <!-- Texto superior -->
-                <TextBlock Text="Gestion de la casa de empeño"
-                   Padding="5,0,0,0"
-                   FontSize="12"
-                   FontWeight="DemiBold"
-                   Foreground="#83C4C4"
-                           />
+                <!--  Texto superior  -->
+                <TextBlock
+                    Padding="5,0,0,0"
+                    FontSize="12"
+                    FontWeight="DemiBold"
+                    Foreground="#83C4C4"
+                    Text="Gestion de la casa de empeño" />
 
 
 
-                <!--DESPLEGABLE PARA PRESTAMOS-->
-                <!-- "Botón" principal con estilo de Border -->
-                <Border Width="230" x:Name="PrestamoBotonPrincipal"
+                <!--  DESPLEGABLE PARA PRESTAMOS  -->
+                <!--  "Botón" principal con estilo de Border  -->
+                <Border
+                    x:Name="PrestamoBotonPrincipal"
+                    Width="230"
                     Height="28"
                     Margin="0,12,0,0"
                     Padding="5,0"
-                    CornerRadius="8"
                     Background="#599191"
-                        
-                    MouseLeftButtonUp="ToggleGestPrestamo_Click"
-                    Cursor="Hand">
+                    CornerRadius="8"
+                    Cursor="Hand"
+                    MouseLeftButtonUp="ToggleGestPrestamo_Click">
 
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <!-- Icono izquierdo -->
-                        <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center" >
+                        <!--  Icono izquierdo  -->
+                        <Border
+                            Grid.Column="0"
+                            Width="24"
+                            Height="24"
+                            VerticalAlignment="Center"
+                            Background="Transparent">
 
-                            <Image Source="/Resources/real_estate_agent_20.png" 
-                               HorizontalAlignment="Center" 
-                               VerticalAlignment="Top" 
-                               Width="20" 
-                               Height="20"/>
+                            <Image
+                                Width="20"
+                                Height="20"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                Source="/Resources/real_estate_agent_20.png" />
                         </Border>
 
-                        <!-- Texto -->
-                        <TextBlock Grid.Column="1"
-                           Text="Gestión de préstamos"
-                           FontSize="12"
-                           Margin="3,0,0,0"
-                           VerticalAlignment="Center"
-                           FontWeight="DemiBold"
-                                   
-                           Foreground="White"/>
+                        <!--  Texto  -->
+                        <TextBlock
+                            Grid.Column="1"
+                            Margin="3,0,0,0"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            FontWeight="DemiBold"
+                            Foreground="White"
+                            Text="Gestión de préstamos" />
 
-                        <!-- Icono derecho -->
-                        <Border Width="22" Height="22" Background="Transparent" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
-                            <Image x:Name="PrestamoIconoFlecha"
-                               Source="pack://application:,,,/SisGestorEmpenio;component/resources/chevron_right_22.png" 
-                               HorizontalAlignment="Center" 
-                               VerticalAlignment="Top" 
-                               Width="22" 
-                               Height="22">
+                        <!--  Icono derecho  -->
+                        <Border
+                            Grid.Column="2"
+                            Width="22"
+                            Height="22"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Background="Transparent">
+                            <Image
+                                x:Name="PrestamoIconoFlecha"
+                                Width="22"
+                                Height="22"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                Source="pack://application:,,,/SisGestorEmpenio;component/resources/chevron_right_22.png">
                                 <Image.RenderTransform>
-                                    <RotateTransform x:Name="PrestamoFlechaTransform" Angle="-90" CenterX="11" CenterY="11"/>
+                                    <RotateTransform x:Name="PrestamoFlechaTransform" Angle="-90" CenterX="11" CenterY="11" />
                                 </Image.RenderTransform>
                             </Image>
                         </Border>
                     </Grid>
                 </Border>
 
-                <!-- Contenedor oculto de sub-opciones -->
+                <!--  Contenedor oculto de sub-opciones  -->
                 <StackPanel x:Name="OpcionesPrestamos" Visibility="Visible">
-                    <!-- Sub-opciones con mismo estilo -->
+                    <!--  Sub-opciones con mismo estilo  -->
 
 
-                    <!-- REGISTRAR PRESTAMO -->
-                    <Border x:Name="BtnRegistrarPrestamo"
-                            Width="230"
-                            Height="28"
-                            Margin="0,6,0,0"
-                            Padding="5,0"
-                            CornerRadius="8"
-                            Cursor="Hand"
-                            MouseLeftButtonUp="GoToRegistrarPrestamo">
+                    <!--  REGISTRAR PRESTAMO  -->
+                    <Border
+                        x:Name="BtnRegistrarPrestamo"
+                        Width="230"
+                        Height="28"
+                        Margin="0,6,0,0"
+                        Padding="5,0"
+                        CornerRadius="8"
+                        Cursor="Hand"
+                        MouseLeftButtonUp="GoToRegistrarPrestamo">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"/>
-                            <TextBlock x:Name="TxtRegistrarPrestamo"
-                                       Grid.Column="1"
-                                       Text="Registra un préstamo"
-                                       FontSize="12"
-                                       Margin="3,0,0,0"
-                                       VerticalAlignment="Center"
-                                       FontWeight="DemiBold"
-                                       Foreground="#83C4C4"/>
+                            <Border
+                                Grid.Column="0"
+                                Width="24"
+                                Height="24"
+                                VerticalAlignment="Center"
+                                Background="Transparent" />
+                            <TextBlock
+                                x:Name="TxtRegistrarPrestamo"
+                                Grid.Column="1"
+                                Margin="3,0,0,0"
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                FontWeight="DemiBold"
+                                Foreground="#83C4C4"
+                                Text="Registra un préstamo" />
                         </Grid>
                     </Border>
 
 
-                    <!--MODIFICAR PRESTAMO-->
-                    <Border Width="230"
+                    <!--  MODIFICAR PRESTAMO  -->
+                    <Border
+                        Width="230"
                         Height="28"
                         Margin="0,6,0,0"
                         Padding="5,0"
@@ -174,24 +221,32 @@
                         MouseLeftButtonUp="GoToModificarPrestamo">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"/>
-                            <TextBlock x:Name="TxtModificarPrestamo"
+                            <Border
+                                Grid.Column="0"
+                                Width="24"
+                                Height="24"
+                                VerticalAlignment="Center"
+                                Background="Transparent" />
+                            <TextBlock
+                                x:Name="TxtModificarPrestamo"
                                 Grid.Column="1"
-                                Text="Modifica un préstamo"
+                                Margin="3,0,0,0"
+                                VerticalAlignment="Center"
                                 FontSize="12"
                                 FontWeight="DemiBold"
-                                Margin="3,0,0,0" 
-                                VerticalAlignment="Center"
-                                Foreground="#83C4C4"/>
+                                Foreground="#83C4C4"
+                                Text="Modifica un préstamo" />
                         </Grid>
                     </Border>
+
 
      
                     <!-- CONSULTA UN PRÉSTAMO -->
                         <Border x:Name="BdConsultaPrestamo"
+
                         Width="230"
                         Height="28"
                         Margin="0,6,0,0"
@@ -201,9 +256,10 @@
                         MouseLeftButtonUp="GoToConsultarPrestamo">
                         <Grid>  
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
+
                             <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"/>
                             <TextBlock Grid.Column="1"
                    x:Name="TxtConsultarPrestamo"
@@ -213,95 +269,123 @@
                    VerticalAlignment="Center"
                    FontWeight="DemiBold"
                    Foreground="#83C4C4"/>
+
                         </Grid>
                     </Border>
+
+
 
 
 
                 </StackPanel>
 
 
-                <!-- "Botón" principal con estilo de Border -->
-                <Border Width="230" x:Name="DevolucionBotonPrincipal"
+                <!--  "Botón" principal con estilo de Border  -->
+                <Border
+                    x:Name="DevolucionBotonPrincipal"
+                    Width="230"
                     Height="28"
                     Margin="0,12,0,0"
                     Padding="5,0"
                     CornerRadius="8"
-                    MouseLeftButtonUp="ToggleGestDevolucion_Click"
-                    Cursor="Hand">
+                    Cursor="Hand"
+                    MouseLeftButtonUp="ToggleGestDevolucion_Click">
 
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <!-- Icono izquierdo -->
-                        <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center" >
+                        <!--  Icono izquierdo  -->
+                        <Border
+                            Grid.Column="0"
+                            Width="24"
+                            Height="24"
+                            VerticalAlignment="Center"
+                            Background="Transparent">
 
-                            <Image Source="/Resources/redo_25.png" 
-                               HorizontalAlignment="Center" 
-                               VerticalAlignment="Top" 
-                               Width="20" 
-                               Height="20"/>
+                            <Image
+                                Width="20"
+                                Height="20"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                Source="/Resources/redo_25.png" />
                         </Border>
 
-                        <!-- Texto -->
-                        <TextBlock Grid.Column="1"
-                           Text="Gestión de devoluciones"
-                           FontSize="12"
-                           Margin="3,0,0,0"
-                           VerticalAlignment="Center"
-                           FontWeight="DemiBold"
-                   
-                           Foreground="White"/>
+                        <!--  Texto  -->
+                        <TextBlock
+                            Grid.Column="1"
+                            Margin="3,0,0,0"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            FontWeight="DemiBold"
+                            Foreground="White"
+                            Text="Gestión de devoluciones" />
 
-                        <!-- Icono derecho -->
-                        <Border Width="22" Height="22" Background="Transparent" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
-                            <Image x:Name="DevolucionIconoFlecha"
-                               Source="pack://application:,,,/SisGestorEmpenio;component/resources/chevron_right_22.png" 
-                               HorizontalAlignment="Center" 
-                               Width="22" Height="22" VerticalAlignment="Top">
+                        <!--  Icono derecho  -->
+                        <Border
+                            Grid.Column="2"
+                            Width="22"
+                            Height="22"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Background="Transparent">
+                            <Image
+                                x:Name="DevolucionIconoFlecha"
+                                Width="22"
+                                Height="22"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                Source="pack://application:,,,/SisGestorEmpenio;component/resources/chevron_right_22.png">
                                 <Image.RenderTransform>
-                                    <RotateTransform x:Name="DevolucionFlechaTransform" Angle="90" CenterX="11" CenterY="11"/>
+                                    <RotateTransform x:Name="DevolucionFlechaTransform" Angle="90" CenterX="11" CenterY="11" />
                                 </Image.RenderTransform>
                             </Image>
                         </Border>
                     </Grid>
                 </Border>
 
-                <!-- Contenedor oculto de sub-opciones -->
+                <!--  Contenedor oculto de sub-opciones  -->
                 <StackPanel x:Name="OpcionesDevoluciones" Visibility="Collapsed">
-                    <!-- Sub-opciones con mismo estilo -->
+                    <!--  Sub-opciones con mismo estilo  -->
 
 
 
-                    <!-- REGISTRAR DEVOLUCIÓN -->
-                    <Border x:Name="BtnRegistrarDevolucion"
-                            Width="230"
-                            Height="28"
-                            Margin="0,6,0,0"
-                            Padding="5,0"
-                            CornerRadius="8"
-                            Cursor="Hand"
-                            MouseLeftButtonUp="GoToRegistrarDevolucion">
+                    <!--  REGISTRAR DEVOLUCIÓN  -->
+                    <Border
+                        x:Name="BtnRegistrarDevolucion"
+                        Width="230"
+                        Height="28"
+                        Margin="0,6,0,0"
+                        Padding="5,0"
+                        CornerRadius="8"
+                        Cursor="Hand"
+                        MouseLeftButtonUp="GoToRegistrarDevolucion">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"/>
-                            <TextBlock x:Name="TxtRegistrarDevolucion"
-                                       Grid.Column="1"
-                                       Text="Registra una devolución"
-                                       FontSize="12"
-                                       Margin="3,0,0,0"
-                                       VerticalAlignment="Center"
-                                       FontWeight="DemiBold"
-                                       Foreground="#83C4C4"/>
+                            <Border
+                                Grid.Column="0"
+                                Width="24"
+                                Height="24"
+                                VerticalAlignment="Center"
+                                Background="Transparent" />
+                            <TextBlock
+                                x:Name="TxtRegistrarDevolucion"
+                                Grid.Column="1"
+                                Margin="3,0,0,0"
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                FontWeight="DemiBold"
+                                Foreground="#83C4C4"
+                                Text="Registra una devolución" />
                         </Grid>
                     </Border>
+
 
 
                     <!-- MODIFICAR DEVOLUCIÓN -->
@@ -313,11 +397,13 @@
                     CornerRadius="8"
                     Cursor="Hand"
                     MouseLeftButtonUp="GoToModificarDevolucion">
+
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
+
                             <Border Width="24" Height="24"
                         Background="Transparent"
                         Grid.Column="0"
@@ -330,6 +416,7 @@
                            Margin="3,0,0,0"
                            VerticalAlignment="Center"
                            Foreground="#83C4C4"/>
+
                         </Grid>
                     </Border>
                 
@@ -364,93 +451,117 @@
                 </Border>
             </StackPanel>
 
+
             
             
             <!--GESTION INVENTARIO - ARTICULOS-->
                 <!-- "Botón" principal con estilo de Border -->
 
 
-                <!-- "Botón" principal con estilo de Border -->
-                <Border Width="230" x:Name="ArticuloBotonPrincipal"
+
+                <!--  "Botón" principal con estilo de Border  -->
+                <Border
+                    x:Name="ArticuloBotonPrincipal"
+                    Width="230"
                     Height="28"
                     Margin="0,12,0,0"
                     Padding="5,0"
                     CornerRadius="8"
-                    MouseLeftButtonUp="ToggleGestInventario_Click"
-                    Cursor="Hand">
+                    Cursor="Hand"
+                    MouseLeftButtonUp="ToggleGestInventario_Click">
 
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <!-- Icono izquierdo -->
-                        <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center" >
+                        <!--  Icono izquierdo  -->
+                        <Border
+                            Grid.Column="0"
+                            Width="24"
+                            Height="24"
+                            VerticalAlignment="Center"
+                            Background="Transparent">
 
-                            <Image Source="/Resources/category_25.png" 
-                               HorizontalAlignment="Center" 
-                               VerticalAlignment="Top" 
-                               Width="20" 
-                               Height="20"/>
+                            <Image
+                                Width="20"
+                                Height="20"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                Source="/Resources/category_25.png" />
                         </Border>
 
-                        <!-- Texto -->
-                        <TextBlock Grid.Column="1"
-                           Text="Gestión de inventario"
-                           FontSize="12"
-                           Margin="3,0,0,0"
-                           VerticalAlignment="Center"
-                           FontWeight="DemiBold"
-                   
-                           Foreground="White"/>
+                        <!--  Texto  -->
+                        <TextBlock
+                            Grid.Column="1"
+                            Margin="3,0,0,0"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            FontWeight="DemiBold"
+                            Foreground="White"
+                            Text="Gestión de inventario" />
 
-                        <!-- Icono derecho -->
-                        <Border Width="22" Height="22" Background="Transparent" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
-                            <Image x:Name="ArticuloIconoFlecha"
-                               Source="pack://application:,,,/SisGestorEmpenio;component/resources/chevron_right_22.png" 
-                               HorizontalAlignment="Center" 
-                               VerticalAlignment="Top" 
-                               Width="22" 
-                               Height="22">
+                        <!--  Icono derecho  -->
+                        <Border
+                            Grid.Column="2"
+                            Width="22"
+                            Height="22"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Background="Transparent">
+                            <Image
+                                x:Name="ArticuloIconoFlecha"
+                                Width="22"
+                                Height="22"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                Source="pack://application:,,,/SisGestorEmpenio;component/resources/chevron_right_22.png">
                                 <Image.RenderTransform>
-                                    <RotateTransform x:Name="ArticuloFlechaTransform" Angle="90" CenterX="11" CenterY="11"/>
+                                    <RotateTransform x:Name="ArticuloFlechaTransform" Angle="90" CenterX="11" CenterY="11" />
                                 </Image.RenderTransform>
                             </Image>
                         </Border>
                     </Grid>
                 </Border>
 
-                <!-- Contenedor oculto de sub-opciones -->
+                <!--  Contenedor oculto de sub-opciones  -->
                 <StackPanel x:Name="OpcionesArticulos" Visibility="Collapsed">
-                    <!-- Sub-opciones con mismo estilo -->
+                    <!--  Sub-opciones con mismo estilo  -->
 
 
 
-                    <!-- REGISTRAR ARTICULO -->
-                    <Border x:Name="BtnRegistrarArticulo"
-                            Width="230"
-                            Height="28"
-                            Margin="0,6,0,0"
-                            Padding="5,0"
-                            CornerRadius="8"
-                            Cursor="Hand"
-                            MouseLeftButtonUp="GoToRegistrarArticulo">
+                    <!--  REGISTRAR ARTICULO  -->
+                    <Border
+                        x:Name="BtnRegistrarArticulo"
+                        Width="230"
+                        Height="28"
+                        Margin="0,6,0,0"
+                        Padding="5,0"
+                        CornerRadius="8"
+                        Cursor="Hand"
+                        MouseLeftButtonUp="GoToRegistrarArticulo">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"/>
-                            <TextBlock x:Name="TxtRegistrarArticulo"
-                                       Grid.Column="1"
-                                       Text="Registra un artículo"
-                                       FontSize="12"
-                                       Margin="3,0,0,0"
-                                       VerticalAlignment="Center"
-                                       FontWeight="DemiBold"
-                                       Foreground="#83C4C4"/>
+                            <Border
+                                Grid.Column="0"
+                                Width="24"
+                                Height="24"
+                                VerticalAlignment="Center"
+                                Background="Transparent" />
+                            <TextBlock
+                                x:Name="TxtRegistrarArticulo"
+                                Grid.Column="1"
+                                Margin="3,0,0,0"
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                FontWeight="DemiBold"
+                                Foreground="#83C4C4"
+                                Text="Registra un artículo" />
                         </Grid>
                     </Border>
 
@@ -478,9 +589,42 @@
                        Margin="3,0,0,0" 
                        VerticalAlignment="Center"
                        Foreground="#83C4C4"/>
+
                         </Grid>
                     </Border>
 
+                    <!--  CONSULTAR ARTICULO  -->
+                    <Border
+                        Width="230"
+                        Height="28"
+                        Margin="0,6,0,0"
+                        Padding="5,0"
+                        CornerRadius="8"
+                        Cursor="Hand"
+                        MouseDown="GoToConsultarArticulo">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border
+                                Grid.Column="0"
+                                Width="24"
+                                Height="24"
+                                VerticalAlignment="Center"
+                                Background="Transparent" />
+                            <TextBlock
+                                x:Name="TxtConsultarArticulo"
+                                Grid.Column="1"
+                                Margin="3,0,0,0"
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                FontWeight="DemiBold"
+                                Foreground="#83C4C4"
+                                Text="Consulta articulos" />
+                        </Grid>
+                    </Border>
 
                 </StackPanel>
             </StackPanel>
@@ -488,64 +632,81 @@
 
 
 
-        <!-- Zona de contenido -->
+        <!--  Zona de contenido  -->
         <Grid Grid.Column="1" Background="#3A7575">
-            <!-- Contenedor principal -->
-            <Border 
-                Background="White"
-                CornerRadius="0,0,0,20"
-                Padding="69,31,69,31"
+            <!--  Contenedor principal  -->
+            <Border
                 Margin="0"
+                Padding="69,31,69,31"
                 HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch">
+                VerticalAlignment="Stretch"
+                Background="White"
+                CornerRadius="0,0,0,20">
 
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="107"/>
-                        <!-- Encabezado -->
-                        <RowDefinition Height="*"/>
-                        <!-- Contenido dinámico -->
+                        <RowDefinition Height="107" />
+                        <!--  Encabezado  -->
+                        <RowDefinition Height="*" />
+                        <!--  Contenido dinámico  -->
                     </Grid.RowDefinitions>
 
-                    <!-- Encabezado -->
+                    <!--  Encabezado  -->
                     <StackPanel Grid.Row="0">
-                        <!-- Espaciado superior -->
+                        <!--  Espaciado superior  -->
                         <Border Height="12" Background="Transparent">
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <Ellipse Width="10" Height="10" Fill="#D9D9D9" VerticalAlignment="Center"/>
-                                <TextBlock Text="__________________"
-                                           FontFamily="Franklin Gothic Heavy"
-                                           Margin="9,0,0,0"
-                                           FontWeight="ExtraBold"
-                                           Foreground="#095858"
-                                           VerticalAlignment="Top" FontSize="6"/>
+                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                <Ellipse
+                                    Width="10"
+                                    Height="10"
+                                    VerticalAlignment="Center"
+                                    Fill="#D9D9D9" />
+                                <TextBlock
+                                    Margin="9,0,0,0"
+                                    VerticalAlignment="Top"
+                                    FontFamily="Franklin Gothic Heavy"
+                                    FontSize="6"
+                                    FontWeight="ExtraBold"
+                                    Foreground="#095858"
+                                    Text="__________________" />
                             </StackPanel>
                         </Border>
 
-                        <!-- Título -->
-                        <Border Height="29" Margin="0,28,0,0" Background="Transparent">
-                            <TextBlock x:Name="TxtTitulo"
-                                Text="Bienvenido administrador a J-LHYS"
+                        <!--  Título  -->
+                        <Border
+                            Height="29"
+                            Margin="0,28,0,0"
+                            Background="Transparent">
+                            <TextBlock
+                                x:Name="TxtTitulo"
+                                VerticalAlignment="Center"
+                                FontFamily="Segoe UI Black"
                                 FontSize="24"
                                 FontWeight="Bold"
                                 Foreground="#095858"
-                                VerticalAlignment="Center"
-                                FontFamily="Segoe UI Black"/>
+                                Text="Bienvenido administrador a J-LHYS" />
                         </Border>
 
-                        <!-- Subtítulo -->
-                        <Border Height="23" Margin="0,8,0,0" Background="Transparent">
-                            <TextBlock x:Name="TxtSubtitulo"
-                                       Text="Sistema gestor de la casa de empeño"
-                                       Foreground="#095858"
-                                       FontSize="20"
-                                       FontWeight="Bold"
-                                       VerticalAlignment="Center"/>
+                        <!--  Subtítulo  -->
+                        <Border
+                            Height="23"
+                            Margin="0,8,0,0"
+                            Background="Transparent">
+                            <TextBlock
+                                x:Name="TxtSubtitulo"
+                                VerticalAlignment="Center"
+                                FontSize="20"
+                                FontWeight="Bold"
+                                Foreground="#095858"
+                                Text="Sistema gestor de la casa de empeño" />
                         </Border>
                     </StackPanel>
 
-                    <!-- Contenido dinámico -->
-                    <ContentControl x:Name="MainContent" Grid.Row="1" Margin="0,10,0,0"/>
+                    <!--  Contenido dinámico  -->
+                    <ContentControl
+                        x:Name="MainContent"
+                        Grid.Row="1"
+                        Margin="0,10,0,0" />
                 </Grid>
             </Border>
         </Grid>

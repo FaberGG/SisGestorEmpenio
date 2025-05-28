@@ -9,10 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+
     <Compile Remove="vistas\UserControl1.xaml.cs" />
-  </ItemGroup>
+
 
   <ItemGroup>
+
+    <None Remove="Resources\add_25dp_FFF_FILL0_wght400_GRAD0_opsz24.png" />
+    <None Remove="Resources\arrow_drop_down_circle_25#3A7575.png" />
     <None Remove="Resources\category_25.png" />
     <None Remove="Resources\chevron_right_22.png" />
     <None Remove="Resources\close_34.png" />
@@ -21,10 +25,17 @@
     <None Remove="Resources\real_estate_agent_20.png" />
     <None Remove="Resources\real_estate_agent_25.png" />
     <None Remove="Resources\redo_25.png" />
+    <None Remove="Resources\search_25#7DA4A4.png" />
     <None Remove="Resources\shopping_bag25.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\add_25dp_FFF_FILL0_wght400_GRAD0_opsz24.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\arrow_drop_down_circle_25#3A7575.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\category_25.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -57,6 +68,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\redo_25.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\search_25#7DA4A4.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\shopping_bag25.png">
