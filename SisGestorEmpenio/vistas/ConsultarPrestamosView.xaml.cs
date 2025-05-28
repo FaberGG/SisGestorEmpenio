@@ -283,7 +283,7 @@ namespace SisGestorEmpenio.vistas
 
                 int rangoTiempoInt = rangoTiempo switch
                 {
-                    "Hoy" => 0,
+                    "Hoy" => 1,
                     "Últimos 5 días" => 5,
                     "Últimos 8 días" => 8,
                     "Últimos 15 días" => 15,
@@ -292,7 +292,7 @@ namespace SisGestorEmpenio.vistas
                 };
 
                 var listaPrestamosFiltrados = admin.ConsultarPrestamosCoincidentes(
-                    cantidadMaxPrestamos: 100,
+                    cantidadMaxPrestamos: 1000,
                     clienteId: clienteId,
                     estado: (estado == "Todos" || estado == "Estado") ? "" : estado,
                     rangoDias: rangoTiempoInt
