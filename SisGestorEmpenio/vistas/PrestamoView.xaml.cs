@@ -153,7 +153,9 @@ namespace SisGestorEmpenio.vistas
                 cliente = new Cliente("", idCliente, "", "", "", "");
             if(articulo == null)
                 articulo = new Articulo(idArticulo, "", 0.0, "");
-            var prestamo = new Prestamo(cliente, articulo, fecha, tasa);
+            var prestamo = this.prestamo;
+            if (isAdding) prestamo = new Prestamo(cliente, articulo, fecha, tasa);
+
 
 
             try
@@ -161,6 +163,8 @@ namespace SisGestorEmpenio.vistas
                 //actualizar el prestamo si se esta editando
                 if (!isAdding)
                 {
+                    prestamo.SetTasaInteres(tasa);
+                    prestamo.SetFechaFin(fecha);
                     bool actualizado = Sesion.Sesion.GetAdministradorActivo().ActualizarPrestamo(prestamo);
                     if (actualizado)
                     {
