@@ -199,63 +199,40 @@ namespace SisGestorEmpenio.vistas
                 await Task.Delay(300, token);
 
                 // Filtrar localmente desde devolucionesOriginales
-                var filtradas = devolucionesOriginales.AsEnumerable();
+                //var filtradas = devolucionesOriginales.AsEnumerable();
 
                 // Filtro por cédula del cliente
                 string textoCedula = txtCedula.Text.Trim();
-                if (!string.IsNullOrEmpty(textoCedula))
-                {
-                    if (int.TryParse(textoCedula, out int clienteId))
-                    {
-                        filtradas = filtradas.Where(d =>
-                            d.GetPrestamo().GetCliente()?.GetId() == clienteId);
-                    }
-                }
+
+                //obtengo el idCliente de la cedula parseandolo a entero, si no -1
+                int idCliente = int.TryParse(textoCedula, out int cedula) ? cedula : -1;
 
                 // Filtro por ID del artículo
                 string textoArticulo = txtIdArticulo.Text.Trim();
-                if (!string.IsNullOrEmpty(textoArticulo))
-                {
-                    if (int.TryParse(textoArticulo, out int articuloId))
-                    {
-                        filtradas = filtradas.Where(d =>
-                            d.GetPrestamo().GetArticulo().GetIdArticulo() == articuloId);
-                    }
-                }
 
+                //obtengo el idArticulo de la cedula parseandolo a entero, si no -1
+                int idArticulo = int.TryParse(textoArticulo, out int articuloId) ? articuloId : -1;
+
+                //obtengo el valor de rango de fechas seleccionado
                 // Filtro por rango de fechas
                 var comboItem = cmbRangoFechas?.SelectedItem as ComboBoxItem;
                 string rango = comboItem?.Content?.ToString() ?? string.Empty;
-
-                if (!string.IsNullOrEmpty(rango) && rango != "Rango de tiempo")
+                int rangoDias = rango switch
                 {
-                    DateTime fechaLimite = DateTime.Today;
+                    "Hoy" => 0,
+                    "Últimos 5 días" => 5,
+                    "Últimos 10 días" => 10,
+                    "Últimos 30 días" => 30,
+                    _ => -1 // No filtrar por fecha
+                };
 
-                    switch (rango)
-                    {
-                        case "Hoy":
-                            filtradas = filtradas.Where(d =>
-                                d.GetFechaDevolucion().Date == DateTime.Today);
-                            break;
-                        case "Últimos 5 días":
-                            fechaLimite = DateTime.Today.AddDays(-5);
-                            filtradas = filtradas.Where(d =>
-                                d.GetFechaDevolucion().Date >= fechaLimite);
-                            break;
-                        case "Últimos 10 días":
-                            fechaLimite = DateTime.Today.AddDays(-10);
-                            filtradas = filtradas.Where(d =>
-                                d.GetFechaDevolucion().Date >= fechaLimite);
-                            break;
-                        case "Últimos 30 días":
-                            fechaLimite = DateTime.Today.AddDays(-30);
-                            filtradas = filtradas.Where(d =>
-                                d.GetFechaDevolucion().Date >= fechaLimite);
-                            break;
-                    }
-                }
 
-                devolucionesFiltradas = filtradas.ToList();
+                devolucionesFiltradas = admin.ConsultarDevoluciones(
+                    cantidadMaxDevoluciones: 100, 
+                    clienteId: idCliente,
+                    articuloId: idArticulo,
+                    rangoDias: rangoDias
+                );
                 paginaActual = 1;
                 ActualizarVisualizacion();
             }
