@@ -353,11 +353,12 @@ namespace SisGestorEmpenio.vistas
         /// <summary>
         /// Muestra los detalles del préstamo seleccionado
         /// </summary>
-        private void MenuVerDetallesDevolucion_Click(object sender, RoutedEventArgs e)
+        private void MenuVerDetallesPrestamo_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button btn && btn.Tag is Devolucion devolucion)
+            if (sender is MenuItem menuItem)
             {
-                MostrarDetalleDevolucion(devolucion);
+                // Disparamos el evento para que la ventana padre maneje la navegación
+                PrestamoSeleccionado?.Invoke(this, menuItem.Tag?.ToString());
             }
         }
 
