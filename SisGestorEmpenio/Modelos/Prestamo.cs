@@ -1,9 +1,7 @@
 ﻿using SisGestorEmpenio.repository;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SisGestorEmpenio.Modelos;
+using SisGestorEmpenio.repository;
 
 namespace SisGestorEmpenio.Modelos
 {
@@ -28,6 +26,7 @@ namespace SisGestorEmpenio.Modelos
             this.tasaInteres = tasaInteres;
         }
 
+       
         public Prestamo(Cliente cliente, Articulo articulo, string estado, DateTime fechaInicio, DateTime fechaFin, double tasaInteres, double montoTotal)
         {
             this.cliente = cliente;
@@ -56,6 +55,7 @@ namespace SisGestorEmpenio.Modelos
             return valorArticulo * (tasaInteres/100) * cantidadMeses;
         }
 
+
         public double CalcularMontoTotal()
         {
             double interes = CalcularInteres();
@@ -75,97 +75,29 @@ namespace SisGestorEmpenio.Modelos
             return false;
         }
 
-        
-
-        public DateTime GetFechaFin()
-        {
-           return fechaFin;
-
-        }
-
         public string MostrarDetalle()
         {
             return $"Cliente: {cliente.GetApellido()}\nArtículo: {articulo.GetDescripcion()}\nMonto Total: {montoTotal:F2}\nEstado: {estado}\nFecha Vencimiento: {fechaFin.ToShortDateString()}";
         }
 
 
-        //Get y set del préstamo 
+        public DateTime GetFechaFin() => fechaFin;
+        public void SetFechaFin(DateTime value) => fechaFin = value;
+        public DateTime GetFechaInicio() => fechaInicio;
+        public void SetFechaInicio(DateTime value) => fechaInicio = value;
+        public double GetTasaInteres() => tasaInteres;
+        public double GetMontoTotal() => montoTotal;
+        public void SetMontoTotal(double value) => montoTotal = value;
+        public void SetTasaInteres(double value) => tasaInteres = value;
+        public string GetEstado() => estado;
+        public void SetEstado(string value) => estado = value;
+        public Cliente GetCliente() => cliente;
+        public void SetCliente(Cliente value) => cliente = value;
+        public Articulo GetArticulo() => articulo;
+        public void SetArticulo(Articulo value) => articulo = value;
+        public Devolucion GetDevolucion() => devolucion;
+        public void SetDevolucion(Devolucion value) => devolucion = value;
 
-
-        public DateTime GetFechaInicio()
-        {
-            return fechaInicio;
-        }
-
-        public void SetFechaInicio(DateTime value)
-        {
-            fechaInicio = value;
-        }
-
-
-        public void SetFechaFin(DateTime value)
-        {
-            fechaFin = value;
-        }
-
-        public double GetTasaInteres()
-        {
-            return tasaInteres;
-        }
-
-        public double GetMontoTotal()
-        {
-            return montoTotal;
-        }
-
-        public void SetMontoTotal(double value)
-        {
-            montoTotal = value;
-        }
-        public void SetTasaInteres(double value)
-        {
-            tasaInteres = value;
-        }
-
-     
-        public string GetEstado()
-        {
-            return estado;
-        }
-
-        public void SetEstado(string value)
-        {
-            estado = value;
-        }
-
-        public Cliente GetCliente()
-        {
-            return cliente;
-        }
-
-        public void SetCliente(Cliente value)
-        {
-            cliente = value;
-        }
-
-        public Articulo GetArticulo()
-        {
-            return articulo;
-        }
-
-        public void SetArticulo(Articulo value)
-        {
-            articulo = value;
-        }
-
-        public Devolucion GetDevolucion()
-        {
-            return devolucion;
-        }
-
-        public void SetDevolucion(Devolucion value)
-        {
-            devolucion = value;
-        }
+        
     }
 }

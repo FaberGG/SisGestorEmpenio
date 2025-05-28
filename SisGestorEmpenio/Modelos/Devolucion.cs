@@ -14,9 +14,14 @@ namespace SisGestorEmpenio.Modelos
         private DateTime fechaDevolucion;
         private double montoPagado;
         private Prestamo prestamo;
+        private Cliente cliente;
+        private Articulo articulo;
+        private Cliente clienteNombre;
+        private Articulo articuloNombre;
+
 
         //constructor
-        
+
         public Devolucion(double montoPagado, Prestamo prestamo)
         {
             this.montoPagado = montoPagado;
@@ -73,5 +78,13 @@ namespace SisGestorEmpenio.Modelos
         {
             prestamo = value;
         }
+
+        public Cliente GetCliente() => cliente;
+        public void SetCliente(Cliente value) => cliente = value;
+        public Articulo GetArticulo() => articulo;
+        public void SetArticulo(Articulo value) => articulo = value;
+
+
+
     }
 }

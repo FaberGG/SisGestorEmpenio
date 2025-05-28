@@ -9,6 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+
+    <Compile Remove="vistas\UserControl1.xaml.cs" />
+
+
+  <ItemGroup>
+
     <None Remove="Resources\add_25dp_FFF_FILL0_wght400_GRAD0_opsz24.png" />
     <None Remove="Resources\arrow_drop_down_circle_25#3A7575.png" />
     <None Remove="Resources\category_25.png" />
@@ -74,6 +80,10 @@
 
   <ItemGroup>
     <EditorConfigFiles Remove="C:\Users\jhonn\OneDrive\Unicauca\Semestre V\Ingenieria-de-Software-I\Proyecto-Software\SisGestorEmpenio\SisGestorEmpenio\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="vistas\UserControl1.xaml" />
   </ItemGroup>
 
   <ItemGroup>

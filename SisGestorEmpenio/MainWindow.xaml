@@ -242,66 +242,40 @@
                         </Grid>
                     </Border>
 
-                    <!--  ELIMINAR PRESTAMO  -->
-                    <Border
+
+     
+                    <!-- CONSULTA UN PRÉSTAMO -->
+                        <Border x:Name="BdConsultaPrestamo"
+
                         Width="230"
                         Height="28"
                         Margin="0,6,0,0"
                         Padding="5,0"
                         CornerRadius="8"
-                        Cursor="Hand">
-                        <Grid>
+                        Cursor="Hand"
+                        MouseLeftButtonUp="GoToConsultarPrestamo">
+                        <Grid>  
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Border
-                                Grid.Column="0"
-                                Width="24"
-                                Height="24"
-                                VerticalAlignment="Center"
-                                Background="Transparent" />
-                            <TextBlock
-                                Grid.Column="1"
-                                Margin="3,0,0,0"
-                                VerticalAlignment="Center"
-                                FontSize="12"
-                                FontWeight="DemiBold"
-                                Foreground="#83C4C4"
-                                Text="Elimina un préstamo" />
+
+                            <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1"
+                   x:Name="TxtConsultarPrestamo"
+                   Text="Consulta un préstamo"
+                   FontSize="12"
+                   Margin="3,0,0,0"
+                   VerticalAlignment="Center"
+                   FontWeight="DemiBold"
+                   Foreground="#83C4C4"/>
+
                         </Grid>
                     </Border>
 
 
-                    <!--  CONSULTA UN PRESTAMO  -->
-                    <Border
-                        Width="230"
-                        Height="28"
-                        Margin="0,6,0,0"
-                        Padding="5,0"
-                        CornerRadius="8"
-                        Cursor="Hand">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Border
-                                Grid.Column="0"
-                                Width="24"
-                                Height="24"
-                                VerticalAlignment="Center"
-                                Background="Transparent" />
-                            <TextBlock
-                                Grid.Column="1"
-                                Margin="3,0,0,0"
-                                VerticalAlignment="Center"
-                                FontSize="12"
-                                FontWeight="DemiBold"
-                                Foreground="#83C4C4"
-                                Text="Consulta un préstamo" />
-                        </Grid>
-                    </Border>
+
+
 
                 </StackPanel>
 
@@ -413,42 +387,76 @@
                     </Border>
 
 
-                    <!--  MODIFICAR DEVOLUCIÓN  -->
-                    <Border
-                        x:Name="BtnModificarDevolucion"
-                        Width="230"
-                        Height="28"
-                        Margin="0,6,0,0"
-                        Padding="5,0"
-                        CornerRadius="8"
-                        Cursor="Hand"
-                        MouseLeftButtonUp="GoToModificarDevolucion">
+
+                    <!-- MODIFICAR DEVOLUCIÓN -->
+                    <Border x:Name="BtnModificarDevolucion"
+                    Width="230"
+                    Height="28"
+                    Margin="0,6,0,0"
+                    Padding="5,0"
+                    CornerRadius="8"
+                    Cursor="Hand"
+                    MouseLeftButtonUp="GoToModificarDevolucion">
+
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Border
-                                Grid.Column="0"
-                                Width="24"
-                                Height="24"
-                                VerticalAlignment="Center"
-                                Background="Transparent" />
-                            <TextBlock
-                                x:Name="TxtModificarDevolucion"
-                                Grid.Column="1"
-                                Margin="3,0,0,0"
-                                VerticalAlignment="Center"
-                                FontSize="12"
-                                FontWeight="DemiBold"
-                                Foreground="#83C4C4"
-                                Text="Modifica una devolución" />
+
+                            <Border Width="24" Height="24"
+                        Background="Transparent"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TxtModificarDevolucion"
+                           Grid.Column="1"
+                           Text="Modifica una devolución"
+                           FontSize="12"
+                           FontWeight="DemiBold"
+                           Margin="3,0,0,0"
+                           VerticalAlignment="Center"
+                           Foreground="#83C4C4"/>
+
                         </Grid>
                     </Border>
-                </StackPanel>
+                
 
-                <!--  GESTION INVENTARIO - ARTICULOS  -->
-                <!--  "Botón" principal con estilo de Border  -->
+                <!-- CONSULTAR DEVOLUCIÓN -->
+                <Border x:Name="BtnConsultarDevolucion"
+                 Width="230"
+                Height="28"
+                Margin="0,6,0,0"
+                Padding="5,0"
+                CornerRadius="8"
+                Cursor="Hand"
+                MouseLeftButtonUp="GoToConsultarDevolucion">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Width="24" Height="24"
+                Background="Transparent"
+                Grid.Column="0"
+                VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TxtConsultarDevolucion"
+                Grid.Column="1"
+                Text="Consulta una devolución"
+                FontSize="12"
+                FontWeight="DemiBold"
+                Margin="3,0,0,0"
+                VerticalAlignment="Center"
+                Foreground="#83C4C4"/>
+                    </Grid>
+                </Border>
+            </StackPanel>
+
+
+            
+            
+            <!--GESTION INVENTARIO - ARTICULOS-->
+                <!-- "Botón" principal con estilo de Border -->
+
 
 
                 <!--  "Botón" principal con estilo de Border  -->
@@ -558,36 +566,30 @@
                     </Border>
 
 
-                    <!--  MODIFICAR ARTICULO  -->
-                    <Border
-                        Width="230"
-                        Height="28"
-                        Margin="0,6,0,0"
-                        Padding="5,0"
-                        CornerRadius="8"
-                        Cursor="Hand"
-                        MouseDown="GoToModificarArticulo">
+                    <!-- MODIFICAR ARTICULO -->
+                    <Border Width="230"
+                    Height="28"
+                    Margin="0,6,0,0"
+                    Padding="5,0"
+                    CornerRadius="8"
+                    Cursor="Hand"
+                    MouseDown="GoToModificarArticulo">
 
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Border
-                                Grid.Column="0"
-                                Width="24"
-                                Height="24"
-                                VerticalAlignment="Center"
-                                Background="Transparent" />
-                            <TextBlock
-                                x:Name="TxtModificarArticulo"
-                                Grid.Column="1"
-                                Margin="3,0,0,0"
-                                VerticalAlignment="Center"
-                                FontSize="12"
-                                FontWeight="DemiBold"
-                                Foreground="#83C4C4"
-                                Text="Modifica un articulo" />
+                            <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TxtModificarArticulo" 
+                       Grid.Column="1"
+                       Text="Modifica un articulo"
+                       FontSize="12"
+                       FontWeight="DemiBold"
+                       Margin="3,0,0,0" 
+                       VerticalAlignment="Center"
+                       Foreground="#83C4C4"/>
+
                         </Grid>
                     </Border>
 

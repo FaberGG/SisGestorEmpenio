@@ -1,0 +1,201 @@
+﻿<UserControl x:Class="SisGestorEmpenio.vistas.DetallesPrestamoView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Height="550" Width="700"
+        Background="#F5F7FA">
+
+    <UserControl.Resources>
+        <!-- Estilos para los controles -->
+        <Style x:Key="SectionHeaderStyle" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Margin" Value="0,0,0,12"/>
+        </Style>
+
+        <Style x:Key="LabelTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#505A64"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+
+        <Style x:Key="ValueTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="0,5,0,0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <Style x:Key="DetailsPanelStyle" TargetType="StackPanel">
+            <Setter Property="Margin" Value="0,0,0,18"/>
+        </Style>
+
+        <Style x:Key="ColumnPanelStyle" TargetType="StackPanel">
+            <Setter Property="Margin" Value="0,5,15,0"/>
+        </Style>
+
+        <Style x:Key="SeparatorStyle" TargetType="Separator">
+            <Setter Property="Background" Value="#E0E0E0"/>
+            <Setter Property="Margin" Value="0,5,0,15"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Border Background="White" CornerRadius="8" Margin="10" BorderThickness="1" BorderBrush="#E0E0E0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Encabezado -->
+            <Border Grid.Row="0" Background="#F9FAFC" BorderThickness="0,0,0,1" BorderBrush="#E0E0E0" Padding="20,15">
+                <StackPanel>
+                    <TextBlock Text="Detalles del Préstamo"
+                           FontSize="20"
+                           FontWeight="SemiBold"
+                           Foreground="#333333"/>
+                    <TextBlock x:Name="txtResumenPrestamo" 
+                           Text="Información completa sobre este préstamo"
+                           Foreground="#666666"
+                           Margin="0,5,0,0"
+                           FontSize="13"/>
+                </StackPanel>
+            </Border>
+            
+
+            <!-- Contenido -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="20">
+                <StackPanel>
+                    <!-- Sección: Cliente -->
+                    <TextBlock Text="Información del Cliente" Style="{StaticResource SectionHeaderStyle}"/>
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Columna 1: Datos básicos -->
+                        <StackPanel Grid.Column="0" Style="{StaticResource ColumnPanelStyle}">
+                            <!-- Identificación -->
+                            <StackPanel Style="{StaticResource DetailsPanelStyle}">
+                                <TextBlock Text="Identificación" Style="{StaticResource LabelTextBlockStyle}"/>
+                                <TextBlock x:Name="txtIdentificacion" Style="{StaticResource ValueTextBlockStyle}"/>
+                            </StackPanel>
+                            <!-- Nombre -->
+                            <StackPanel Style="{StaticResource DetailsPanelStyle}">
+                                <TextBlock Text="Nombre" Style="{StaticResource LabelTextBlockStyle}"/>
+                                <TextBlock x:Name="txtNombreCliente" Style="{StaticResource ValueTextBlockStyle}"/>
+                            </StackPanel>
+                            <!-- Apellido -->
+                            <StackPanel Style="{StaticResource DetailsPanelStyle}">
+                                <TextBlock Text="Apellido" Style="{StaticResource LabelTextBlockStyle}"/>
+                                <TextBlock x:Name="txtApellidoCliente" Style="{StaticResource ValueTextBlockStyle}"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- Columna 2: Datos de contacto -->
+                        <StackPanel Grid.Column="1" Style="{StaticResource ColumnPanelStyle}">
+                            <!-- Teléfono -->
+                            <StackPanel Style="{StaticResource DetailsPanelStyle}">
+                                <TextBlock Text="Teléfono" Style="{StaticResource LabelTextBlockStyle}"/>
+                                <TextBlock x:Name="txtTelefonoCliente" Style="{StaticResource ValueTextBlockStyle}"/>
+                            </StackPanel>
+                            <!-- Correo -->
+                            <StackPanel Style="{StaticResource DetailsPanelStyle}">
+                                <TextBlock Text="Correo Electrónico" Style="{StaticResource LabelTextBlockStyle}"/>
+                                <TextBlock x:Name="txtCorreoCliente" Style="{StaticResource ValueTextBlockStyle}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+
+                    <Separator Style="{StaticResource SeparatorStyle}"/>
+
+                    <!-- Sección: Artículo -->
+                    <TextBlock Text="Información del Artículo" Style="{StaticResource SectionHeaderStyle}"/>
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Columna 1: Datos del artículo -->
+                        <StackPanel Grid.Column="0" Style="{StaticResource ColumnPanelStyle}">
+                            <!-- ID del Artículo -->
+                            <StackPanel Style="{StaticResource DetailsPanelStyle}">
+                                <TextBlock Text="ID Artículo" Style="{StaticResource LabelTextBlockStyle}"/>
+                                <TextBlock x:Name="txtIdArticulo" Style="{StaticResource ValueTextBlockStyle}"/>
+                            </StackPanel>
+                            <!-- Artículo -->
+                            <StackPanel Style="{StaticResource DetailsPanelStyle}">
+                                <TextBlock Text="Descripción" Style="{StaticResource LabelTextBlockStyle}"/>
+                                <TextBlock x:Name="txtArticulo" Style="{StaticResource ValueTextBlockStyle}"/>
+                            </StackPanel>
+                            <!-- Valor Estimado -->
+                            <StackPanel Style="{StaticResource DetailsPanelStyle}">
+                                <TextBlock Text="Valor Estimado" Style="{StaticResource LabelTextBlockStyle}"/>
+                                <TextBlock x:Name="txtValorArticulo" Style="{StaticResource ValueTextBlockStyle}"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- Columna 2: Estado del artículo -->
+                        <StackPanel Grid.Column="1" Style="{StaticResource ColumnPanelStyle}">
+                            <!-- Estado Artículo -->
+                            <StackPanel Style="{StaticResource DetailsPanelStyle}">
+                                <TextBlock Text="Estado" Style="{StaticResource LabelTextBlockStyle}"/>
+                                <Border Background="#E8F5E9" CornerRadius="4" Padding="8,4" HorizontalAlignment="Left" Margin="0,5,0,0">
+                                    <TextBlock x:Name="txtEstadoArticulo" Foreground="#2E7D32" FontWeight="Medium" FontSize="13"/>
+                                </Border>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+
+                    <Separator Style="{StaticResource SeparatorStyle}"/>
+
+                    <!-- Sección: Préstamo -->
+                    <TextBlock Text="Detalles del Préstamo" Style="{StaticResource SectionHeaderStyle}"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Columna 1: Fechas -->
+                        <StackPanel Grid.Column="0" Style="{StaticResource ColumnPanelStyle}">
+                            <!-- Fecha Inicio -->
+                            <StackPanel Style="{StaticResource DetailsPanelStyle}">
+                                <TextBlock Text="Fecha Inicio" Style="{StaticResource LabelTextBlockStyle}"/>
+                                <TextBlock x:Name="txtFechaInicio" Style="{StaticResource ValueTextBlockStyle}"/>
+                            </StackPanel>
+                            <!-- Fecha Fin -->
+                            <StackPanel Style="{StaticResource DetailsPanelStyle}">
+                                <TextBlock Text="Fecha Vencimiento" Style="{StaticResource LabelTextBlockStyle}"/>
+                                <TextBlock x:Name="txtFechaFin" Style="{StaticResource ValueTextBlockStyle}"/>
+                            </StackPanel>
+                            <!-- Estado Devolución -->
+                            <StackPanel Style="{StaticResource DetailsPanelStyle}">
+                                <TextBlock Text="Estado Devolución" Style="{StaticResource LabelTextBlockStyle}"/>
+                                <Border x:Name="borderEstadoDevolucion" CornerRadius="4" Padding="8,4" HorizontalAlignment="Left" Margin="0,5,0,0">
+                                    <TextBlock x:Name="txtEstadoDevolucion" FontWeight="Medium" FontSize="13"/>
+                                </Border>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- Columna 2: Financieros -->
+                        <StackPanel Grid.Column="1" Style="{StaticResource ColumnPanelStyle}">
+                            <!-- Tasa de Interés -->
+                            <StackPanel Style="{StaticResource DetailsPanelStyle}">
+                                <TextBlock Text="Tasa de Interés" Style="{StaticResource LabelTextBlockStyle}"/>
+                                <TextBlock x:Name="txtTasaInteres" Style="{StaticResource ValueTextBlockStyle}"/>
+                            </StackPanel>
+                            <!-- Monto Total -->
+                            <StackPanel Style="{StaticResource DetailsPanelStyle}">
+                                <TextBlock Text="Monto Total" Style="{StaticResource LabelTextBlockStyle}"/>
+                                <TextBlock x:Name="txtMonto" FontWeight="SemiBold" Foreground="#1976D2" FontSize="16"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Border>
+</UserControl>

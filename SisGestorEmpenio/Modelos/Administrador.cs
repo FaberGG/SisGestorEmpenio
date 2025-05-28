@@ -195,6 +195,32 @@ namespace SisGestorEmpenio.Modelos
         {
             contrasenia = nuevaContrasenia;
         }
+
+        public List<Prestamo> ObtenerTodosPrestamos()
+        {
+            var repo = new PrestamoRepository();
+            return repo.ObtenerTodos();
+        }
+
+        //funcion para consultar n prestamos coincidentes con 
+        //id cliente, estado activo inactivo o todos y ultimos n dias de registro o todos
+        public List<Prestamo> ConsultarPrestamosCoincidentes(int cantidadMaxPrestamos = 100, int clienteId = -1, string estado = "", int rangoDias = -1 )
+        {
+            var repo = new PrestamoRepository();
+            return repo.BuscarPrestamosCoincidentes(cantidadMaxPrestamos, clienteId, estado, rangoDias);
+        }
+
+        public List<Devolucion> ConsultarDevoluciones(int cantidadMaxDevoluciones = 100, int clienteId = -1, int articuloId = -1, int rangoDias = -1)
+        {
+            var repo = new DevolucionRepository();
+            return repo.BuscarDevolucionesCoincidentes(cantidadMaxDevoluciones, clienteId, articuloId, rangoDias);
+        }
+
+        public List<Devolucion> ConsultarDevolucionesFiltradas(string criterio, string filtro)
+        {
+            // cambiar 
+            return new List<Devolucion>(); // Devuelve una lista vacía por ahora
+        }
     }
 }
 

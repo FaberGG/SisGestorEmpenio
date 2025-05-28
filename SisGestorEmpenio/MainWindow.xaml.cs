@@ -19,14 +19,18 @@ namespace SisGestorEmpenio
     /// </summary>
     public partial class MainWindow : Window
     {
-        //para el menu
         private TextBlock textoSeleccionadoActual = null;
+        private Administrador admin;
 
         public MainWindow()
         {
             InitializeComponent();
-            // Por ejemplo, cargar la vista de inicio
-            MainContent.Content = new vistas.HomeView(); // Asegúrate de que esta clase exista
+
+            // Obtener administrador activo
+            admin = Sesion.Sesion.GetAdministradorActivo();
+
+            // Cargar vista de inicio
+            MainContent.Content = new vistas.HomeView();
         }
 
         private void CerrarSesion_Click(object sender, MouseButtonEventArgs e)
@@ -250,6 +254,25 @@ namespace SisGestorEmpenio
         }
 
 
+
+        private void GoToConsultarPrestamo(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                SeleccionarOpcion(TxtConsultarPrestamo);
+                ActualizarEncabezado("Consultar Préstamo");
+
+                // Crear y suscribir evento
+                var consulta = new ConsultarPrestamosView();
+                consulta.PrestamoSeleccionado += OnPrestamoSeleccionado;
+                MainContent.Content = consulta;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar la vista de consulta: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void GoToConsultarArticulo(object sender, MouseButtonEventArgs e)
         {
             SeleccionarOpcion(TxtConsultarArticulo);
@@ -265,11 +288,53 @@ namespace SisGestorEmpenio
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al cargar la vista de consulta: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
             }
-
-
         }
+
+
+        // Manejador del evento lanzado por ConsultarPrestamos
+        private void OnPrestamoSeleccionado(object sender, string idPrestamo)
+        {
+            // Separar los IDs
+            var partes = idPrestamo.Split('_');
+            if (partes.Length != 2) return;
+
+            if (!int.TryParse(partes[0], out int clienteId)) return;
+            if (!int.TryParse(partes[1], out int articuloId)) return;
+
+            // Buscar el préstamo con la función específica
+            var prestamo = admin.BuscarPrestamo(clienteId, articuloId);
+            if (prestamo == null) return;
+
+            // Crear vista de detalles y cargar datos
+            var detalles = new DetallesPrestamoView();
+            detalles.CargarDatos(prestamo);
+
+            // Navegar a detalles
+            MainContent.Content = detalles;
+        }
+
+        //Cuando te lnazan a consultar una devolucion
+        private void GoToConsultarDevolucion(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                SeleccionarOpcion(TxtConsultarDevolucion);
+                ActualizarEncabezado("Consultar Devolución");
+
+                // Crear instancia de la vista
+                var consulta = new ConsultarDevolucionView();
+
+                // Cargar la vista en el contenedor principal
+                MainContent.Content = consulta;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar la vista de consulta: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
 
         private void OnArticuloSeleccionado(object sender, int idArticulo)
         {
@@ -295,5 +360,6 @@ namespace SisGestorEmpenio
                 MessageBox.Show($"Error al buscar el artículo: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
     }
 }
