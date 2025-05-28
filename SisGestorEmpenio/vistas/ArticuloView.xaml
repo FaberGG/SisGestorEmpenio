@@ -46,7 +46,7 @@
                 <TextBlock x:Name="lblDescripcion"
                            Margin="7,0,0,2"
                            Foreground="Black"
-                           HorizontalAlignment="Left" Width="81"><Run Text="Descripción"/><Run Language="es-es" Text="*"/></TextBlock>
+                           HorizontalAlignment="Left" ><Run Text="Descripción"/><Run Language="es-es" Text="*"/></TextBlock>
                 <Border Background="#C2DBDB"
                         CornerRadius="8"
                         MinHeight="28">
