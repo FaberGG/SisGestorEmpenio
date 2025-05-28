@@ -34,7 +34,7 @@ namespace SisGestorEmpenio
             // Cerrar la sesión
             Sesion.Sesion.CerrarSesion();
             // Crear nueva instancia de la ventana de login
-            var login = new LogInWindow(); 
+            var login = new LogInWindow();
             login.Show();
 
             // Cerrar la ventana actual
@@ -58,14 +58,14 @@ namespace SisGestorEmpenio
 
 
         // Método para cambiar la vista en el ContentControl
-        
+
 
         private void GoToHome(object sender, RoutedEventArgs e)
         {
             MainContent.Content = new vistas.HomeView();
         }
 
-       
+
 
         // ARTICULO
         private void GoToRegistrarArticulo(object sender, MouseButtonEventArgs e)
@@ -152,12 +152,12 @@ namespace SisGestorEmpenio
         // Modificar Prestamo
         private void GoToModificarPrestamo(object sender, MouseButtonEventArgs e)
         {
-            
+
 
             BuscarPrestamoPorIdWindow buscarPrestamo = new BuscarPrestamoPorIdWindow();
             bool? resultado = buscarPrestamo.ShowDialog();
 
-            if(resultado == true)
+            if (resultado == true)
             {
                 SeleccionarOpcion(TxtModificarPrestamo);
                 ActualizarEncabezado("Modificar Prestamo");
@@ -168,7 +168,7 @@ namespace SisGestorEmpenio
                     MainContent.Content = new ModificarPrestamoView(prestamo);
                 }
             }
-            
+
         }
 
         private void GoToRegistrarDevolucion(object sender, MouseButtonEventArgs e)
@@ -249,5 +249,51 @@ namespace SisGestorEmpenio
             }
         }
 
+
+        private void GoToConsultarArticulo(object sender, MouseButtonEventArgs e)
+        {
+            SeleccionarOpcion(TxtConsultarArticulo);
+            ActualizarEncabezado("Consultar Artículo");
+
+            try
+            {
+                // Crear y suscribir evento
+                var consulta = new ConsultarArticulosView();
+                consulta.ArticuloSeleccionado += OnArticuloSeleccionado;
+                MainContent.Content = consulta;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar la vista de consulta: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            }
+
+
+        }
+
+        private void OnArticuloSeleccionado(object sender, int idArticulo)
+        {
+            //se muestra la vista de editar artículo con el id seleccionado
+            try
+            {
+                var articulo = Sesion.Sesion.GetAdministradorActivo().BuscarArticulo(idArticulo);
+                if (articulo != null)
+                {
+                    //actualizar encabezado
+                    ActualizarEncabezado("Consultar Artículo", $"Actualizar articulo consultado");
+
+
+                    MainContent.Content = new ArticuloView(articulo);
+                }
+                else
+                {
+                    MessageBox.Show("Artículo no encontrado.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al buscar el artículo: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }

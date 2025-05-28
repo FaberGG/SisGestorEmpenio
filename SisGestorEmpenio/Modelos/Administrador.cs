@@ -73,6 +73,13 @@ namespace SisGestorEmpenio.Modelos
             return articuloRepository.Buscar(id);
         }
 
+        //buscar articulos coincidentes 
+        public List<Articulo> BuscarArticulosCoincidentes(int cantidadMaxArticulos = 100, int id = -1, string descripcion = "", int propiedadCasa = -1, string estado = "", string devolucion = "")
+        {
+            ArticuloRepository articuloRepository = new ArticuloRepository();
+            return articuloRepository.BuscarArticulosCoincidentes(cantidadMaxArticulos, id, descripcion, propiedadCasa, estado, devolucion );
+        }
+
         public Prestamo BuscarPrestamo(int clienteId, int articuloId)
         {
             PrestamoRepository prestamoRepository = new PrestamoRepository();
