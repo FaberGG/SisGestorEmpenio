@@ -41,41 +41,61 @@ VALUES (32109876, 'Carmen', 'Torres', '3166669900', 'carmen.torres@email.com', '
 
 -- Artículos para préstamos múltiples del primer cliente
 INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion) 
-VALUES (1001, 'Anillo de oro 18k con diamante', 2500000.00, 'optimo', 0, NULL);
+VALUES (1001, 'Anillo de oro 18k con diamante', 2500000.00, 'optimo', 0, 'libre');
 
 INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion) 
-VALUES (1002, 'Collar de perlas naturales', 1800000.00, 'optimo', 0, NULL);
+VALUES (1002, 'Collar de perlas naturales', 1800000.00, 'optimo', 0, 'libre');
 
 INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion) 
-VALUES (1003, 'Reloj Rolex Submariner', 8500000.00, 'funcionable', 0, NULL);
+VALUES (1003, 'Reloj Rolex Submariner', 8500000.00, 'funcionable', 0, 'libre');
 
 -- Artículos para otros clientes
 INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion) 
-VALUES (1004, 'Cadena de oro de 14k', 1200000.00, 'optimo', 0, NULL);
+VALUES (1004, 'Cadena de oro de 14k', 1200000.00, 'optimo', 0, 'libre');
 
 INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion) 
-VALUES (1005, 'Aretes de esmeraldas', 3200000.00, 'optimo', 0, NULL);
+VALUES (1005, 'Aretes de esmeraldas', 3200000.00, 'optimo', 0, 'libre');
 
 INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion) 
-VALUES (1006, 'Pulsera de plata con zafiros', 950000.00, 'funcionable', 0, NULL);
+VALUES (1006, 'Pulsera de plata con zafiros', 950000.00, 'funcionable', 0, 'libre');
 
 INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion) 
-VALUES (1007, 'Televisor Samsung 55 pulgadas', 2800000.00, 'optimo', 0, NULL);
+VALUES (1007, 'Televisor Samsung 55 pulgadas', 2800000.00, 'optimo', 0, 'libre');
 
 INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion) 
-VALUES (1008, 'Laptop MacBook Pro', 6500000.00, 'funcionable', 0, NULL);
+VALUES (1008, 'Laptop MacBook Pro', 6500000.00, 'funcionable', 0, 'libre');
 
 INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion) 
-VALUES (1009, 'Guitarra eléctrica Fender', 2200000.00, 'optimo', 0, NULL);
+VALUES (1009, 'Guitarra eléctrica Fender', 2200000.00, 'optimo', 0, 'libre');
 
 INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion) 
-VALUES (1010, 'Tablet iPad Air', 1800000.00, 'defectuoso', 0, NULL);
+VALUES (1010, 'Tablet iPad Air', 1800000.00, 'defectuoso', 0, 'libre');
 
 INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion) 
-VALUES (1011, 'Cámara Canon EOS R5', 7200000.00, 'optimo', 0, NULL);
+VALUES (1011, 'Cámara Canon EOS R5', 7200000.00, 'optimo', 0, 'libre');
 
 INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion) 
-VALUES (1012, 'Consola PlayStation 5', 2500000.00, 'funcionable', 0, NULL);
+VALUES (1012, 'Consola PlayStation 5', 2500000.00, 'funcionable', 0, 'libre');
+
+
+-- Artículos adicionales para pruebas
+INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion)
+VALUES (1013, 'Televisor LG 40 pulgadas', 1500.00, 'optimo', 1, 'libre');
+
+INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion)
+VALUES (1014, 'Laptop HP i7 16GB RAM', 1200.00, 'funcionable', 1, 'libre');
+
+INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion)
+VALUES (1015, 'Refrigeradora LG 2 puertas', 1000.00, 'optimo', 1, 'libre');
+
+INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion)
+VALUES (1016, 'Reloj Rolex antiguo', 3000.00, 'defectuoso', 1, 'libre');
+
+INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion)
+VALUES (1017, 'Cámara Canon EOS 90D', 1100.00, 'funcionable', 1, 'libre');
+
+
+
 
 -- ========================================
 -- 4. INSERTAR RELACIÓN POSEE (PROPIEDAD)
@@ -106,21 +126,21 @@ INSERT INTO Prestamo (numeroIdentidadCliente, idArticulo, estadoPrestamo, fechaI
 VALUES (87654321, 1001, 'activo', DATE '2024-01-15', DATE '2024-07-15', 15.50, 1875000.00);
 
 INSERT INTO Prestamo (numeroIdentidadCliente, idArticulo, estadoPrestamo, fechaInicio, fechaFin, tasaInteres, montoTotal) 
-VALUES (87654321, 1002, 'inactivo', DATE '2024-02-10', DATE '2024-08-10', 12.00, 1350000.00);
+VALUES (87654321, 1002, 'activo', DATE '2024-02-10', DATE '2024-08-10', 12.00, 1350000.00);
 
 INSERT INTO Prestamo (numeroIdentidadCliente, idArticulo, estadoPrestamo, fechaInicio, fechaFin, tasaInteres, montoTotal) 
 VALUES (87654321, 1003, 'activo', DATE '2024-03-05', DATE '2024-09-05', 18.75, 6375000.00);
 
 -- PRÉSTAMOS PARA LAURA MARTINEZ (Cliente: 76543210)
 INSERT INTO Prestamo (numeroIdentidadCliente, idArticulo, estadoPrestamo, fechaInicio, fechaFin, tasaInteres, montoTotal) 
-VALUES (76543210, 1004, 'inactivo', DATE '2024-01-20', DATE '2024-07-20', 14.00, 900000.00);
+VALUES (76543210, 1004, 'activo', DATE '2024-01-20', DATE '2024-07-20', 14.00, 900000.00);
 
 INSERT INTO Prestamo (numeroIdentidadCliente, idArticulo, estadoPrestamo, fechaInicio, fechaFin, tasaInteres, montoTotal) 
 VALUES (76543210, 1005, 'activo', DATE '2024-04-01', DATE '2024-10-01', 16.25, 2400000.00);
 
 -- PRÉSTAMOS PARA PEDRO GONZALEZ (Cliente: 65432109)
 INSERT INTO Prestamo (numeroIdentidadCliente, idArticulo, estadoPrestamo, fechaInicio, fechaFin, tasaInteres, montoTotal) 
-VALUES (65432109, 1006, 'inactivo', DATE '2024-02-15', DATE '2024-08-15', 13.50, 712500.00);
+VALUES (65432109, 1006, 'activo', DATE '2024-02-15', DATE '2024-08-15', 13.50, 712500.00);
 
 INSERT INTO Prestamo (numeroIdentidadCliente, idArticulo, estadoPrestamo, fechaInicio, fechaFin, tasaInteres, montoTotal) 
 VALUES (65432109, 1007, 'activo', DATE '2024-05-10', DATE '2024-11-10', 17.00, 2100000.00);
@@ -130,14 +150,14 @@ INSERT INTO Prestamo (numeroIdentidadCliente, idArticulo, estadoPrestamo, fechaI
 VALUES (54321098, 1008, 'activo', DATE '2024-03-20', DATE '2024-09-20', 19.50, 4875000.00);
 
 INSERT INTO Prestamo (numeroIdentidadCliente, idArticulo, estadoPrestamo, fechaInicio, fechaFin, tasaInteres, montoTotal) 
-VALUES (54321098, 1009, 'inactivo', DATE '2024-01-25', DATE '2024-07-25', 15.00, 1650000.00);
+VALUES (54321098, 1009, 'activo', DATE '2024-01-25', DATE '2024-07-25', 15.00, 1650000.00);
 
 -- PRÉSTAMOS PARA MIGUEL RAMIREZ (Cliente: 43210987)
 INSERT INTO Prestamo (numeroIdentidadCliente, idArticulo, estadoPrestamo, fechaInicio, fechaFin, tasaInteres, montoTotal) 
 VALUES (43210987, 1010, 'activo', DATE '2024-04-15', DATE '2024-10-15', 11.50, 1350000.00);
 
 INSERT INTO Prestamo (numeroIdentidadCliente, idArticulo, estadoPrestamo, fechaInicio, fechaFin, tasaInteres, montoTotal) 
-VALUES (43210987, 1011, 'inactivo', DATE '2024-02-28', DATE '2024-08-28', 20.00, 5400000.00);
+VALUES (43210987, 1011, 'activo', DATE '2024-02-28', DATE '2024-08-28', 20.00, 5400000.00);
 
 -- PRÉSTAMO PARA CARMEN TORRES (Cliente: 32109876)
 INSERT INTO Prestamo (numeroIdentidadCliente, idArticulo, estadoPrestamo, fechaInicio, fechaFin, tasaInteres, montoTotal) 
@@ -172,12 +192,15 @@ VALUES (54321098, 1009, DATE '2024-04-30', 825000.00);
 INSERT INTO Devolucion (numeroIdentidadCliente, idArticulo, fechaDevolucion, montoPagado) 
 VALUES (43210987, 1011, DATE '2024-07-30', 5400000.00);
 
+
+-- ========================================
+-- COMMIT DE TODOS LOS INSERTS
 COMMIT;
 
-SELECT * from PRESTAMO where IDARTICULO = 1001;
-SELECT * from Articulo where IDARTICULO = 1001;
-INSERT INTO Prestamo (numeroIdentidadCliente, idArticulo, estadoPrestamo, fechaInicio, fechaFin, tasaInteres, montoTotal) 
-VALUES (32109876, 1001, 'activo', DATE '2024-05-01', DATE '2024-11-01', 16.75, 1875000.00);
+
+
+
+
 
 -- ========================================
 -- RESUMEN DE DATOS INSERTADOS:
@@ -190,6 +213,13 @@ VALUES (32109876, 1001, 'activo', DATE '2024-05-01', DATE '2024-11-01', 16.75, 1
 -- Algunos préstamos están activos, otros inactivos
 -- Las devoluciones incluyen pagos completos y parciales
 COMMIT;
+
+
+
+
+
+
+
 
 -- ========================================
 
@@ -243,3 +273,60 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
 END;
 /
+
+
+
+
+-- ========================================
+-- BLOQUE PL/SQL SIMPLIFICADO PARA GENERAR N ARTÍCULOS
+DECLARE
+    N NUMBER := 10000; -- Número de artículos a insertar
+    i NUMBER := 1;
+    v_estadoArticulo VARCHAR2(12);
+    v_propiedadCasa NUMBER(1);
+    v_estadoDevolucion VARCHAR2(12);
+BEGIN
+    FOR i IN 1..N LOOP
+        -- Alternar entre los estados disponibles usando MOD
+        CASE MOD(i, 3)
+            WHEN 0 THEN v_estadoArticulo := 'defectuoso';
+            WHEN 1 THEN v_estadoArticulo := 'optimo';
+            WHEN 2 THEN v_estadoArticulo := 'funcionable';
+        END CASE;
+
+        -- Alternar también el estado de devolución y propiedad de la casa
+        v_estadoDevolucion := CASE MOD(i, 2)
+                              WHEN 0 THEN 'devuelto'
+                              ELSE 'libre'
+                              END;
+
+        v_propiedadCasa := CASE MOD(i, 2)
+                           WHEN 0 THEN 1
+                           ELSE 0
+                           END;
+
+        -- Inserción del artículo
+        INSERT INTO Articulo (
+            idArticulo,
+            descripcion,
+            valorEstimado,
+            estadoArticulo,
+            propiedadCasa,
+            estadoDevolucion
+        ) VALUES (
+            i,
+            'Artículo #' || i,
+            100 + i * 10, -- Valor estimado creciente
+            v_estadoArticulo,
+            v_propiedadCasa,
+            v_estadoDevolucion
+        );
+    END LOOP;
+
+    COMMIT;
+    DBMS_OUTPUT.PUT_LINE(N || ' artículos insertados correctamente.');
+END;
+/
+-- ========================================
+SELECT COUNT(*) AS total_articulos
+FROM Articulo;
