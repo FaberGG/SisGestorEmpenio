@@ -82,6 +82,7 @@ namespace SisGestorEmpenio.Modelos
 
 
         public DateTime GetFechaFin() => fechaFin;
+        public void SetFechaFin(DateTime value) => fechaFin = value;
         public DateTime GetFechaInicio() => fechaInicio;
         public void SetFechaInicio(DateTime value) => fechaInicio = value;
         public double GetTasaInteres() => tasaInteres;
