@@ -29,7 +29,7 @@ namespace SisGestorEmpenio.repository
             return filasAfectadas > 0;
         }
 
-        public bool EstaGuardado(int clienteId, int articuloId)
+        public bool EstaGuardado(string clienteId, string articuloId)
         {
             string consulta = $"SELECT * FROM prestamo WHERE numeroIdentidadCliente = {clienteId} AND idArticulo = {articuloId}";
             var resultado = dt.ejecutarSelect(consulta);
@@ -38,7 +38,7 @@ namespace SisGestorEmpenio.repository
             return isSaved;
         }
 
-        public Prestamo Buscar(int clienteId, int articuloId)
+        public Prestamo Buscar(string clienteId, string articuloId)
         {
             ClienteRepository clienteRepository = new ClienteRepository();
             ArticuloRepository articuloRepository = new ArticuloRepository();
@@ -48,8 +48,8 @@ namespace SisGestorEmpenio.repository
             {
                 var row = resultado.Tables[0].Rows[0];
                 return new Prestamo(
-                    clienteRepository.Buscar(Convert.ToInt32(row["numeroIdentidadCliente"])),
-                    articuloRepository.Buscar(Convert.ToInt32(row["idArticulo"])),
+                    clienteRepository.Buscar(row["numeroIdentidadCliente"].ToString()),
+                    articuloRepository.Buscar(row["idArticulo"].ToString()),
                     row["estadoPrestamo"].ToString(),
                     DateTime.Parse(row["fechaInicio"].ToString()),
                     DateTime.Parse(row["fechaFin"].ToString()),
@@ -80,8 +80,8 @@ namespace SisGestorEmpenio.repository
 
             foreach (System.Data.DataRow row in ds.Tables[0].Rows)
             {
-                var cli = clienteRepo.Buscar(Convert.ToInt32(row["numeroIdentidadCliente"]));
-                var art = articuloRepo.Buscar(Convert.ToInt32(row["idArticulo"]));
+                var cli = clienteRepo.Buscar(row["numeroIdentidadCliente"].ToString());
+                var art = articuloRepo.Buscar(row["idArticulo"].ToString());
                 var estado = row["estadoPrestamo"].ToString();
                 var fi = DateTime.Parse(row["fechaInicio"].ToString());
                 var ff = DateTime.Parse(row["fechaFin"].ToString());
@@ -94,14 +94,25 @@ namespace SisGestorEmpenio.repository
             return list;
         }
 
-        public List<Prestamo> BuscarPrestamosCoincidentes(int cantidadMaxPrestamos, int clienteId, string estado, int rangoDias)
+        public List<Prestamo> BuscarPrestamosCoincidentes(int cantidadMaxPrestamos, string clienteId, string estado, int rangoDias)
         {
             var prestamos = new List<Prestamo>();
             var condiciones = new List<string>();
+            var orderBy = "ORDER BY fechaInicio DESC";
 
-            if (clienteId != -1)
+            bool filtrarPorCliente = !string.IsNullOrEmpty(clienteId);
+
+            if (filtrarPorCliente)
             {
+                // Se da prioridad a coincidencias exactas con CASE
                 condiciones.Add($"CAST(numeroIdentidadCliente AS VARCHAR2(20)) LIKE '{clienteId}%'");
+                orderBy = $@"
+            ORDER BY 
+                CASE 
+                    WHEN CAST(numeroIdentidadCliente AS VARCHAR2(20)) = '{clienteId}' THEN 0 
+                    ELSE 1 
+                END,
+                fechaInicio DESC";
             }
 
             if (estado.ToLower().Contains("activo") || estado.ToLower().Contains("inactivo"))
@@ -117,12 +128,12 @@ namespace SisGestorEmpenio.repository
             string whereClause = condiciones.Count > 0 ? "WHERE " + string.Join(" AND ", condiciones) : "";
 
             string consulta = $@"
-                    SELECT * FROM (
-                        SELECT * FROM prestamo
-                        {whereClause}
-                        ORDER BY fechaInicio DESC
-                    ) 
-                    WHERE ROWNUM <= {cantidadMaxPrestamos}";
+        SELECT * FROM (
+            SELECT * FROM prestamo
+            {whereClause}
+            {orderBy}
+        )
+        WHERE ROWNUM <= {cantidadMaxPrestamos}";
 
             var resultado = dt.ejecutarSelect(consulta);
             if (resultado.Tables.Count == 0 || resultado.Tables[0].Rows.Count == 0)
@@ -133,8 +144,8 @@ namespace SisGestorEmpenio.repository
 
             foreach (System.Data.DataRow row in resultado.Tables[0].Rows)
             {
-                var cliente = clienteRepo.Buscar(Convert.ToInt32(row["numeroIdentidadCliente"]));
-                var articulo = articuloRepo.Buscar(Convert.ToInt32(row["idArticulo"]));
+                var cliente = clienteRepo.Buscar(row["numeroIdentidadCliente"].ToString());
+                var articulo = articuloRepo.Buscar(row["idArticulo"].ToString());
                 var estadoPrestamo = row["estadoPrestamo"].ToString();
                 var fechaInicio = DateTime.Parse(row["fechaInicio"].ToString());
                 var fechaFin = DateTime.Parse(row["fechaFin"].ToString());
@@ -146,6 +157,7 @@ namespace SisGestorEmpenio.repository
 
             return prestamos;
         }
+
 
     }
 }

@@ -23,9 +23,9 @@ namespace SisGestorEmpenio.vistas
 
             // Validaciones automáticas al perder foco
             txtClienteId.LostFocus += (s, e) =>
-                ValidacionHelper.ValidarEntero(txtClienteId, lblIdCliente, "identificación del cliente*");
+                ValidacionHelper.ValidarIdentificador(txtClienteId, lblIdCliente, "identificación del cliente*");
             txtArticuloId.LostFocus += (s, e) =>
-                ValidacionHelper.ValidarEntero(txtArticuloId, lblIdArticulo, "identificador del artículo*");
+                ValidacionHelper.ValidarIdentificador(txtArticuloId, lblIdArticulo, "identificador del artículo*");
 
             // Prevenir caracteres no numéricos
             txtClienteId.PreviewTextInput += SoloNumeros_Preview;
@@ -42,17 +42,17 @@ namespace SisGestorEmpenio.vistas
         private void btnBuscar_Click(object sender, MouseButtonEventArgs e)
         {
             bool valido =
-                ValidacionHelper.ValidarEntero(txtClienteId, lblIdCliente, "identificación del cliente*") &
-                ValidacionHelper.ValidarEntero(txtArticuloId, lblIdArticulo, "identificador del artículo*");
+                ValidacionHelper.ValidarIdentificador(txtClienteId, lblIdCliente, "identificación del cliente*") &
+                ValidacionHelper.ValidarIdentificador(txtArticuloId, lblIdArticulo, "identificador del artículo*");
 
             if (!valido)
             {
                 MostrarError("Corrige los campos resaltados.");
                 return;
             }
-
-            int clienteId = int.Parse(txtClienteId.Text.Trim());
-            int articuloId = int.Parse(txtArticuloId.Text.Trim());
+            //obtengo los valores de los campos
+            string clienteId = txtClienteId.Text.Trim();
+            string articuloId = txtArticuloId.Text.Trim();
 
             var admin = Sesion.Sesion.GetAdministradorActivo();
             try

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -279,7 +280,7 @@ namespace SisGestorEmpenio.vistas
                 string rangoTiempo = (cmbRangoTiempo.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "";
                 string identificacion = txtIdentificacion.Text.Trim().ToLower();
 
-                int clienteId = int.TryParse(identificacion, out var tempId) ? tempId : -1;
+                //string clienteId = BigInteger.TryParse(identificacion, out BigInteger id) ? id.ToString() : string.Empty;
 
                 int rangoTiempoInt = rangoTiempo switch
                 {
@@ -292,11 +293,11 @@ namespace SisGestorEmpenio.vistas
                 };
 
                 var listaPrestamosFiltrados = admin.ConsultarPrestamosCoincidentes(
-                    cantidadMaxPrestamos: 1000,
-                    clienteId: clienteId,
+                    cantidadMaxPrestamos: 100,
+                    clienteId: string.IsNullOrEmpty(identificacion) || identificacion == "Identificación..." ? "" : identificacion,
                     estado: (estado == "Todos" || estado == "Estado") ? "" : estado,
                     rangoDias: rangoTiempoInt
-                );
+                ); 
 
                 prestamosFiltrados = listaPrestamosFiltrados;
                 paginaActual = 1;

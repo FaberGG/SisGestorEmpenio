@@ -20,7 +20,7 @@ namespace SisGestorEmpenio.repository
             filasAfectadas = dt.ejecutarDML(consulta);
             return filasAfectadas > 0;
         }
-        public bool EstaGuardado(int id)
+        public bool EstaGuardado(string id)
         {
             string consulta = $"SELECT * FROM cliente WHERE numeroIdentidad = {id}";
             var resultado = dt.ejecutarSelect(consulta);
@@ -29,7 +29,7 @@ namespace SisGestorEmpenio.repository
             return isSaved;
         }
 
-        public bool PoseeArticulo(int idCliente, int idArticulo)
+        public bool PoseeArticulo(string idCliente, string idArticulo)
         {
             string consulta = $"SELECT * FROM posee WHERE idCliente = {idCliente} AND idArticulo = {idArticulo}";
             var resultado = dt.ejecutarSelect(consulta);
@@ -37,7 +37,7 @@ namespace SisGestorEmpenio.repository
             return posee;
         }
 
-        public Cliente Buscar(int id)
+        public Cliente Buscar(string id)
         {
             string consulta = $"SELECT * FROM cliente WHERE numeroIdentidad = {id}";
             var resultado = dt.ejecutarSelect(consulta);
@@ -46,14 +46,14 @@ namespace SisGestorEmpenio.repository
                 var row = resultado.Tables[0].Rows[0];
                 return new Cliente(
                     row["nombre"].ToString(),
-                    Convert.ToInt32(row["numeroIdentidad"]),
+                    row["numeroIdentidad"].ToString(),
                     row["tipoIdentidad"].ToString(),
                     row["apellido"].ToString(),
                     row["telefono"].ToString(),
                     row["correo"].ToString(),
                     new Administrador(
                         "",
-                        Convert.ToInt32(row["numeroIdentidadAdministrador"]),
+                        row["numeroIdentidadAdministrador"].ToString(),
                         "",
                         0,
                         0,

@@ -35,9 +35,9 @@ namespace SisGestorEmpenio.vistas
 
             // Validaciones automáticas
             txtIdCliente.LostFocus += (s, e) =>
-                ValidacionHelper.ValidarEntero(txtIdCliente, lblIdCliente, "identificación del cliente*");
+                ValidacionHelper.ValidarIdentificador(txtIdCliente, lblIdCliente, "identificación del cliente*");
             txtIdArticulo.LostFocus += (s, e) =>
-                ValidacionHelper.ValidarEntero(txtIdArticulo, lblIdArticulo, "identificador del artículo*");
+                ValidacionHelper.ValidarIdentificador(txtIdArticulo, lblIdArticulo, "identificador del artículo*");
             txtMontoTotal.LostFocus += (s, e) =>
                 ValidacionHelper.ValidarDecimal(txtMontoTotal, lblMontoTotal, "monto total*");
 
@@ -49,8 +49,8 @@ namespace SisGestorEmpenio.vistas
             {
                 // Poblar datos existentes
                 var prestamo = _original.GetPrestamo();
-                txtIdCliente.Text = prestamo.GetCliente().GetId().ToString();
-                txtIdArticulo.Text = prestamo.GetArticulo().GetIdArticulo().ToString();
+                txtIdCliente.Text = prestamo.GetCliente().GetId();
+                txtIdArticulo.Text = prestamo.GetArticulo().GetIdArticulo();
                 txtMontoTotal.Text = _original.GetMontoPagado().ToString("F2");
             }
         }
@@ -64,8 +64,8 @@ namespace SisGestorEmpenio.vistas
         {
             // Validar campos
             bool ok =
-                ValidacionHelper.ValidarEntero(txtIdCliente, lblIdCliente, "identificación del cliente") &
-                ValidacionHelper.ValidarEntero(txtIdArticulo, lblIdArticulo, "identificador del artículo") &
+                ValidacionHelper.ValidarIdentificador(txtIdCliente, lblIdCliente, "identificación del cliente") &
+                ValidacionHelper.ValidarIdentificador(txtIdArticulo, lblIdArticulo, "identificador del artículo") &
                 ValidacionHelper.ValidarDecimal(txtMontoTotal, lblMontoTotal, "monto total");
 
             if (!ok)
@@ -74,8 +74,9 @@ namespace SisGestorEmpenio.vistas
                 return;
             }
 
-            int idCliente = int.Parse(txtIdCliente.Text.Trim());
-            int idArticulo = int.Parse(txtIdArticulo.Text.Trim());
+            // Obtener datos de entrada
+            string idCliente = txtIdCliente.Text.Trim();
+            string idArticulo = txtIdArticulo.Text.Trim();
             double monto = double.Parse(txtMontoTotal.Text.Trim());
 
             var admin = Sesion.Sesion.GetAdministradorActivo();

@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SisGestorEmpenio.Modelos;
+using System.Numerics;
 
 namespace SisGestorEmpenio
 {
@@ -299,11 +300,11 @@ namespace SisGestorEmpenio
             var partes = idPrestamo.Split('_');
             if (partes.Length != 2) return;
 
-            if (!int.TryParse(partes[0], out int clienteId)) return;
-            if (!int.TryParse(partes[1], out int articuloId)) return;
+            if (!BigInteger.TryParse(partes[0], out BigInteger clienteId)) return;
+            if (!BigInteger.TryParse(partes[1], out BigInteger articuloId)) return;
 
             // Buscar el préstamo con la función específica
-            var prestamo = admin.BuscarPrestamo(clienteId, articuloId);
+            var prestamo = admin.BuscarPrestamo(clienteId.ToString(), articuloId.ToString());
             if (prestamo == null) return;
 
             // Crear vista de detalles y cargar datos
@@ -336,11 +337,16 @@ namespace SisGestorEmpenio
 
 
 
-        private void OnArticuloSeleccionado(object sender, int idArticulo)
+        private void OnArticuloSeleccionado(object sender, string idArticulo)
         {
             //se muestra la vista de editar artículo con el id seleccionado
             try
             {
+                if(!BigInteger.TryParse(idArticulo, out BigInteger articuloId))
+                {
+                    MessageBox.Show("ID de artículo inválido.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
                 var articulo = Sesion.Sesion.GetAdministradorActivo().BuscarArticulo(idArticulo);
                 if (articulo != null)
                 {

@@ -20,7 +20,7 @@ namespace SisGestorEmpenio.repository
             filasAfectadas = dt.ejecutarDML(consulta);
             return filasAfectadas > 0;
         }
-        public bool EstaGuardado(int clienteId, int articuloId)
+        public bool EstaGuardado(string clienteId, string articuloId)
         {
             string consulta = $"SELECT * FROM devolucion WHERE numeroIdentidadCliente = {clienteId} AND idArticulo = {articuloId}";
             var resultado = dt.ejecutarSelect(consulta);
@@ -29,7 +29,7 @@ namespace SisGestorEmpenio.repository
             return isSaved;
         }
 
-        public Devolucion Buscar(int clienteId, int articuloId)
+        public Devolucion Buscar(string clienteId, string articuloId)
         {
             PrestamoRepository prestamoRepository = new PrestamoRepository();
             string consulta = $"SELECT * FROM devolucion WHERE numeroIdentidadCliente = {clienteId} AND idArticulo = {articuloId}";
@@ -42,7 +42,7 @@ namespace SisGestorEmpenio.repository
                     //capturar fechaDevolucion
                     DateTime.Parse(row["fechaDevolucion"].ToString()),
                     Convert.ToDouble(row["montoPagado"]),
-                    prestamoRepository.Buscar(Convert.ToInt32(row["numeroIdentidadCliente"]), Convert.ToInt32(row["idArticulo"]))
+                    prestamoRepository.Buscar(row["numeroIdentidadCliente"].ToString(), row["idArticulo"].ToString())
                 );
             }
             return null;
@@ -57,17 +57,20 @@ namespace SisGestorEmpenio.repository
             return filasAfectadas > 0;
         }
 
-        public List<Devolucion> BuscarDevolucionesCoincidentes(int cantidadMaxDevoluciones, int clienteId, int articuloId, int rangoDias)
+        public List<Devolucion> BuscarDevolucionesCoincidentes(int cantidadMaxDevoluciones, string clienteId, string articuloId, int rangoDias)
         {
             var devoluciones = new List<Devolucion>();
             var condiciones = new List<string>();
 
-            if (clienteId != -1)
+            bool filtrarCliente = !string.IsNullOrWhiteSpace(clienteId);
+            bool filtrarArticulo = !string.IsNullOrWhiteSpace(articuloId);
+
+            if (filtrarCliente)
             {
                 condiciones.Add($"CAST(numeroIdentidadCliente AS VARCHAR2(20)) LIKE '{clienteId}%'");
             }
 
-            if (articuloId != -1)
+            if (filtrarArticulo)
             {
                 condiciones.Add($"CAST(idArticulo AS VARCHAR2(20)) LIKE '{articuloId}%'");
             }
@@ -79,13 +82,25 @@ namespace SisGestorEmpenio.repository
 
             string whereClause = condiciones.Count > 0 ? "WHERE " + string.Join(" AND ", condiciones) : "";
 
+            // Usar coincidencia exacta y parcial para definir la prioridad
+            string clienteIdStr = clienteId ?? "";
+            string articuloIdStr = articuloId ?? "";
+
             string consulta = $@"
-        SELECT * FROM (
-            SELECT * FROM devolucion
-            {whereClause}
-            ORDER BY fechaDevolucion DESC
-        )
-        WHERE ROWNUM <= {cantidadMaxDevoluciones}";
+SELECT * FROM (
+    SELECT d.*,
+        CASE
+            WHEN CAST(d.numeroIdentidadCliente AS VARCHAR2(20)) = '{clienteIdStr}' 
+                 OR CAST(d.idArticulo AS VARCHAR2(20)) = '{articuloIdStr}' THEN 1
+            WHEN CAST(d.numeroIdentidadCliente AS VARCHAR2(20)) LIKE '{clienteIdStr}%' 
+                 OR CAST(d.idArticulo AS VARCHAR2(20)) LIKE '{articuloIdStr}%' THEN 2
+            ELSE 3
+        END AS prioridad
+    FROM devolucion d
+    {whereClause}
+    ORDER BY prioridad ASC, fechaDevolucion DESC
+)
+WHERE ROWNUM <= {cantidadMaxDevoluciones}";
 
             var resultado = dt.ejecutarSelect(consulta);
             if (resultado.Tables.Count == 0 || resultado.Tables[0].Rows.Count == 0)
@@ -98,69 +113,11 @@ namespace SisGestorEmpenio.repository
                 int numConvenio = Convert.ToInt32(row["numConvenio"]);
                 DateTime fechaDevolucion = DateTime.Parse(row["fechaDevolucion"].ToString());
                 double montoPagado = Convert.ToDouble(row["montoPagado"]);
-                int idCliente = Convert.ToInt32(row["numeroIdentidadCliente"]);
-                int idArticulo = Convert.ToInt32(row["idArticulo"]);
 
-                // Obtener el préstamo relacionado
-                var prestamo = prestamoRepo.Buscar(idCliente, idArticulo);
+                string idClienteStr = row["numeroIdentidadCliente"].ToString();
+                string idArticuloStr = row["idArticulo"].ToString();
 
-                // Crear objeto Devolucion
-                var devolucion = new Devolucion(numConvenio, fechaDevolucion, montoPagado, prestamo);
-
-                devoluciones.Add(devolucion);
-            }
-
-            return devoluciones;
-        }
-        public List<Devolucion> ConsultarDevoluciones(int? clienteId = null, int? articuloId = null, int? rangoDias = null)
-        {
-            var devoluciones = new List<Devolucion>();
-            var condiciones = new List<string>();
-
-            // Filtrar por cliente si se proporciona
-            if (clienteId.HasValue)
-            {
-                condiciones.Add($"numeroIdentidadCliente = {clienteId.Value}");
-            }
-
-            // Filtrar por articulo si se proporciona
-            if (articuloId.HasValue)
-            {
-                condiciones.Add($"idArticulo = {articuloId.Value}");
-            }
-
-            // Filtrar por rango de dias si se proporciona
-            if (rangoDias.HasValue)
-            {
-                condiciones.Add($"fechaDevolucion >= SYSDATE - {rangoDias.Value}");
-            }
-
-            // Combinar condiciones en el WHERE
-            string whereClause = condiciones.Count > 0 ? "WHERE " + string.Join(" AND ", condiciones) : "";
-
-            string consulta = $@"
-        SELECT * FROM (
-            SELECT * FROM devolucion
-            {whereClause}
-            ORDER BY fechaDevolucion DESC
-        )
-        WHERE ROWNUM <= 100"; // Puedes ajustar el límite si quieres
-
-            var resultado = dt.ejecutarSelect(consulta);
-            if (resultado.Tables.Count == 0 || resultado.Tables[0].Rows.Count == 0)
-                return devoluciones;
-
-            var prestamoRepo = new PrestamoRepository();
-
-            foreach (System.Data.DataRow row in resultado.Tables[0].Rows)
-            {
-                int numConvenio = Convert.ToInt32(row["numConvenio"]);
-                DateTime fechaDevolucion = DateTime.Parse(row["fechaDevolucion"].ToString());
-                double montoPagado = Convert.ToDouble(row["montoPagado"]);
-                int idCliente = Convert.ToInt32(row["numeroIdentidadCliente"]);
-                int idArticulo = Convert.ToInt32(row["idArticulo"]);
-
-                var prestamo = prestamoRepo.Buscar(idCliente, idArticulo);
+                Prestamo prestamo = prestamoRepo.Buscar(idClienteStr, idArticuloStr);
 
                 var devolucion = new Devolucion(numConvenio, fechaDevolucion, montoPagado, prestamo);
                 devoluciones.Add(devolucion);
@@ -168,6 +125,7 @@ namespace SisGestorEmpenio.repository
 
             return devoluciones;
         }
+
 
 
     }

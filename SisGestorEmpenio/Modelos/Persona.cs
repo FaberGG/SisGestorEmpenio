@@ -9,13 +9,13 @@ namespace SisGestorEmpenio.Modelos
     public class Persona
     {
         //atributos 
-        protected int id;
+        protected string id;
         protected string tipoIdentidad;
         protected string nombre;
 
 
         //constructor 
-         public Persona(string nombre, int id, string tipoIdentidad)
+         public Persona(string nombre, string id, string tipoIdentidad)
     {
             this.nombre = nombre;
             this.id = id;
@@ -24,12 +24,12 @@ namespace SisGestorEmpenio.Modelos
 
 
         // Métodos para 'id'
-    public int GetId()
+    public string GetId()
     {
         return id;
     }
 
-    public void SetId(int nuevoId)
+    public void SetId(string nuevoId)
     {
         id = nuevoId;
     }

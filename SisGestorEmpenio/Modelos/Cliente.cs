@@ -17,7 +17,7 @@ namespace SisGestorEmpenio.Modelos
         private List<Prestamo> prestamos = new List<Prestamo>();
 
         // Constructor
-        public Cliente(string nombre, int id, string tipoIdentidad, string apellido, string telefono, string correo) : base(nombre, id, tipoIdentidad)
+        public Cliente(string nombre, string id, string tipoIdentidad, string apellido, string telefono, string correo) : base(nombre, id, tipoIdentidad)
         {
             this.apellido = apellido;
             this.telefono = telefono;
@@ -27,7 +27,7 @@ namespace SisGestorEmpenio.Modelos
 
         }
         // Constructor que acepta una instancia de Administrador
-        public Cliente(string nombre, int id, string tipoIdentidad, string apellido, string telefono, string correo, Administrador administrador)
+        public Cliente(string nombre, string id, string tipoIdentidad, string apellido, string telefono, string correo, Administrador administrador)
             : this(nombre, id, tipoIdentidad, apellido, telefono, correo)
         {
             this.administrador = administrador;
