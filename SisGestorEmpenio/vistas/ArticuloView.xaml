@@ -26,10 +26,8 @@
             <!-- ID Artículo -->
             <StackPanel Grid.Column="0" Margin="0,0,25,0">
                 <TextBlock x:Name="lblID"
-                           Text="Identificador único"
-                           Margin="7,0,0,2"
                            Foreground="Black"
-                           HorizontalAlignment="Left"/>
+                           ><Run Text="Identificador único"/><Run Language="es-es" Text="*"/><Run Text=" "/></TextBlock>
                 <Border Background="#C2DBDB"
                         CornerRadius="8"
                         MinHeight="28">
@@ -46,10 +44,9 @@
             <!-- Descripción -->
             <StackPanel Grid.Column="1">
                 <TextBlock x:Name="lblDescripcion"
-                           Text="Descripción"
                            Margin="7,0,0,2"
                            Foreground="Black"
-                           HorizontalAlignment="Left"/>
+                           HorizontalAlignment="Left" ><Run Text="Descripción"/><Run Language="es-es" Text="*"/></TextBlock>
                 <Border Background="#C2DBDB"
                         CornerRadius="8"
                         MinHeight="28">
@@ -73,9 +70,8 @@
             <!-- Estado Artículo -->
             <StackPanel Grid.Column="0" Margin="0,0,25,0">
                 <TextBlock x:Name="lblEstado"
-                           Text="Estado"
                            Margin="7,0,0,2"
-                           Foreground="Black"/>
+                           Foreground="Black"><Run Text="Estado"/><Run Language="es-es" Text="*"/></TextBlock>
                 <Border Background="#C2DBDB"
                         CornerRadius="8"
                         MinHeight="28">
@@ -95,9 +91,8 @@
             <!-- Valor Estimado -->
             <StackPanel Grid.Column="1">
                 <TextBlock x:Name="lblValor"
-                           Text="Valor Estimado"
                            Margin="7,0,0,2"
-                           Foreground="Black"/>
+                           Foreground="Black"><Run Text="Valor Estimado"/><Run Language="es-es" Text="*"/></TextBlock>
                 <Border Background="#C2DBDB"
                         CornerRadius="8"
                         MinHeight="28">

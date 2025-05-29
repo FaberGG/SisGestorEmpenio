@@ -99,7 +99,7 @@ namespace SisGestorEmpenio.Utils
             return true;
         }
 
-        public static bool ValidarFechaFin(DatePicker datePicker, TextBlock etiquetaError, string nombreCampo)
+        public static bool ValidarFechaFin(DatePicker datePicker, TextBlock etiquetaError, string nombreCampo, DateTime fechaInicio)
         {
             if (!datePicker.SelectedDate.HasValue)
             {
@@ -107,9 +107,9 @@ namespace SisGestorEmpenio.Utils
                 return false;
             }
             DateTime fecha = datePicker.SelectedDate.Value;
-            if (fecha.Date <= DateTime.Today)
+            if (fecha.Date <= fechaInicio)
             {
-                MostrarError(etiquetaError, $"El campo {nombreCampo} debe ser posterior a hoy.");
+                MostrarError(etiquetaError, $"El campo {nombreCampo} debe ser posterior al Inicio.");
                 return false;
             }
             LimpiarError(etiquetaError, nombreCampo);

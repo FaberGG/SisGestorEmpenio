@@ -58,12 +58,12 @@ namespace SisGestorEmpenio.vistas
             txtIdentidad.PreviewTextInput += SoloNumeros_Preview;
 
             // LostFocus: validación inline
-            txtNombre.LostFocus += (s, e) => ValidacionHelper.ValidarLongitud(txtNombre, lblNombre, "Nombre", 2, 30);
-            txtApellido.LostFocus += (s, e) => ValidacionHelper.ValidarLongitud(txtApellido, lblApellido, "Apellido", 2, 30);
+            txtNombre.LostFocus += (s, e) => ValidacionHelper.ValidarLongitud(txtNombre, lblNombre, "Nombre*", 2, 30);
+            txtApellido.LostFocus += (s, e) => ValidacionHelper.ValidarLongitud(txtApellido, lblApellido, "Apellido*", 2, 30);
             txtCorreo.LostFocus += (s, e) => ValidarCorreo();
             txtTelefono.LostFocus += (s, e) => ValidarTelefono();
-            txtIdentidad.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtIdentidad, lblIdentidad, "Número de identidad");
-            cbTipoIdentidad.LostFocus += (s, e) => ValidacionHelper.ValidarCampo(cbTipoIdentidad, lblTipoIdentidad, "Tipo de Identidad");
+            txtIdentidad.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtIdentidad, lblIdentidad, "Número de identidad*");
+            cbTipoIdentidad.LostFocus += (s, e) => ValidacionHelper.ValidarCampo(cbTipoIdentidad, lblTipoIdentidad, "Tipo de Identidad*");
         }
 
         private void SoloNumeros_Preview(object sender, TextCompositionEventArgs e)
@@ -89,7 +89,7 @@ namespace SisGestorEmpenio.vistas
             }
             else
             {
-                lblCorreo.Text = "Correo";
+                lblCorreo.Text = "Correo*";
                 lblCorreo.Foreground = Brushes.Black;
                 return true;
             }
@@ -107,7 +107,7 @@ namespace SisGestorEmpenio.vistas
             }
             else
             {
-                lblTelefono.Text = "Telefono";
+                lblTelefono.Text = "Telefono*";
                 lblTelefono.Foreground = Brushes.Black;
                 return true;
             }
@@ -117,12 +117,12 @@ namespace SisGestorEmpenio.vistas
         {
             bool valido = true;
 
-            valido &= ValidacionHelper.ValidarLongitud(txtNombre, lblNombre, "Nombre", 2, 30);
-            valido &= ValidacionHelper.ValidarLongitud(txtApellido, lblApellido, "Apellido", 2, 30);
+            valido &= ValidacionHelper.ValidarLongitud(txtNombre, lblNombre, "Nombre*", 2, 30);
+            valido &= ValidacionHelper.ValidarLongitud(txtApellido, lblApellido, "Apellido*", 2, 30);
             valido &= ValidarCorreo();
             valido &= ValidarTelefono();
-            valido &= ValidacionHelper.ValidarEntero(txtIdentidad, lblIdentidad, "Número de identidad");
-            valido &= ValidacionHelper.ValidarCampo(cbTipoIdentidad, lblTipoIdentidad, "Tipo de Identidad");
+            valido &= ValidacionHelper.ValidarEntero(txtIdentidad, lblIdentidad, "Número de identidad*");
+            valido &= ValidacionHelper.ValidarCampo(cbTipoIdentidad, lblTipoIdentidad, "Tipo de Identidad*");
             if (!valido)
             {
                 MostrarMensaje("Corrige los campos resaltados.", "Advertencia");

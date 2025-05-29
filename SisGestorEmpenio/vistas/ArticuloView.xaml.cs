@@ -57,10 +57,10 @@ namespace SisGestorEmpenio.vistas
             txtID.PreviewTextInput += SoloNumeros_Preview;
 
             // Validaciones LostFocus
-            txtID.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtID, lblID, "Identificador único");
-            txtDescripcion.LostFocus += (s, e) => ValidacionHelper.ValidarLongitud(txtDescripcion, lblDescripcion, "Descripción", 5, 100);
+            txtID.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtID, lblID, "Identificador único*");
+            txtDescripcion.LostFocus += (s, e) => ValidacionHelper.ValidarLongitud(txtDescripcion, lblDescripcion, "Descripción*", 5, 100);
             cbEstado.LostFocus += (s, e) => ValidarEstado();
-            txtValor.LostFocus += (s, e) => ValidacionHelper.ValidarDecimal(txtValor, lblValor, "Valor Estimado");
+            txtValor.LostFocus += (s, e) => ValidacionHelper.ValidarDecimal(txtValor, lblValor, "Valor Estimado*");
         }
 
         // Sólo dígitos
@@ -69,7 +69,7 @@ namespace SisGestorEmpenio.vistas
             e.Handled = !Regex.IsMatch(e.Text, @"^\d$");
         }
 
-        
+
 
         // Valida que el estado esté entre los permitidos
         private bool ValidarEstado()
@@ -81,11 +81,11 @@ namespace SisGestorEmpenio.vistas
                 lblEstado.Foreground = Brushes.Red;
                 return false;
             }
-            
-            lblEstado.Text = "Estado";
+
+            lblEstado.Text = "Estado*";
             lblEstado.Foreground = Brushes.Black;
             return true;
-            
+
         }
 
         private void Continuar_Click(object sender, RoutedEventArgs e)
@@ -93,10 +93,10 @@ namespace SisGestorEmpenio.vistas
             bool ok = true;
 
             // Validaciones inline
-            ok &= ValidacionHelper.ValidarEntero(txtID, lblID, "Identificador único");
-            ok &= ValidacionHelper.ValidarLongitud(txtDescripcion, lblDescripcion, "Descripción", 5, 100);
+            ok &= ValidacionHelper.ValidarEntero(txtID, lblID, "Identificador único*");
+            ok &= ValidacionHelper.ValidarLongitud(txtDescripcion, lblDescripcion, "Descripción*", 5, 100);
             ok &= ValidarEstado();
-            ok &= ValidacionHelper.ValidarDecimal(txtValor, lblValor, "Valor Estimado");
+            ok &= ValidacionHelper.ValidarDecimal(txtValor, lblValor, "Valor Estimado*");
 
             if (!ok)
 
@@ -115,14 +115,19 @@ namespace SisGestorEmpenio.vistas
 
             try
             {
-                // Si no es un nuevo artículo, actualizar el artículo existente
                 if (!isAdding)
                 {
+                    // Actualizar los valores del artículo original
+                    this.articulo.SetDescripcion(txtDescripcion.Text.Trim());
+                    this.articulo.SetValorEstimado(double.Parse(txtValor.Text.Trim()));
+                    this.articulo.SetEstadoArticulo(cbEstado.Text.Trim().ToLower());
+
                     bool actualizado = Sesion.Sesion.GetAdministradorActivo().ActualizarArticulo(this.articulo);
+
                     if (actualizado)
                     {
                         MostrarMensaje("Artículo actualizado exitosamente.", "Éxito");
-                        RegistroArticuloCompletado?.Invoke(this, art);
+                        RegistroArticuloCompletado?.Invoke(this, this.articulo);
                     }
                     else
                     {
@@ -130,6 +135,7 @@ namespace SisGestorEmpenio.vistas
                     }
                     return;
                 }
+
 
                 //validar que el articulo no exista
                 if (Sesion.Sesion.GetAdministradorActivo().ExisteArticulo(art))
@@ -162,12 +168,7 @@ namespace SisGestorEmpenio.vistas
             {
                 MostrarMensaje($"Ocurrió un error inesperado:\n{ex.Message}", "Error");
             }
-        
-
-
-            
         }
-            
 
         private void MostrarMensaje(string mensaje, string titulo)
         {
@@ -177,6 +178,15 @@ namespace SisGestorEmpenio.vistas
                 Titulo = titulo,
                 TextoBotonIzquierdo = "Entendido"
             }.ShowDialog();
+        }
+        public int? ArticuloId
+        {
+            get
+            {
+                if (int.TryParse(txtID.Text, out var id))
+                    return id;
+                return null;
+            }
         }
     }
 }

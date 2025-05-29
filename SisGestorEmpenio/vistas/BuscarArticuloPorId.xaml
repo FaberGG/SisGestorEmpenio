@@ -1,0 +1,54 @@
+﻿<Window x:Class="SisGestorEmpenio.vistas.BuscarArticuloPorId"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Buscar Artículo"
+        Height="236" Width="530"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="SingleBorderWindow"
+        Background="White">
+    <Border Background="White" Padding="20">
+        <StackPanel VerticalAlignment="Center">
+            <TextBlock Text="Ingrese el ID del artículo"
+                       FontSize="16" FontWeight="Bold"
+                       TextAlignment="Center" Margin="0,0,0,20"/>
+
+            <!-- Contenedor: ID Articulo -->
+            <StackPanel Margin="0,0,0,10">
+                <TextBlock
+                           Margin="7,0,0,2"
+                           HorizontalAlignment="Left"><Run Text="Identificador del artículo"/><Run Language="es-es" Text=" *"/></TextBlock>
+                <Border Background="#C2DBDB" CornerRadius="8" MinHeight="28">
+                    <TextBox x:Name="txtIdArticulo"
+                             Background="Transparent"
+                             BorderThickness="0"
+                             Padding="6,0"
+                             VerticalContentAlignment="Center"/>
+                </Border>
+            </StackPanel>
+
+            <!-- Botón Buscar -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Width="126" Height="30"
+        Background="#3A7575"
+        Foreground="White"
+        FontSize="15"
+        FontWeight="SemiBold"
+        Content="Buscar"
+        Click="Buscar_Click"
+        Cursor="Hand"
+        BorderThickness="0"
+        Margin="0,10,0,0"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Padding="0">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="13"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Window>

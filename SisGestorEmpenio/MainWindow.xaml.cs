@@ -175,8 +175,24 @@ namespace SisGestorEmpenio
         {
             SeleccionarOpcion(TxtRegistrarDevolucion);
             ActualizarEncabezado("Registrar Devolución");
-            MainContent.Content = new RegistrarDevolucion();
+            // Antes: new RegistrarDevolucion()
+            MainContent.Content = new DevolucionView();    // ← Aquí instanciamos el nuevo control en modo “crear”
         }
+
+        private void GoToModificarDevolucion(object sender, MouseButtonEventArgs e)
+        {
+            SeleccionarOpcion(TxtModificarDevolucion);
+
+            var buscarWin = new BuscarDevolucionPorIdWindow();
+            bool? resultado = buscarWin.ShowDialog();
+            if (resultado != true || buscarWin.DevolucionSeleccionada == null)
+                return;
+
+            ActualizarEncabezado("Modificar Devolución");
+            // Antes: new ModificarDevolucion(buscarWin.DevolucionSeleccionada)
+            MainContent.Content = new DevolucionView(buscarWin.DevolucionSeleccionada);  // ← Aquí en modo “editar”
+        }
+
 
         private void ToggleGestPrestamo_Click(object sender, MouseButtonEventArgs e)
         {
@@ -215,5 +231,23 @@ namespace SisGestorEmpenio
             //Rota la flecha
             ArticuloFlechaTransform.Angle = estaVisible ? 90 : -90;
         }
+
+        private void GoToModificarArticulo(object sender, MouseButtonEventArgs e)
+        {
+            var buscarArticulo = new BuscarArticuloPorId();
+            bool? resultado = buscarArticulo.ShowDialog();
+
+            if (resultado == true)
+            {
+                SeleccionarOpcion(TxtModificarArticulo);
+                ActualizarEncabezado("Modificar Artículo");
+                var articulo = buscarArticulo.Articulo;
+                if (articulo != null)
+                {
+                    MainContent.Content = new ArticuloView(articulo);
+                }
+            }
+        }
+
     }
 }
