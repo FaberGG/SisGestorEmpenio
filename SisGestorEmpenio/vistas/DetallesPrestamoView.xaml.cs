@@ -24,14 +24,14 @@ namespace SisGestorEmpenio.vistas
             txtResumenPrestamo.Text = $"Préstamo de '{p.GetArticulo().GetDescripcion()}' a {p.GetCliente().GetNombre()}";
 
             // Datos Cliente
-            txtIdentificacion.Text = p.GetCliente().GetId().ToString();
+            txtIdentificacion.Text = p.GetCliente().GetId();
             txtNombreCliente.Text = p.GetCliente().GetNombre();
             txtApellidoCliente.Text = p.GetCliente().GetApellido();
             txtTelefonoCliente.Text = p.GetCliente().GetTelefono();
             txtCorreoCliente.Text = p.GetCliente().GetCorreo();
 
             // Datos Artículo
-            txtIdArticulo.Text = p.GetArticulo().GetIdArticulo().ToString(); // Nuevo campo agregado
+            txtIdArticulo.Text = p.GetArticulo().GetIdArticulo(); // Nuevo campo agregado
             txtArticulo.Text = p.GetArticulo().GetDescripcion();
             txtValorArticulo.Text = p.GetArticulo().GetValorEstimado().ToString("F2");
             txtEstadoArticulo.Text = p.GetArticulo().GetEstadoArticulo();

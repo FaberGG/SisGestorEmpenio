@@ -33,7 +33,7 @@ namespace SisGestorEmpenio.vistas
             cbTipoIdentidad.IsEnabled = false; // Deshabilitar el campo de tipo de identidad
             txtNombre.Text = cliente.GetNombre();
             txtApellido.Text = cliente.GetApellido();
-            txtIdentidad.Text = cliente.GetId().ToString();
+            txtIdentidad.Text = cliente.GetId();
             cbTipoIdentidad.Text = cliente.GetTipoIdentidad();
             txtTelefono.Text = cliente.GetTelefono();
             txtCorreo.Text = cliente.GetCorreo();
@@ -62,7 +62,7 @@ namespace SisGestorEmpenio.vistas
             txtApellido.LostFocus += (s, e) => ValidacionHelper.ValidarLongitud(txtApellido, lblApellido, "Apellido*", 2, 30);
             txtCorreo.LostFocus += (s, e) => ValidarCorreo();
             txtTelefono.LostFocus += (s, e) => ValidarTelefono();
-            txtIdentidad.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtIdentidad, lblIdentidad, "Número de identidad*");
+            txtIdentidad.LostFocus += (s, e) => ValidacionHelper.ValidarIdentificador(txtIdentidad, lblIdentidad, "Número de identidad*");
             cbTipoIdentidad.LostFocus += (s, e) => ValidacionHelper.ValidarCampo(cbTipoIdentidad, lblTipoIdentidad, "Tipo de Identidad*");
         }
 
@@ -121,7 +121,7 @@ namespace SisGestorEmpenio.vistas
             valido &= ValidacionHelper.ValidarLongitud(txtApellido, lblApellido, "Apellido*", 2, 30);
             valido &= ValidarCorreo();
             valido &= ValidarTelefono();
-            valido &= ValidacionHelper.ValidarEntero(txtIdentidad, lblIdentidad, "Número de identidad*");
+            valido &= ValidacionHelper.ValidarIdentificador(txtIdentidad, lblIdentidad, "Número de identidad*");
             valido &= ValidacionHelper.ValidarCampo(cbTipoIdentidad, lblTipoIdentidad, "Tipo de Identidad*");
             if (!valido)
             {
@@ -133,7 +133,7 @@ namespace SisGestorEmpenio.vistas
             var admin = Sesion.Sesion.GetAdministradorActivo();
             var cliente = new Cliente(
                 txtNombre.Text.Trim(),
-                int.Parse(txtIdentidad.Text.Trim()),
+                txtIdentidad.Text.Trim(),
                 cbTipoIdentidad.Text.Trim(),
                 txtApellido.Text.Trim(),
                 txtTelefono.Text.Trim(),

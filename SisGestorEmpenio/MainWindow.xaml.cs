@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SisGestorEmpenio.Modelos;
+using System.Numerics;
 
 namespace SisGestorEmpenio
 {
@@ -21,6 +22,9 @@ namespace SisGestorEmpenio
     {
         private TextBlock textoSeleccionadoActual = null;
         private Administrador admin;
+        // Color para hover
+        private readonly Color hoverColor = Color.FromRgb(0x44, 0x86, 0x86); 
+        private readonly Color activeColor = Color.FromRgb(0x44, 0x86, 0x86); // #448686
 
         public MainWindow()
         {
@@ -61,12 +65,63 @@ namespace SisGestorEmpenio
         }
 
 
+        // Método para mostrar vista con encabezado
+        public void ShowViewWithHeader(UserControl content, string titulo = "", string subtitulo = "")
+        {
+            // Configurar el encabezado
+            if (!string.IsNullOrEmpty(titulo))
+                TxtTitulo.Text = titulo;
+            if (!string.IsNullOrEmpty(subtitulo))
+                TxtSubtitulo.Text = subtitulo;
+
+            // Mostrar el encabezado
+            HeaderPanel.Visibility = Visibility.Visible;
+            HeaderRow.Height = new GridLength(107);
+
+            // Configurar el contenido con margen normal
+            MainContent.Margin = new Thickness(0, 10, 0, 0);
+            MainContent.Content = content;
+        }
+
+        // Método para mostrar vista sin encabezado (pantalla completa)
+        public void ShowFullScreenView(UserControl content)
+        {
+            // Ocultar el encabezado
+            HeaderPanel.Visibility = Visibility.Collapsed;
+            HeaderRow.Height = new GridLength(0);
+
+            // Configurar el contenido para ocupar toda la pantalla
+            MainContent.Margin = new Thickness(0);
+            MainContent.Content = content;
+        }
+
+        // Método para alternar entre modos
+        public void ToggleHeaderVisibility(bool showHeader)
+        {
+            if (showHeader)
+            {
+                HeaderPanel.Visibility = Visibility.Visible;
+                HeaderRow.Height = new GridLength(107);
+                MainContent.Margin = new Thickness(0, 10, 0, 0);
+            }
+            else
+            {
+                HeaderPanel.Visibility = Visibility.Collapsed;
+                HeaderRow.Height = new GridLength(0);
+                MainContent.Margin = new Thickness(0);
+            }
+        }
+
+
+
         // Método para cambiar la vista en el ContentControl
 
 
         private void GoToHome(object sender, RoutedEventArgs e)
         {
-            MainContent.Content = new vistas.HomeView();
+
+            var homeView = new vistas.HomeView();
+            ShowViewWithHeader(homeView, "Bienvenido administrador a J-LHYS", "Sistema gestor de la casa de empeños");
         }
 
 
@@ -75,8 +130,8 @@ namespace SisGestorEmpenio
         private void GoToRegistrarArticulo(object sender, MouseButtonEventArgs e)
         {
             SeleccionarOpcion(TxtRegistrarArticulo);
-            ActualizarEncabezado("Registrar Artículo");
-            MainContent.Content = new ArticuloView();
+            var articuloView = new ArticuloView();
+            ShowViewWithHeader(articuloView, "Registrar Artículo");
         }
 
 
@@ -85,7 +140,6 @@ namespace SisGestorEmpenio
         private void GoToRegistrarPrestamo(object sender, MouseButtonEventArgs e)
         {
             SeleccionarOpcion(TxtRegistrarPrestamo);
-            ActualizarEncabezado("Registrar Préstamo");
 
             Cliente clienteRegistrado = null;
             Articulo articuloRegistrado = null;
@@ -116,41 +170,39 @@ namespace SisGestorEmpenio
 
                 if (resultadoArticulo == true && confirmacionArticulo.Confirmado)
                 {
-                    ActualizarEncabezado("Registrar Préstamo");
-                    MainContent.Content = new PrestamoView();
+                    var prestamoView = new PrestamoView();
+                    ShowViewWithHeader(prestamoView, "Registrar Préstamo");
                 }
                 else
                 {
-                    ActualizarEncabezado("Registrar Préstamo", "Artículo");
                     var vistaArticulo = new ArticuloView();
                     vistaArticulo.RegistroArticuloCompletado += (s, articulo) =>
                     {
                         articuloRegistrado = articulo;
-                        ActualizarEncabezado("Registrar Préstamo");
-                        MainContent.Content = new PrestamoView(articuloRegistrado);
+                        var prestamoView = new PrestamoView(articuloRegistrado);
+                        ShowViewWithHeader(prestamoView, "Registrar Préstamo");
                     };
-                    MainContent.Content = vistaArticulo;
+                    // Mostrar vista de registro de artículo
+                    ShowViewWithHeader(vistaArticulo, "Registrar Préstamo", "Artículo");
                 }
             }
             else
             {
-                ActualizarEncabezado("Registrar Préstamo", "Cliente");
                 var vistaCliente = new ClienteView();
                 vistaCliente.RegistroClienteCompletado += (s1, cliente) =>
                 {
                     clienteRegistrado = cliente;
-                    ActualizarEncabezado("Registrar Préstamo", "Artículo");
                     var vistaArticulo = new ArticuloView();
                     vistaArticulo.RegistroArticuloCompletado += (s2, articulo) =>
                     {
                         articuloRegistrado = articulo;
-                        ActualizarEncabezado("Registrar Préstamo");
 
-                        MainContent.Content = new PrestamoView(cliente, articulo);
+                        var prestamoView = new PrestamoView(cliente, articulo);
+                        ShowViewWithHeader(prestamoView, "Registrar Préstamo");
                     };
-                    MainContent.Content = vistaArticulo;
+                    ShowViewWithHeader(vistaArticulo, "Registrar Préstamo", "Artículo");
                 };
-                MainContent.Content = vistaCliente;
+                ShowViewWithHeader(vistaCliente, "Registrar Préstamo", "Cliente");
             }
         }
         // Modificar Prestamo
@@ -164,12 +216,11 @@ namespace SisGestorEmpenio
             if (resultado == true)
             {
                 SeleccionarOpcion(TxtModificarPrestamo);
-                ActualizarEncabezado("Modificar Prestamo");
                 Prestamo prestamo = buscarPrestamo.Prestamo;
                 if (prestamo != null)
                 {
-                    ActualizarEncabezado("Modificar Prestamo");
-                    MainContent.Content = new ModificarPrestamoView(prestamo);
+                    var prestamoView = new ModificarPrestamoView(prestamo);
+                    ShowViewWithHeader(prestamoView, "Modificar Préstamo");
                 }
             }
 
@@ -178,9 +229,9 @@ namespace SisGestorEmpenio
         private void GoToRegistrarDevolucion(object sender, MouseButtonEventArgs e)
         {
             SeleccionarOpcion(TxtRegistrarDevolucion);
-            ActualizarEncabezado("Registrar Devolución");
             // Antes: new RegistrarDevolucion()
-            MainContent.Content = new DevolucionView();    // ← Aquí instanciamos el nuevo control en modo “crear”
+            var devolucionView = new DevolucionView();    // ← Aquí instanciamos el nuevo control en modo “crear”
+            ShowViewWithHeader(devolucionView, "Registrar Devolución");
         }
 
         private void GoToModificarDevolucion(object sender, MouseButtonEventArgs e)
@@ -192,21 +243,77 @@ namespace SisGestorEmpenio
             if (resultado != true || buscarWin.DevolucionSeleccionada == null)
                 return;
 
-            ActualizarEncabezado("Modificar Devolución");
             // Antes: new ModificarDevolucion(buscarWin.DevolucionSeleccionada)
-            MainContent.Content = new DevolucionView(buscarWin.DevolucionSeleccionada);  // ← Aquí en modo “editar”
+            var devolucionView = new DevolucionView(buscarWin.DevolucionSeleccionada);  // ← Aquí en modo “editar”
+            ShowViewWithHeader(devolucionView, "Modificar Devolución");
         }
 
 
+        // EVENTOS HOVER PARA PRÉSTAMOS
+        private void PrestamoBotonPrincipal_MouseEnter(object sender, MouseEventArgs e)
+        {
+            // Solo aplica hover si está colapsado (fondo transparente)
+            bool estaColapsado = OpcionesPrestamos.Visibility == Visibility.Collapsed;
+            if (estaColapsado)
+            {
+                PrestamoBotonPrincipal.Background = new SolidColorBrush(hoverColor);
+            }
+        }
+
+        private void PrestamoBotonPrincipal_MouseLeave(object sender, MouseEventArgs e)
+        {
+            // Solo quita hover si está colapsado
+            bool estaColapsado = OpcionesPrestamos.Visibility == Visibility.Collapsed;
+            if (estaColapsado)
+            {
+                PrestamoBotonPrincipal.Background = new SolidColorBrush(Colors.Transparent);
+            }
+        }
+
+        // EVENTOS HOVER PARA DEVOLUCIONES
+        private void DevolucionBotonPrincipal_MouseEnter(object sender, MouseEventArgs e)
+        {
+            bool estaColapsado = OpcionesDevoluciones.Visibility == Visibility.Collapsed;
+            if (estaColapsado)
+            {
+                DevolucionBotonPrincipal.Background = new SolidColorBrush(hoverColor);
+            }
+        }
+
+        private void DevolucionBotonPrincipal_MouseLeave(object sender, MouseEventArgs e)
+        {
+            bool estaColapsado = OpcionesDevoluciones.Visibility == Visibility.Collapsed;
+            if (estaColapsado)
+            {
+                DevolucionBotonPrincipal.Background = new SolidColorBrush(Colors.Transparent);
+            }
+        }
+
+        // EVENTOS HOVER PARA INVENTARIO
+        private void ArticuloBotonPrincipal_MouseEnter(object sender, MouseEventArgs e)
+        {
+            bool estaColapsado = OpcionesArticulos.Visibility == Visibility.Collapsed;
+            if (estaColapsado)
+            {
+                ArticuloBotonPrincipal.Background = new SolidColorBrush(hoverColor);
+            }
+        }
+
+        private void ArticuloBotonPrincipal_MouseLeave(object sender, MouseEventArgs e)
+        {
+            bool estaColapsado = OpcionesArticulos.Visibility == Visibility.Collapsed;
+            if (estaColapsado)
+            {
+                ArticuloBotonPrincipal.Background = new SolidColorBrush(Colors.Transparent);
+            }
+        }
         private void ToggleGestPrestamo_Click(object sender, MouseButtonEventArgs e)
         {
             bool estaVisible = OpcionesPrestamos.Visibility == Visibility.Visible;
-
             OpcionesPrestamos.Visibility = estaVisible ? Visibility.Collapsed : Visibility.Visible;
             PrestamoBotonPrincipal.Background = new SolidColorBrush(
-                estaVisible ? Colors.Transparent : Color.FromRgb(0x59, 0x91, 0x91)
+                estaVisible ? Colors.Transparent : activeColor
             );
-
             //Rota la flecha
             PrestamoFlechaTransform.Angle = estaVisible ? 90 : -90;
         }
@@ -214,27 +321,25 @@ namespace SisGestorEmpenio
         private void ToggleGestDevolucion_Click(object sender, MouseButtonEventArgs e)
         {
             bool estaVisible = OpcionesDevoluciones.Visibility == Visibility.Visible;
-
             OpcionesDevoluciones.Visibility = estaVisible ? Visibility.Collapsed : Visibility.Visible;
             DevolucionBotonPrincipal.Background = new SolidColorBrush(
-                estaVisible ? Colors.Transparent : Color.FromRgb(0x59, 0x91, 0x91)
+                estaVisible ? Colors.Transparent : activeColor
             );
-
             //Rota la flecha
             DevolucionFlechaTransform.Angle = estaVisible ? 90 : -90;
         }
+
         private void ToggleGestInventario_Click(object sender, MouseButtonEventArgs e)
         {
             bool estaVisible = OpcionesArticulos.Visibility == Visibility.Visible;
-
             OpcionesArticulos.Visibility = estaVisible ? Visibility.Collapsed : Visibility.Visible;
             ArticuloBotonPrincipal.Background = new SolidColorBrush(
-                estaVisible ? Colors.Transparent : Color.FromRgb(0x59, 0x91, 0x91)
+                estaVisible ? Colors.Transparent : activeColor
             );
-
             //Rota la flecha
             ArticuloFlechaTransform.Angle = estaVisible ? 90 : -90;
         }
+
 
         private void GoToModificarArticulo(object sender, MouseButtonEventArgs e)
         {
@@ -244,11 +349,11 @@ namespace SisGestorEmpenio
             if (resultado == true)
             {
                 SeleccionarOpcion(TxtModificarArticulo);
-                ActualizarEncabezado("Modificar Artículo");
                 var articulo = buscarArticulo.Articulo;
                 if (articulo != null)
                 {
-                    MainContent.Content = new ArticuloView(articulo);
+                    var articuloView = new ArticuloView(articulo);
+                    ShowViewWithHeader(articuloView, "Modificar Artículo");
                 }
             }
         }
@@ -260,12 +365,11 @@ namespace SisGestorEmpenio
             try
             {
                 SeleccionarOpcion(TxtConsultarPrestamo);
-                ActualizarEncabezado("Consultar Préstamo");
 
                 // Crear y suscribir evento
                 var consulta = new ConsultarPrestamosView();
                 consulta.PrestamoSeleccionado += OnPrestamoSeleccionado;
-                MainContent.Content = consulta;
+                ShowFullScreenView(consulta);
             }
             catch (Exception ex)
             {
@@ -276,14 +380,13 @@ namespace SisGestorEmpenio
         private void GoToConsultarArticulo(object sender, MouseButtonEventArgs e)
         {
             SeleccionarOpcion(TxtConsultarArticulo);
-            ActualizarEncabezado("Consultar Artículo");
 
             try
             {
                 // Crear y suscribir evento
                 var consulta = new ConsultarArticulosView();
                 consulta.ArticuloSeleccionado += OnArticuloSeleccionado;
-                MainContent.Content = consulta;
+                ShowFullScreenView(consulta);
             }
             catch (Exception ex)
             {
@@ -299,11 +402,11 @@ namespace SisGestorEmpenio
             var partes = idPrestamo.Split('_');
             if (partes.Length != 2) return;
 
-            if (!int.TryParse(partes[0], out int clienteId)) return;
-            if (!int.TryParse(partes[1], out int articuloId)) return;
+            if (!BigInteger.TryParse(partes[0], out BigInteger clienteId)) return;
+            if (!BigInteger.TryParse(partes[1], out BigInteger articuloId)) return;
 
             // Buscar el préstamo con la función específica
-            var prestamo = admin.BuscarPrestamo(clienteId, articuloId);
+            var prestamo = admin.BuscarPrestamo(clienteId.ToString(), articuloId.ToString());
             if (prestamo == null) return;
 
             // Crear vista de detalles y cargar datos
@@ -320,13 +423,12 @@ namespace SisGestorEmpenio
             try
             {
                 SeleccionarOpcion(TxtConsultarDevolucion);
-                ActualizarEncabezado("Consultar Devolución");
 
                 // Crear instancia de la vista
                 var consulta = new ConsultarDevolucionView();
 
                 // Cargar la vista en el contenedor principal
-                MainContent.Content = consulta;
+                ShowFullScreenView(consulta);
             }
             catch (Exception ex)
             {
@@ -336,19 +438,22 @@ namespace SisGestorEmpenio
 
 
 
-        private void OnArticuloSeleccionado(object sender, int idArticulo)
+        private void OnArticuloSeleccionado(object sender, string idArticulo)
         {
             //se muestra la vista de editar artículo con el id seleccionado
             try
             {
+                if(!BigInteger.TryParse(idArticulo, out BigInteger articuloId))
+                {
+                    MessageBox.Show("ID de artículo inválido.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
                 var articulo = Sesion.Sesion.GetAdministradorActivo().BuscarArticulo(idArticulo);
                 if (articulo != null)
                 {
-                    //actualizar encabezado
-                    ActualizarEncabezado("Consultar Artículo", $"Actualizar articulo consultado");
 
-
-                    MainContent.Content = new ArticuloView(articulo);
+                    var articuloView = new ArticuloView(articulo);
+                    ShowViewWithHeader(articuloView, "Consultar Artículo", "Actualizar articulo consultado");
                 }
                 else
                 {

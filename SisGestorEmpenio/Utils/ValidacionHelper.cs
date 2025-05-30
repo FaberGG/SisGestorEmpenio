@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Numerics;
 
 namespace SisGestorEmpenio.Utils
 {
@@ -55,12 +56,37 @@ namespace SisGestorEmpenio.Utils
             return true;
         }
 
+
+        public static bool ValidarIdentificador(TextBox textBox, TextBlock etiquetaError, string nombreCampo)
+        {
+            if (string.IsNullOrWhiteSpace(textBox.Text))
+            {
+                MostrarError(etiquetaError, $"El campo {nombreCampo} es obligatorio.");
+                return false;
+            }
+
+            if (!BigInteger.TryParse(textBox.Text, out BigInteger valor))
+            {
+                MostrarError(etiquetaError, $"El campo {nombreCampo} debe ser un número entero válido.");
+                return false;
+            }
+
+            if (valor <= 0)
+            {
+                MostrarError(etiquetaError, $"El campo {nombreCampo} debe ser mayor que cero.");
+                return false;
+            }
+
+            LimpiarError(etiquetaError, nombreCampo);
+            return true;
+        }
+
         public static bool ValidarDecimal(TextBox textBox, TextBlock etiquetaError, string nombreCampo)
         {
             string texto = textBox.Text.Trim();
             if (texto.Contains("."))
             {
-                MostrarError(etiquetaError, $"El campo {nombreCampo} podria usar coma decimal en lugar de punto.");
+                MostrarError(etiquetaError, $"El campo {nombreCampo} debe usar coma decimal en lugar de punto.");
                 return false;
             }
             if (string.IsNullOrWhiteSpace(textBox.Text))

@@ -18,7 +18,7 @@ namespace SisGestorEmpenio.Modelos
 
 
         //Constructor
-        public Administrador(string nombre, int id, string tipoIdentidad, double salario, int aniosExp, string usuario, string contrasenia) : base(nombre, id, tipoIdentidad)
+        public Administrador(string nombre, string id, string tipoIdentidad, double salario, int aniosExp, string usuario, string contrasenia) : base(nombre, id, tipoIdentidad)
         {
             this.salario = salario;
             this.aniosExp = aniosExp;
@@ -61,32 +61,32 @@ namespace SisGestorEmpenio.Modelos
 
         //METODOS DE BUSQUEDA
 
-        public Cliente BuscarCliente(int id)
+        public Cliente BuscarCliente(string id)
         {
             ClienteRepository clienteRepository = new ClienteRepository();
             return clienteRepository.Buscar(id);
         }
 
-        public Articulo BuscarArticulo(int id)
+        public Articulo BuscarArticulo(string id)
         {
             ArticuloRepository articuloRepository = new ArticuloRepository();
             return articuloRepository.Buscar(id);
         }
 
         //buscar articulos coincidentes 
-        public List<Articulo> BuscarArticulosCoincidentes(int cantidadMaxArticulos = 100, int id = -1, string descripcion = "", int propiedadCasa = -1, string estado = "", string devolucion = "")
+        public List<Articulo> BuscarArticulosCoincidentes(int cantidadMaxArticulos = 100, string id = "", string descripcion = "", int propiedadCasa = -1, string estado = "", string devolucion = "")
         {
             ArticuloRepository articuloRepository = new ArticuloRepository();
             return articuloRepository.BuscarArticulosCoincidentes(cantidadMaxArticulos, id, descripcion, propiedadCasa, estado, devolucion );
         }
 
-        public Prestamo BuscarPrestamo(int clienteId, int articuloId)
+        public Prestamo BuscarPrestamo(string clienteId, string articuloId)
         {
             PrestamoRepository prestamoRepository = new PrestamoRepository();
             return prestamoRepository.Buscar(clienteId, articuloId);
         }
 
-        public Devolucion BuscarDevolucion(int clienteId, int articuloId)
+        public Devolucion BuscarDevolucion(string clienteId, string articuloId)
         {
             DevolucionRepository devolucionRepository = new DevolucionRepository();
             return devolucionRepository.Buscar(clienteId, articuloId);
@@ -121,38 +121,38 @@ namespace SisGestorEmpenio.Modelos
         //METODOS DE VALIDACION
         public bool ExisteCliente(Cliente cliente)
         {
-            int id = cliente.GetId();
+            string id = cliente.GetId();
             ClienteRepository clienteRepository = new ClienteRepository();
             return clienteRepository.EstaGuardado(id);
         }
 
         public bool ExisteArticulo(Articulo articulo)
         {
-            int id = articulo.GetIdArticulo();
+            string id = articulo.GetIdArticulo();
             ArticuloRepository articuloRepository = new ArticuloRepository();
             return articuloRepository.EstaGuardado(id);
         }
 
         public bool ExistePrestamo(Prestamo prestamo)
         {
-            int clienteId = prestamo.GetCliente().GetId();
-            int articuloId = prestamo.GetArticulo().GetIdArticulo();
+            string clienteId = prestamo.GetCliente().GetId();
+            string articuloId = prestamo.GetArticulo().GetIdArticulo();
             PrestamoRepository prestamoRepository = new PrestamoRepository();
             return prestamoRepository.EstaGuardado(clienteId, articuloId);
         }
 
         public bool ExisteDevolucion(Devolucion devolucion)
         {
-            int clienteId = devolucion.GetPrestamo().GetCliente().GetId();
-            int articuloId = devolucion.GetPrestamo().GetArticulo().GetIdArticulo();
+            string clienteId = devolucion.GetPrestamo().GetCliente().GetId();
+            string articuloId = devolucion.GetPrestamo().GetArticulo().GetIdArticulo();
             DevolucionRepository devolucionRepository = new DevolucionRepository();
             return devolucionRepository.EstaGuardado(clienteId, articuloId);
         }
 
         public bool ClientePoseeArticulo(Cliente cliente, Articulo articulo)
         {
-            int clienteId = cliente.GetId();
-            int articuloId = articulo.GetIdArticulo();
+            string clienteId = cliente.GetId();
+            string articuloId = articulo.GetIdArticulo();
             ClienteRepository clienteRepository = new ClienteRepository();
             return clienteRepository.PoseeArticulo(clienteId, articuloId);
         }
@@ -204,13 +204,13 @@ namespace SisGestorEmpenio.Modelos
 
         //funcion para consultar n prestamos coincidentes con 
         //id cliente, estado activo inactivo o todos y ultimos n dias de registro o todos
-        public List<Prestamo> ConsultarPrestamosCoincidentes(int cantidadMaxPrestamos = 100, int clienteId = -1, string estado = "", int rangoDias = -1 )
+        public List<Prestamo> ConsultarPrestamosCoincidentes(int cantidadMaxPrestamos = 100, string clienteId = "", string estado = "", int rangoDias = -1 )
         {
             var repo = new PrestamoRepository();
             return repo.BuscarPrestamosCoincidentes(cantidadMaxPrestamos, clienteId, estado, rangoDias);
         }
 
-        public List<Devolucion> ConsultarDevoluciones(int cantidadMaxDevoluciones = 100, int clienteId = -1, int articuloId = -1, int rangoDias = -1)
+        public List<Devolucion> ConsultarDevoluciones(int cantidadMaxDevoluciones = 100, string clienteId = "", string articuloId = "", int rangoDias = -1)
         {
             var repo = new DevolucionRepository();
             return repo.BuscarDevolucionesCoincidentes(cantidadMaxDevoluciones, clienteId, articuloId, rangoDias);

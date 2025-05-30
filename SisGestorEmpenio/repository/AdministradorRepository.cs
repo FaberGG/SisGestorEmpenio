@@ -32,7 +32,7 @@ namespace SisGestorEmpenio.repository
 
                 Administrador admin = new Administrador(
                     fila["nombre"].ToString(),
-                    Convert.ToInt32(fila["numeroIdentidad"]),
+                    fila["numeroIdentidad"].ToString(),
                     fila["tipoIdentidad"].ToString(),
                     Convert.ToDouble(fila["salario"]),
                     Convert.ToInt32(fila["aniosExperiencia"]),

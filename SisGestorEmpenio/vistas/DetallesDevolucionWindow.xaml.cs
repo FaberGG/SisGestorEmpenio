@@ -30,13 +30,13 @@ namespace SisGestorEmpenio.vistas
         public void CargarDetalles(Devolucion devolucion)
         {
             // Aquí carga los datos recibidos en tus TextBlocks
-            txtCedulaCliente.Text = devolucion.GetPrestamo().GetCliente()?.GetId().ToString() ?? "";
+            txtCedulaCliente.Text = devolucion.GetPrestamo().GetCliente()?.GetId() ?? "";
             txtNombreCliente.Text = devolucion.GetPrestamo().GetCliente()?.GetNombre() ?? "";
             txtApellidoCliente.Text = devolucion.GetPrestamo().GetCliente()?.GetApellido() ?? "";
             txtTelefonoCliente.Text = devolucion.GetPrestamo().GetCliente()?.GetTelefono() ?? "";
             txtCorreoCliente.Text = devolucion.GetPrestamo().GetCliente()?.GetCorreo() ?? "";
 
-            txtIdArticulo.Text = devolucion.GetPrestamo().GetArticulo()?.GetIdArticulo().ToString() ?? "";
+            txtIdArticulo.Text = devolucion.GetPrestamo().GetArticulo()?.GetIdArticulo() ?? "";
             txtDescripcionArticulo.Text = devolucion.GetPrestamo().GetArticulo()?.GetDescripcion() ?? "";
             txtValorArticulo.Text = devolucion.GetPrestamo().GetArticulo()?.GetValorEstimado().ToString() ?? "";
             txtEstadoArticulo.Text = devolucion.GetPrestamo().GetArticulo()?.GetEstadoArticulo() ?? "";

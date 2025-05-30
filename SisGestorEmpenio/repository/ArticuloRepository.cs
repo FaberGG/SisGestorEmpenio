@@ -21,7 +21,7 @@ namespace SisGestorEmpenio.repository
             return filasAfectadas > 0;
         }
 
-        public bool EstaGuardado(int id)
+        public bool EstaGuardado(string id)
         {
             string consulta = $"SELECT * FROM ARTICULO WHERE idArticulo = {id}";
             var resultado = dt.ejecutarSelect(consulta);
@@ -30,7 +30,7 @@ namespace SisGestorEmpenio.repository
             return isSaved;
         }
 
-        public bool MarcarComoDevuelto(int idArticulo)
+        public bool MarcarComoDevuelto(string idArticulo)
         {
             int filasAfectadas = 0;
             string consulta = $"UPDATE ARTICULO SET estadoDevolucion = 'devuelto' WHERE idArticulo = {idArticulo}";
@@ -38,7 +38,7 @@ namespace SisGestorEmpenio.repository
             return filasAfectadas > 0;
         }
 
-        public Articulo Buscar(int id)
+        public Articulo Buscar(string id)
         {
             string consulta = $"SELECT * FROM ARTICULO WHERE idArticulo = {id}";
             var resultado = dt.ejecutarSelect(consulta);
@@ -46,7 +46,7 @@ namespace SisGestorEmpenio.repository
             {
                 var row = resultado.Tables[0].Rows[0];
                 return new Articulo(
-                    Convert.ToInt32(row["idArticulo"]),
+                    row["idArticulo"].ToString(),
                     row["descripcion"].ToString(),
                     Convert.ToDouble(row["valorEstimado"]),
                     row["estadoArticulo"].ToString(),
@@ -66,16 +66,19 @@ namespace SisGestorEmpenio.repository
             return filasAfectadas > 0;
         }
 
-        public List<Articulo> BuscarArticulosCoincidentes(int cantidadMaxArticulos, int id, string descripcion, int propiedadCasa, string estado, string devolucion)
+        public List<Articulo> BuscarArticulosCoincidentes(int cantidadMaxArticulos, string id, string descripcion, int propiedadCasa, string estado, string devolucion)
         {
             var articulos = new List<Articulo>();
             var condiciones = new List<string>();
             var condicionesIdDescripcion = new List<string>();
 
-            if (id != -1)
+            bool filtrarPorId = !string.IsNullOrWhiteSpace(id);
+            bool filtrarPorDescripcion = !string.IsNullOrWhiteSpace(descripcion);
+
+            if (filtrarPorId)
                 condicionesIdDescripcion.Add($"CAST(idArticulo AS VARCHAR2(20)) LIKE '{id}%'");
 
-            if (!string.IsNullOrWhiteSpace(descripcion))
+            if (filtrarPorDescripcion)
                 condicionesIdDescripcion.Add($"LOWER(descripcion) LIKE '%{descripcion.ToLower()}%'");
 
             if (condicionesIdDescripcion.Count > 0)
@@ -92,14 +95,14 @@ namespace SisGestorEmpenio.repository
 
             string whereClause = condiciones.Count > 0 ? "WHERE " + string.Join(" AND ", condiciones) : "";
 
-            string idStr = id != -1 ? id.ToString() : "";
-            string descripcionStr = !string.IsNullOrWhiteSpace(descripcion) ? descripcion.ToLower() : "";
+            string idStr = filtrarPorId ? id : "";
+            string descripcionStr = filtrarPorDescripcion ? descripcion.ToLower() : "";
 
             string consulta = $@"
 SELECT * FROM (
     SELECT a.*,
         CASE
-            WHEN a.idArticulo = {id} THEN 1
+            WHEN CAST(a.idArticulo AS VARCHAR2(20)) = '{idStr}' THEN 1
             WHEN CAST(a.idArticulo AS VARCHAR2(20)) LIKE '{idStr}%' THEN 2
             WHEN LOWER(a.descripcion) LIKE '{descripcionStr}%' THEN 3
             WHEN LOWER(a.descripcion) LIKE '%{descripcionStr}%' THEN 4
@@ -119,7 +122,7 @@ WHERE ROWNUM <= {cantidadMaxArticulos}";
             foreach (System.Data.DataRow row in resultado.Tables[0].Rows)
             {
                 var articulo = new Articulo(
-                    Convert.ToInt32(row["idArticulo"]),
+                    row["idArticulo"].ToString(),
                     row["descripcion"].ToString(),
                     Convert.ToDouble(row["valorEstimado"]),
                     row["estadoArticulo"].ToString(),
@@ -131,6 +134,7 @@ WHERE ROWNUM <= {cantidadMaxArticulos}";
 
             return articulos;
         }
+
 
 
     }

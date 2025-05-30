@@ -10,7 +10,7 @@ namespace SisGestorEmpenio.Modelos
     public class Articulo
     {
         // Propiedades del artículo
-        private int idArticulo;
+        private string idArticulo;
         private string descripcion;
         private double valorEstimado;
         private string estadoArticulo;
@@ -23,7 +23,7 @@ namespace SisGestorEmpenio.Modelos
         }
 
         // Constructor para registrar un artículo
-        public Articulo(int id, string descripcion, double valorEstimado, string estadoArticulo)
+        public Articulo(string id, string descripcion, double valorEstimado, string estadoArticulo)
         {
             this.idArticulo = id;
             this.descripcion = descripcion;
@@ -34,7 +34,7 @@ namespace SisGestorEmpenio.Modelos
         }
 
         // Constructor para buscar un artículo
-        public Articulo(int id, string descripcion, double valorEstimado, string estadoArticulo, bool propiedadCasa, string estadoDevolucion)
+        public Articulo(string id, string descripcion, double valorEstimado, string estadoArticulo, bool propiedadCasa, string estadoDevolucion)
         {
             this.idArticulo = id;
             this.descripcion = descripcion;
@@ -68,12 +68,12 @@ namespace SisGestorEmpenio.Modelos
         {
             administrador = value;
         }
-        public int GetIdArticulo()
+        public string GetIdArticulo()
         {
             return idArticulo;
         }
 
-        public void SetIdArticulo(int value)
+        public void SetIdArticulo(string value)
         {
             idArticulo = value;
         }

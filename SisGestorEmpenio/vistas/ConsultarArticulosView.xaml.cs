@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -37,7 +38,7 @@ namespace SisGestorEmpenio.vistas
         private int totalPaginas = 0;
 
         // Evento para comunicarse con la ventana contenedora
-        public event EventHandler<int> ArticuloSeleccionado;
+        public event EventHandler<string> ArticuloSeleccionado;
 
 
 
@@ -276,12 +277,11 @@ namespace SisGestorEmpenio.vistas
                 string propiedadCasa = (cmbPropiedadCasa.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "";
                 string txtIdDescripcion = txtBusqueda.Text.Trim();
 
-                int idArticulo = int.TryParse(  txtIdDescripcion, out var tempId) ? tempId : -1;
                 // Filtrar artículos
                 
                 var listaArticulosFiltrados = admin.BuscarArticulosCoincidentes(
                     cantidadMaxArticulos: 100,
-                    id: idArticulo,
+                    id: BigInteger.TryParse(txtIdDescripcion, out var tempId) ? tempId.ToString() : "",
                     descripcion: txtIdDescripcion,
                     propiedadCasa: (propiedadCasa == "Todos" || propiedadCasa == "Propiedad") ? -1 : (propiedadCasa == "Casa" ? 1 : 0),
                     estado: estadoArticulo == "Estado (Todos)" ? "" : estadoArticulo,

@@ -33,8 +33,8 @@ namespace SisGestorEmpenio.vistas
             this.cliente = cliente;
             this.articulo = articulo;
 
-            txtClienteId.Text = cliente.GetId().ToString();
-            txtArticuloId.Text = articulo.GetIdArticulo().ToString();
+            txtClienteId.Text = cliente.GetId();
+            txtArticuloId.Text = articulo.GetIdArticulo();
             txtClienteId.IsEnabled = false;
             txtArticuloId.IsEnabled = false;
 
@@ -45,7 +45,7 @@ namespace SisGestorEmpenio.vistas
         {
             InitializeComponent();
             this.articulo = articulo;
-            txtArticuloId.Text = articulo.GetIdArticulo().ToString();
+            txtArticuloId.Text = articulo.GetIdArticulo();
             txtArticuloId.IsEnabled = false;
 
             ConfigurarValidaciones();
@@ -55,7 +55,7 @@ namespace SisGestorEmpenio.vistas
         {
             InitializeComponent();
             this.cliente = cliente;
-            txtClienteId.Text = cliente.GetId().ToString();
+            txtClienteId.Text = cliente.GetId();
             txtClienteId.IsEnabled = false;
             ConfigurarValidaciones();
         }
@@ -73,8 +73,8 @@ namespace SisGestorEmpenio.vistas
             txtClienteId.IsEnabled = false;
             this.cliente = prestamo.GetCliente();
             this.articulo = prestamo.GetArticulo();
-            txtClienteId.Text = cliente.GetId().ToString();
-            txtArticuloId.Text = articulo.GetIdArticulo().ToString();
+            txtClienteId.Text = cliente.GetId();
+            txtArticuloId.Text = articulo.GetIdArticulo();
             txtTasaInteres.Text = prestamo.GetTasaInteres().ToString();
             txtClienteId.IsEnabled = false;
             txtArticuloId.IsEnabled = false;
@@ -113,8 +113,8 @@ namespace SisGestorEmpenio.vistas
             );
 
             // Validaciones LostFocus
-            txtClienteId.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtClienteId, lblClienteId, "Identificacion del Cliente*");
-            txtArticuloId.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtArticuloId, lblArticuloId, "Identificador del Articulo*");
+            txtClienteId.LostFocus += (s, e) => ValidacionHelper.ValidarIdentificador(txtClienteId, lblClienteId, "Identificacion del Cliente*");
+            txtArticuloId.LostFocus += (s, e) => ValidacionHelper.ValidarIdentificador(txtArticuloId, lblArticuloId, "Identificador del Articulo*");
             txtTasaInteres.LostFocus += (s, e) => ValidacionHelper.ValidarPorcentaje(txtTasaInteres, lblTasaInteres, "Tasa de Interés*");
             FechaFinDatePicker.LostFocus += (s, e) =>  ValidacionHelper.ValidarFechaFin(FechaFinDatePicker, lblFechaFin, "Fecha de Finalizacion*", this.fechaInicio);
         }
@@ -130,8 +130,8 @@ namespace SisGestorEmpenio.vistas
             bool valido = true;
 
             // Validar campos obligatorios y formatos
-            valido &= ValidacionHelper.ValidarEntero(txtClienteId, lblClienteId, "Identificacion del Cliente*");
-            valido &= ValidacionHelper.ValidarEntero(txtArticuloId, lblArticuloId, "Identificador Artículo*");
+            valido &= ValidacionHelper.ValidarIdentificador(txtClienteId, lblClienteId, "Identificacion del Cliente*");
+            valido &= ValidacionHelper.ValidarIdentificador(txtArticuloId, lblArticuloId, "Identificador Artículo*");
             valido &= ValidacionHelper.ValidarPorcentaje(txtTasaInteres, lblTasaInteres, "Tasa de Interés*");
             valido &= ValidacionHelper.ValidarFechaFin(FechaFinDatePicker, lblFechaFin, "Fecha de Finalizacion*", this.fechaInicio);
 
@@ -142,11 +142,13 @@ namespace SisGestorEmpenio.vistas
                 return;
             }
 
-            int idCliente = int.Parse(txtClienteId.Text.Trim());
-            int idArticulo = int.Parse(txtArticuloId.Text.Trim());
+            // Obtener los valores de los campos
+            string idCliente = txtClienteId.Text.Trim();
+            string idArticulo = txtArticuloId.Text.Trim();
             double tasa = double.Parse(txtTasaInteres.Text.Trim());
             DateTime fecha = FechaFinDatePicker.SelectedDate.Value;
 
+            //cargar cliente y articulo si no se han pasado por constructor
             var cliente = this.cliente;
             var articulo = this.articulo;
             if (cliente == null)

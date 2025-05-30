@@ -31,7 +31,7 @@ namespace SisGestorEmpenio.vistas
             isAdding = false;
             this.articulo = articulo;
             // Cargar datos del artículo en los campos
-            txtID.Text = articulo.GetIdArticulo().ToString();
+            txtID.Text = articulo.GetIdArticulo();
             txtID.IsEnabled = false; // Deshabilitar el campo de ID
             txtDescripcion.Text = articulo.GetDescripcion();
             txtValor.Text = articulo.GetValorEstimado().ToString();
@@ -57,7 +57,7 @@ namespace SisGestorEmpenio.vistas
             txtID.PreviewTextInput += SoloNumeros_Preview;
 
             // Validaciones LostFocus
-            txtID.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtID, lblID, "Identificador único*");
+            txtID.LostFocus += (s, e) => ValidacionHelper.ValidarIdentificador(txtID, lblID, "Identificador único*");
             txtDescripcion.LostFocus += (s, e) => ValidacionHelper.ValidarLongitud(txtDescripcion, lblDescripcion, "Descripción*", 5, 100);
             cbEstado.LostFocus += (s, e) => ValidarEstado();
             txtValor.LostFocus += (s, e) => ValidacionHelper.ValidarDecimal(txtValor, lblValor, "Valor Estimado*");
@@ -93,7 +93,7 @@ namespace SisGestorEmpenio.vistas
             bool ok = true;
 
             // Validaciones inline
-            ok &= ValidacionHelper.ValidarEntero(txtID, lblID, "Identificador único*");
+            ok &= ValidacionHelper.ValidarIdentificador(txtID, lblID, "Identificador único*");
             ok &= ValidacionHelper.ValidarLongitud(txtDescripcion, lblDescripcion, "Descripción*", 5, 100);
             ok &= ValidarEstado();
             ok &= ValidacionHelper.ValidarDecimal(txtValor, lblValor, "Valor Estimado*");
@@ -107,7 +107,7 @@ namespace SisGestorEmpenio.vistas
 
             // Crear
             var art = new Articulo(
-                int.Parse(txtID.Text.Trim()),
+                txtID.Text.Trim(),
                 txtDescripcion.Text.Trim(),
                 double.Parse(txtValor.Text.Trim()),
                 cbEstado.Text.Trim().ToLower()
@@ -178,15 +178,6 @@ namespace SisGestorEmpenio.vistas
                 Titulo = titulo,
                 TextoBotonIzquierdo = "Entendido"
             }.ShowDialog();
-        }
-        public int? ArticuloId
-        {
-            get
-            {
-                if (int.TryParse(txtID.Text, out var id))
-                    return id;
-                return null;
-            }
         }
     }
 }

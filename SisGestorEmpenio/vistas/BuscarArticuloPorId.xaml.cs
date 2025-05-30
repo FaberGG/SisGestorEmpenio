@@ -13,6 +13,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using SisGestorEmpenio.Utils;
+using System.Text.RegularExpressions;
+using SisGestorEmpenio.Sesion;
 
 namespace SisGestorEmpenio.vistas
 {
@@ -26,16 +29,27 @@ namespace SisGestorEmpenio.vistas
         public BuscarArticuloPorId()
         {
             InitializeComponent();
+            // Máximas longitudes según tabla
+            txtIdArticulo.MaxLength = 10;   // INT
+
+            // Prevención de caracteres inválidos
+            txtIdArticulo.PreviewTextInput += SoloNumeros_Preview;
+
+            // Validaciones LostFocus
+            txtIdArticulo.LostFocus += (s, e) => ValidacionHelper.ValidarEntero(txtIdArticulo, lblIdArticulo, "Identificador del articulo*");
         }
 
+        // Sólo dígitos
+        private void SoloNumeros_Preview(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, @"^\d$");
+        }
 
-      private void Buscar_Click(object sender, RoutedEventArgs e)
-{
-    if (int.TryParse(txtIdArticulo.Text, out int id))
+        private void Buscar_Click(object sender, RoutedEventArgs e)
+{       
+    if (ValidacionHelper.ValidarIdentificador(txtIdArticulo, lblIdArticulo, "Identificador del articulo*"))
     {
-        var repo = new ArticuloRepository();
-        var articulo = repo.Buscar(id);
-
+        Articulo articulo = Sesion.Sesion.GetAdministradorActivo().BuscarArticulo(txtIdArticulo.Text.Trim());
         if (articulo != null)
         {
             this.Articulo = articulo;

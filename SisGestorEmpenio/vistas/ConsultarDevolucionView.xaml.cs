@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -70,9 +71,9 @@ namespace SisGestorEmpenio.vistas
                 .Take(registrosPorPagina)
                 .Select(d => new
                 {
-                    Cedula = d.GetPrestamo().GetCliente()?.GetId() ?? 0,
-                    IdArticulo = d.GetPrestamo().GetArticulo().GetIdArticulo(),
-                    IdConvenio = d.GetNumeroConvenio(),
+                    Cedula = d.GetPrestamo().GetCliente()?.GetId() ?? "nulo",
+                    IdArticulo = d.GetPrestamo().GetArticulo().GetIdArticulo() ?? "nulo",
+                    IdConvenio = d.GetNumeroConvenio().ToString(),
                     FechaDevolucion = d.GetFechaDevolucion().ToShortDateString(),
                     Devolucion = d
                 })
@@ -204,14 +205,10 @@ namespace SisGestorEmpenio.vistas
                 // Filtro por cédula del cliente
                 string textoCedula = txtCedula.Text.Trim();
 
-                //obtengo el idCliente de la cedula parseandolo a entero, si no -1
-                int idCliente = int.TryParse(textoCedula, out int cedula) ? cedula : -1;
 
                 // Filtro por ID del artículo
                 string textoArticulo = txtIdArticulo.Text.Trim();
 
-                //obtengo el idArticulo de la cedula parseandolo a entero, si no -1
-                int idArticulo = int.TryParse(textoArticulo, out int articuloId) ? articuloId : -1;
 
                 //obtengo el valor de rango de fechas seleccionado
                 // Filtro por rango de fechas
@@ -229,8 +226,8 @@ namespace SisGestorEmpenio.vistas
 
                 devolucionesFiltradas = admin.ConsultarDevoluciones(
                     cantidadMaxDevoluciones: 100, 
-                    clienteId: idCliente,
-                    articuloId: idArticulo,
+                    clienteId: string.IsNullOrWhiteSpace(textoCedula) || textoCedula == "Identificación..." ? string.Empty : textoCedula,
+                    articuloId: string.IsNullOrWhiteSpace(textoArticulo) || textoArticulo == "Id Articulo..." ? string.Empty : textoArticulo,
                     rangoDias: rangoDias
                 );
                 paginaActual = 1;
