@@ -219,7 +219,7 @@ namespace SisGestorEmpenio.vistas
                 string rango = comboItem?.Content?.ToString() ?? string.Empty;
                 int rangoDias = rango switch
                 {
-                    "Hoy" => 0,
+                    "Hoy" => 1,
                     "Últimos 5 días" => 5,
                     "Últimos 10 días" => 10,
                     "Últimos 30 días" => 30,
