@@ -13,6 +13,44 @@
     WindowStartupLocation="CenterScreen"
     WindowState="Maximized"
     mc:Ignorable="d">
+
+    <Window.Resources>
+        <!--  Estilo para los botones del sub-menú  -->
+        <Style x:Key="SubMenuButtonStyle" TargetType="Border">
+            <Setter Property="Width" Value="230" />
+            <Setter Property="Height" Value="28" />
+            <Setter Property="Margin" Value="0,6,0,0" />
+            <Setter Property="Padding" Value="5,0" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Background" Value="Transparent" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <!--  Cambiar el color del texto a blanco en hover  -->
+                    <Setter Property="Tag" Value="Hover" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!--  Estilo para el TextBlock dentro del sub-menú  -->
+        <Style x:Key="SubMenuTextStyle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="3,0,0,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="DemiBold" />
+            <Setter Property="Foreground" Value="#83C4C4" />
+            <Style.Triggers>
+                <!--  Trigger que responde cuando el Border padre tiene hover  -->
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=IsMouseOver}" Value="True">
+                    <Setter Property="Foreground" Value="White" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+
+
+
     <Grid>
         <!--  Columnas: Menú lateral | Contenido principal  -->
         <Grid.ColumnDefinitions>
@@ -110,9 +148,11 @@
                     Height="28"
                     Margin="0,12,0,0"
                     Padding="5,0"
-                    Background="#599191"
+                    Background="#448686"
                     CornerRadius="8"
                     Cursor="Hand"
+                    MouseEnter="PrestamoBotonPrincipal_MouseEnter"
+                    MouseLeave="PrestamoBotonPrincipal_MouseLeave"
                     MouseLeftButtonUp="ToggleGestPrestamo_Click">
 
                     <Grid>
@@ -125,23 +165,24 @@
                         <!--  Icono izquierdo  -->
                         <Border
                             Grid.Column="0"
-                            Width="24"
-                            Height="24"
+                            Width="20"
+                            Height="20"
                             VerticalAlignment="Center"
                             Background="Transparent">
-
-                            <Image
+                            <Path
                                 Width="20"
                                 Height="20"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Top"
-                                Source="/Resources/real_estate_agent_20.png" />
+                                Data="M744-377.23v-272L532-802.08 320-648.93v107.39h-32v-122.92l244-177.39 244 176.39v288.23h-32ZM532-802.08Zm21.85 183.77h28.3v-28.31h-28.3v28.31Zm-72 0h28.3v-28.31h-28.3v28.31Zm72 72h28.3v-28.31h-28.3v28.31Zm-72 0h28.3v-28.31h-28.3v28.31Zm-217.7 324.46 288.62 93.31 236.54-72q-4.16-30.23-22.78-43.77-18.62-13.54-42.15-13.54H525.6q-15.37 0-36.98-2.5-21.62-2.5-42.24-10.03l-62.61-23.7 13.54-30.54 70 28.31q13.31 6.31 25.34 6.77 12.04.46 20.73-.31h92q0-17.69-5.38-26.23t-19.23-14.07l-252.15-90.47q-2.31-.76-4.24-1.15-1.92-.38-4.23-.38h-56v200.3Zm-160 85.85v-318.15h213.1q6.6 0 12.52 1.26 5.92 1.27 11.55 3.08l252.6 89.58q18.46 7.15 30.96 24.56 12.5 17.4 12.5 45.82h87q46.58 0 73.1 31.62Q824-226.62 824-185.85v8.62L553.77-95.08l-289.62-91.77V-136h-160Zm32-32h96v-254.15h-96V-168Z"
+                                Fill="White"
+                                Stretch="Uniform" />
                         </Border>
 
                         <!--  Texto  -->
                         <TextBlock
                             Grid.Column="1"
-                            Margin="3,0,0,0"
+                            Margin="7,0,0,0"
                             VerticalAlignment="Center"
                             FontSize="12"
                             FontWeight="DemiBold"
@@ -179,13 +220,8 @@
                     <!--  REGISTRAR PRESTAMO  -->
                     <Border
                         x:Name="BtnRegistrarPrestamo"
-                        Width="230"
-                        Height="28"
-                        Margin="0,6,0,0"
-                        Padding="5,0"
-                        CornerRadius="8"
-                        Cursor="Hand"
-                        MouseLeftButtonUp="GoToRegistrarPrestamo">
+                        MouseLeftButtonUp="GoToRegistrarPrestamo"
+                        Style="{StaticResource SubMenuButtonStyle}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -200,25 +236,14 @@
                             <TextBlock
                                 x:Name="TxtRegistrarPrestamo"
                                 Grid.Column="1"
-                                Margin="3,0,0,0"
-                                VerticalAlignment="Center"
-                                FontSize="12"
-                                FontWeight="DemiBold"
-                                Foreground="#83C4C4"
+                                Style="{StaticResource SubMenuTextStyle}"
                                 Text="Registra un préstamo" />
                         </Grid>
                     </Border>
 
 
                     <!--  MODIFICAR PRESTAMO  -->
-                    <Border
-                        Width="230"
-                        Height="28"
-                        Margin="0,6,0,0"
-                        Padding="5,0"
-                        CornerRadius="8"
-                        Cursor="Hand"
-                        MouseLeftButtonUp="GoToModificarPrestamo">
+                    <Border MouseLeftButtonUp="GoToModificarPrestamo" Style="{StaticResource SubMenuButtonStyle}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -233,43 +258,32 @@
                             <TextBlock
                                 x:Name="TxtModificarPrestamo"
                                 Grid.Column="1"
-                                Margin="3,0,0,0"
-                                VerticalAlignment="Center"
-                                FontSize="12"
-                                FontWeight="DemiBold"
-                                Foreground="#83C4C4"
+                                Style="{StaticResource SubMenuTextStyle}"
                                 Text="Modifica un préstamo" />
                         </Grid>
                     </Border>
 
-
-     
-                    <!-- CONSULTA UN PRÉSTAMO -->
-                        <Border x:Name="BdConsultaPrestamo"
-
-                        Width="230"
-                        Height="28"
-                        Margin="0,6,0,0"
-                        Padding="5,0"
-                        CornerRadius="8"
-                        Cursor="Hand"
-                        MouseLeftButtonUp="GoToConsultarPrestamo">
-                        <Grid>  
+                    <!--  CONSULTA UN PRÉSTAMO  -->
+                    <Border
+                        x:Name="BdConsultaPrestamo"
+                        MouseLeftButtonUp="GoToConsultarPrestamo"
+                        Style="{StaticResource SubMenuButtonStyle}">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-
-                            <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"/>
-                            <TextBlock Grid.Column="1"
-                   x:Name="TxtConsultarPrestamo"
-                   Text="Consulta un préstamo"
-                   FontSize="12"
-                   Margin="3,0,0,0"
-                   VerticalAlignment="Center"
-                   FontWeight="DemiBold"
-                   Foreground="#83C4C4"/>
-
+                            <Border
+                                Grid.Column="0"
+                                Width="24"
+                                Height="24"
+                                VerticalAlignment="Center"
+                                Background="Transparent" />
+                            <TextBlock
+                                x:Name="TxtConsultarPrestamo"
+                                Grid.Column="1"
+                                Style="{StaticResource SubMenuTextStyle}"
+                                Text="Consulta un préstamo" />
                         </Grid>
                     </Border>
 
@@ -289,6 +303,8 @@
                     Padding="5,0"
                     CornerRadius="8"
                     Cursor="Hand"
+                    MouseEnter="DevolucionBotonPrincipal_MouseEnter"
+                    MouseLeave="DevolucionBotonPrincipal_MouseLeave"
                     MouseLeftButtonUp="ToggleGestDevolucion_Click">
 
                     <Grid>
@@ -301,23 +317,24 @@
                         <!--  Icono izquierdo  -->
                         <Border
                             Grid.Column="0"
-                            Width="24"
-                            Height="24"
+                            Width="18"
+                            Height="18"
                             VerticalAlignment="Center"
                             Background="Transparent">
-
-                            <Image
-                                Width="20"
-                                Height="20"
+                            <Path
+                                Width="18"
+                                Height="18"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Top"
-                                Source="/Resources/redo_25.png" />
+                                Data="M361.69-232q-61.54 0-103.69-47.54t-42.15-111.38q0-63.85 42.15-111 42.15-47.16 103.69-47.16h303.69L557.77-656.69 581.08-680 728-533.08 581.08-386.15l-23.31-23.31 107.61-107.62H361.69q-49.23 0-81.54 37.31-32.3 37.31-32.3 88.85 0 51.54 32.3 89.23Q312.46-264 361.69-264h294.16v32H361.69Z"
+                                Fill="White"
+                                Stretch="Uniform" />
                         </Border>
 
                         <!--  Texto  -->
                         <TextBlock
                             Grid.Column="1"
-                            Margin="3,0,0,0"
+                            Margin="7,0,0,0"
                             VerticalAlignment="Center"
                             FontSize="12"
                             FontWeight="DemiBold"
@@ -352,17 +369,11 @@
                     <!--  Sub-opciones con mismo estilo  -->
 
 
-
                     <!--  REGISTRAR DEVOLUCIÓN  -->
                     <Border
                         x:Name="BtnRegistrarDevolucion"
-                        Width="230"
-                        Height="28"
-                        Margin="0,6,0,0"
-                        Padding="5,0"
-                        CornerRadius="8"
-                        Cursor="Hand"
-                        MouseLeftButtonUp="GoToRegistrarDevolucion">
+                        MouseLeftButtonUp="GoToRegistrarDevolucion"
+                        Style="{StaticResource SubMenuButtonStyle}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -377,85 +388,66 @@
                             <TextBlock
                                 x:Name="TxtRegistrarDevolucion"
                                 Grid.Column="1"
-                                Margin="3,0,0,0"
-                                VerticalAlignment="Center"
-                                FontSize="12"
-                                FontWeight="DemiBold"
-                                Foreground="#83C4C4"
+                                Style="{StaticResource SubMenuTextStyle}"
                                 Text="Registra una devolución" />
                         </Grid>
                     </Border>
 
-
-
-                    <!-- MODIFICAR DEVOLUCIÓN -->
-                    <Border x:Name="BtnModificarDevolucion"
-                    Width="230"
-                    Height="28"
-                    Margin="0,6,0,0"
-                    Padding="5,0"
-                    CornerRadius="8"
-                    Cursor="Hand"
-                    MouseLeftButtonUp="GoToModificarDevolucion">
-
+                    <!--  MODIFICAR DEVOLUCIÓN  -->
+                    <Border
+                        x:Name="BtnModificarDevolucion"
+                        MouseLeftButtonUp="GoToModificarDevolucion"
+                        Style="{StaticResource SubMenuButtonStyle}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-
-                            <Border Width="24" Height="24"
-                        Background="Transparent"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"/>
-                            <TextBlock x:Name="TxtModificarDevolucion"
-                           Grid.Column="1"
-                           Text="Modifica una devolución"
-                           FontSize="12"
-                           FontWeight="DemiBold"
-                           Margin="3,0,0,0"
-                           VerticalAlignment="Center"
-                           Foreground="#83C4C4"/>
-
+                            <Border
+                                Grid.Column="0"
+                                Width="24"
+                                Height="24"
+                                VerticalAlignment="Center"
+                                Background="Transparent" />
+                            <TextBlock
+                                x:Name="TxtModificarDevolucion"
+                                Grid.Column="1"
+                                Style="{StaticResource SubMenuTextStyle}"
+                                Text="Modifica una devolución" />
                         </Grid>
                     </Border>
-                
 
-                <!-- CONSULTAR DEVOLUCIÓN -->
-                <Border x:Name="BtnConsultarDevolucion"
-                 Width="230"
-                Height="28"
-                Margin="0,6,0,0"
-                Padding="5,0"
-                CornerRadius="8"
-                Cursor="Hand"
-                MouseLeftButtonUp="GoToConsultarDevolucion">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Border Width="24" Height="24"
-                Background="Transparent"
-                Grid.Column="0"
-                VerticalAlignment="Center"/>
-                            <TextBlock x:Name="TxtConsultarDevolucion"
-                Grid.Column="1"
-                Text="Consulta una devolución"
-                FontSize="12"
-                FontWeight="DemiBold"
-                Margin="3,0,0,0"
-                VerticalAlignment="Center"
-                Foreground="#83C4C4"/>
-                    </Grid>
-                </Border>
-            </StackPanel>
+                    <!--  CONSULTAR DEVOLUCIÓN  -->
+                    <Border
+                        x:Name="BtnConsultarDevolucion"
+                        MouseLeftButtonUp="GoToConsultarDevolucion"
+                        Style="{StaticResource SubMenuButtonStyle}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border
+                                Grid.Column="0"
+                                Width="24"
+                                Height="24"
+                                VerticalAlignment="Center"
+                                Background="Transparent" />
+                            <TextBlock
+                                x:Name="TxtConsultarDevolucion"
+                                Grid.Column="1"
+                                Style="{StaticResource SubMenuTextStyle}"
+                                Text="Consulta una devolución" />
+                        </Grid>
+                    </Border>
+
+                </StackPanel>
 
 
-            
-            
-            <!--GESTION INVENTARIO - ARTICULOS-->
-                <!-- "Botón" principal con estilo de Border -->
+
+
+                <!--  GESTION INVENTARIO - ARTICULOS  -->
+                <!--  "Botón" principal con estilo de Border  -->
 
 
 
@@ -468,6 +460,8 @@
                     Padding="5,0"
                     CornerRadius="8"
                     Cursor="Hand"
+                    MouseEnter="ArticuloBotonPrincipal_MouseEnter"
+                    MouseLeave="ArticuloBotonPrincipal_MouseLeave"
                     MouseLeftButtonUp="ToggleGestInventario_Click">
 
                     <Grid>
@@ -480,23 +474,24 @@
                         <!--  Icono izquierdo  -->
                         <Border
                             Grid.Column="0"
-                            Width="24"
-                            Height="24"
+                            Width="20"
+                            Height="20"
                             VerticalAlignment="Center"
                             Background="Transparent">
-
-                            <Image
+                            <Path
                                 Width="20"
                                 Height="20"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Top"
-                                Source="/Resources/category_25.png" />
+                                Data="M331.38-558.77 480-805.54l148.62 246.77H331.38Zm364.62 432q-57.69 0-97.46-39.77-39.77-39.77-39.77-97.46 0-57.69 39.77-97.46 39.77-39.77 97.46-39.77 57.69 0 97.46 39.77 39.77 39.77 39.77 97.46 0 57.69-39.77 97.46-39.77 39.77-97.46 39.77Zm-521.23-24v-226.46h226.46v226.46H174.77Zm520.98-8q44.1 0 74.79-30.44 30.69-30.45 30.69-74.54 0-44.1-30.44-74.79-30.45-30.69-74.54-30.69-44.1 0-74.79 30.44-30.69 30.45-30.69 74.54 0 44.1 30.44 74.79 30.45 30.69 74.54 30.69Zm-488.98-24h162.46v-162.46H206.77v162.46Zm180.31-408h185.84L480-741.92l-92.92 151.15Zm92.92 0ZM369.23-345.23ZM691-269Z"
+                                Fill="White"
+                                Stretch="Uniform" />
                         </Border>
 
                         <!--  Texto  -->
                         <TextBlock
                             Grid.Column="1"
-                            Margin="3,0,0,0"
+                            Margin="7,0,0,0"
                             VerticalAlignment="Center"
                             FontSize="12"
                             FontWeight="DemiBold"
@@ -531,17 +526,11 @@
                     <!--  Sub-opciones con mismo estilo  -->
 
 
-
                     <!--  REGISTRAR ARTICULO  -->
                     <Border
                         x:Name="BtnRegistrarArticulo"
-                        Width="230"
-                        Height="28"
-                        Margin="0,6,0,0"
-                        Padding="5,0"
-                        CornerRadius="8"
-                        Cursor="Hand"
-                        MouseLeftButtonUp="GoToRegistrarArticulo">
+                        MouseLeftButtonUp="GoToRegistrarArticulo"
+                        Style="{StaticResource SubMenuButtonStyle}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -556,53 +545,34 @@
                             <TextBlock
                                 x:Name="TxtRegistrarArticulo"
                                 Grid.Column="1"
-                                Margin="3,0,0,0"
-                                VerticalAlignment="Center"
-                                FontSize="12"
-                                FontWeight="DemiBold"
-                                Foreground="#83C4C4"
+                                Style="{StaticResource SubMenuTextStyle}"
                                 Text="Registra un artículo" />
                         </Grid>
                     </Border>
 
-
-                    <!-- MODIFICAR ARTICULO -->
-                    <Border Width="230"
-                    Height="28"
-                    Margin="0,6,0,0"
-                    Padding="5,0"
-                    CornerRadius="8"
-                    Cursor="Hand"
-                    MouseDown="GoToModificarArticulo">
-
+                    <!--  MODIFICAR ARTICULO  -->
+                    <Border MouseDown="GoToModificarArticulo" Style="{StaticResource SubMenuButtonStyle}">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Border Width="24" Height="24" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"/>
-                            <TextBlock x:Name="TxtModificarArticulo" 
-                       Grid.Column="1"
-                       Text="Modifica un articulo"
-                       FontSize="12"
-                       FontWeight="DemiBold"
-                       Margin="3,0,0,0" 
-                       VerticalAlignment="Center"
-                       Foreground="#83C4C4"/>
-
+                            <Border
+                                Grid.Column="0"
+                                Width="24"
+                                Height="24"
+                                VerticalAlignment="Center"
+                                Background="Transparent" />
+                            <TextBlock
+                                x:Name="TxtModificarArticulo"
+                                Grid.Column="1"
+                                Style="{StaticResource SubMenuTextStyle}"
+                                Text="Modifica un articulo" />
                         </Grid>
                     </Border>
 
                     <!--  CONSULTAR ARTICULO  -->
-                    <Border
-                        Width="230"
-                        Height="28"
-                        Margin="0,6,0,0"
-                        Padding="5,0"
-                        CornerRadius="8"
-                        Cursor="Hand"
-                        MouseDown="GoToConsultarArticulo">
-
+                    <Border MouseDown="GoToConsultarArticulo" Style="{StaticResource SubMenuButtonStyle}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -617,11 +587,7 @@
                             <TextBlock
                                 x:Name="TxtConsultarArticulo"
                                 Grid.Column="1"
-                                Margin="3,0,0,0"
-                                VerticalAlignment="Center"
-                                FontSize="12"
-                                FontWeight="DemiBold"
-                                Foreground="#83C4C4"
+                                Style="{StaticResource SubMenuTextStyle}"
                                 Text="Consulta articulos" />
                         </Grid>
                     </Border>
@@ -645,14 +611,14 @@
 
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="107" />
+                        <RowDefinition x:Name="HeaderRow" Height="107" />
                         <!--  Encabezado  -->
                         <RowDefinition Height="*" />
                         <!--  Contenido dinámico  -->
                     </Grid.RowDefinitions>
 
                     <!--  Encabezado  -->
-                    <StackPanel Grid.Row="0">
+                    <StackPanel x:Name="HeaderPanel" Grid.Row="0">
                         <!--  Espaciado superior  -->
                         <Border Height="12" Background="Transparent">
                             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
