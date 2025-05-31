@@ -294,8 +294,8 @@ namespace SisGestorEmpenio.vistas
 
                 var listaPrestamosFiltrados = admin.ConsultarPrestamosCoincidentes(
                     cantidadMaxPrestamos: 100,
-                    clienteId: string.IsNullOrEmpty(identificacion) || identificacion == "Identificación..." ? "" : identificacion,
-                    estado: (estado == "Todos" || estado == "Estado") ? "" : estado,
+                    clienteId: string.IsNullOrEmpty(identificacion) || identificacion == "identificación..." ? "" : identificacion,
+                    estado:estado,
                     rangoDias: rangoTiempoInt
                 ); 
 
