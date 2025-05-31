@@ -80,21 +80,28 @@ VALUES (1012, 'Consola PlayStation 5', 2500000.00, 'funcionable', 0, 'libre');
 
 -- Artículos adicionales para pruebas
 INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion)
-VALUES (1013, 'Televisor LG 40 pulgadas', 1500.00, 'optimo', 1, 'libre');
+VALUES (1013, 'Televisor LG 40 pulgadas', 1500.00, 'optimo', 1, 'adjudicado');
 
 INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion)
-VALUES (1014, 'Laptop HP i7 16GB RAM', 1200.00, 'funcionable', 1, 'libre');
+VALUES (1014, 'Laptop HP i7 16GB RAM', 1200.00, 'funcionable', 1, 'adjudicado');
 
 INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion)
-VALUES (1015, 'Refrigeradora LG 2 puertas', 1000.00, 'optimo', 1, 'libre');
+VALUES (1015, 'Refrigeradora LG 2 puertas', 1000.00, 'optimo', 1, 'adjudicado');
 
 INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion)
-VALUES (1016, 'Reloj Rolex antiguo', 3000.00, 'defectuoso', 1, 'libre');
+VALUES (1016, 'Reloj Rolex antiguo', 3000.00, 'defectuoso', 1, 'adjudicado');
 
 INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion)
-VALUES (1017, 'Cámara Canon EOS 90D', 1100.00, 'funcionable', 1, 'libre');
+VALUES (1017, 'Cámara Canon EOS 90D', 1100.00, 'funcionable', 1, 'adjudicado');
 
 
+--Articulos adicionales en estado adjudicado
+INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion)
+VALUES (1018, 'Anillo de compromiso de diamantes', 5000.00, 'optimo', 1, 'adjudicado');
+INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion)
+VALUES (1019, 'Collar de oro con esmeraldas', 4000.00, 'optimo', 1, 'adjudicado');
+INSERT INTO Articulo (idArticulo, descripcion, valorEstimado, estadoArticulo, propiedadCasa, estadoDevolucion)
+VALUES (1020, 'Pulsera de plata con rubíes', 3000.00, 'funcionable', 1, 'adjudicado');
 
 
 -- ========================================
@@ -200,8 +207,6 @@ COMMIT;
 
 
 
-
-
 -- ========================================
 -- RESUMEN DE DATOS INSERTADOS:
 -- ========================================
@@ -220,19 +225,18 @@ COMMIT;
 
 
 
-
 -- ========================================
 
--- BLOQUE PL/SQL SIMPLIFICADO PARA GENERAR 5000 PRÉSTAMOS
+-- BLOQUE PL/SQL SIMPLIFICADO PARA GENERAR 5000 PRÉSTAMOS, Clientes, artículos y devoluciones
 
 DECLARE
-    v_cliente_id NUMBER := 100000;  -- Inicio de IDs de clientes
-    v_articulo_id NUMBER := 2000;   -- Inicio de IDs de artículos
-    v_cantidad_prestamos NUMBER := 50000; -- Cantidad de préstamos a generar
+    v_cliente_id NUMBER := 1;  -- Inicio de IDs de clientes
+    v_articulo_id NUMBER := 1;   -- Inicio de IDs de artículos
+    v_cantidad_prestamos NUMBER := 5000; -- Cantidad de préstamos a generar
 BEGIN
     DBMS_OUTPUT.PUT_LINE('Iniciando generación de ' || v_cantidad_prestamos || ' préstamos...');
-    INSERT INTO Administrador (numeroIdentidad, nombre, tipoIdentidad, salario, aniosExperiencia, usuario, contrasenia) 
-    VALUES (23432343, 'Maria Rodriguez', 'Cedula', 3500000.00, 5, 'mrodriguez', 'admin123');
+    --INSERT INTO Administrador (numeroIdentidad, nombre, tipoIdentidad, salario, aniosExperiencia, usuario, contrasenia) 
+   -- VALUES (23432343, 'Maria Rodriguez', 'Cedula', 3500000.00, 5, 'mrodriguez', 'admin123');
     -- Loop para crear n  préstamos
     FOR i IN 1..v_cantidad_prestamos LOOP
         
@@ -252,6 +256,10 @@ BEGIN
         INSERT INTO Prestamo (numeroIdentidadCliente, idArticulo, estadoPrestamo, fechaInicio, fechaFin, tasaInteres, montoTotal)
         VALUES (v_cliente_id, v_articulo_id, 'activo', DATE '2024-01-01', DATE '2024-07-01', 15.00, 750000.00);
         
+        -- Insertar devolución (datos fijos, solo cambian IDs)
+        INSERT INTO Devolucion (numeroIdentidadCliente, idArticulo, fechaDevolucion, montoPagado)
+        VALUES (v_cliente_id, v_articulo_id, DATE '2024-06-01', 750000.00);
+
         -- Incrementar contadores
         v_cliente_id := v_cliente_id + 1;
         v_articulo_id := v_articulo_id + 1;
@@ -273,8 +281,24 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
 END;
 /
+--select donde devolucion idCliente = 23
+SELECT * FROM Devolucion WHERE numeroIdentidadCliente = 23;
+
+--insertar cliente con id muy grande
+INSERT INTO Cliente (numeroIdentidad, nombre, apellido, telefono, correo, tipoIdentidad, numeroIdentidadAdministrador)
+VALUES (99999999999, 'Cliente Grande', 'Prueba', '3000000002', '123', 'Cedula', 1);
+--inserto un prestamo con id muy grande
+INSERT INTO Prestamo (numeroIdentidadCliente, idArticulo, estadoPrestamo, fechaInicio, fechaFin, tasaInteres, montoTotal)
+VALUES (99999999999, 2004, 'activo', DATE '2024-01-01', DATE '2024-07-01', 15.00, 750000.00);
 
 
+--borrar todo de las tablas
+DELETE FROM Devolucion;
+DELETE FROM Prestamo;
+DELETE FROM Posee;
+DELETE FROM Articulo;
+DELETE FROM Cliente;
+COMMIT;
 
 
 -- ========================================

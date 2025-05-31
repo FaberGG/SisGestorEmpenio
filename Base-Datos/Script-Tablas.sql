@@ -38,7 +38,7 @@ CREATE TABLE Articulo (
     propiedadCasa NUMBER(1),
     estadoDevolucion VARCHAR2(12),
     CHECK (propiedadCasa IN (0, 1)), -- 0 = No es propiedad de la casa, 1 = Es propiedad de la casa
-    CHECK (estadoDevolucion IN ('devuelto', 'libre')),
+    CHECK (estadoDevolucion IN ('devuelto', 'libre', 'adjudicado')),
     CHECK (estadoArticulo IN ('defectuoso', 'optimo', 'funcionable'))
 );
 
