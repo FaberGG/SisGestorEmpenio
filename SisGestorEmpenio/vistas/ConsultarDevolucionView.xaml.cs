@@ -184,6 +184,10 @@ namespace SisGestorEmpenio.vistas
         {
             FiltrarDevoluciones();
         }
+        private void FullAreaButton_Click(object sender, RoutedEventArgs e)
+        {
+            cmbRangoFechas.IsDropDownOpen = !cmbRangoFechas.IsDropDownOpen;
+        }
 
         // MÉTODO DE FILTRADO ACTUALIZADO
         private async void FiltrarDevoluciones()

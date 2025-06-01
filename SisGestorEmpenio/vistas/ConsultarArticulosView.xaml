@@ -511,7 +511,7 @@
 
                     <!--  Barra de búsqueda  -->
                     <Border
-                        Width="200"
+                        Width="220"
                         Height="21"
                         Margin="0,0,8,0"
                         Padding="6,0"
@@ -577,7 +577,7 @@
                         </Grid>
                     </Border>
                     <!--  Select personalizado  -->
-                    <ComboBox
+                    <!--<ComboBox
                         x:Name="cmbPropiedadCasa"
                         Height="21"
                         Margin="0,0,8,0"
@@ -593,258 +593,307 @@
                         <ComboBoxItem Content="Casa" />
                         <ComboBoxItem Content="Cliente" />
                         <ComboBoxItem Content="Todos" />
-                    </ComboBox>
+                    </ComboBox>-->
 
 
                 </StackPanel>
             </Grid>
         </Border>
 
-        <!--  DATAGRID  -->
-        <DataGrid
-            Name="MainDataGrid"
-            Grid.Row="1"
-            CellStyle="{StaticResource CustomDataGridCellStyle}"
-            ColumnHeaderStyle="{StaticResource CustomColumnHeaderStyle}"
-            RowStyle="{StaticResource CustomDataGridRowStyle}"
-            Style="{StaticResource CustomDataGridStyle}">
+        <!--  DATAGRID CON OVERLAY SIMPLE  -->
+        <Grid Grid.Row="1">
+            <!--  DataGrid siempre visible  -->
+            <DataGrid
+                Name="MainDataGrid"
+                CellStyle="{StaticResource CustomDataGridCellStyle}"
+                ColumnHeaderStyle="{StaticResource CustomColumnHeaderStyle}"
+                RowStyle="{StaticResource CustomDataGridRowStyle}"
+                Style="{StaticResource CustomDataGridStyle}">
 
-            <DataGrid.Columns>
-                <!--  Columna Identificador  -->
-                <DataGridTemplateColumn Width="SizeToHeader" Header="Identificador">
-                    <DataGridTemplateColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <TextBlock
-                                Margin="24,0,0,0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Text="Identificador" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.HeaderTemplate>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock
-                                Margin="24,0,0,0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontSize="12"
-                                Foreground="#095858"
-                                Text="{Binding idArticulo}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-
-                <!--  Columna Nombre con espacio para icono  -->
-                <DataGridTemplateColumn Width="200" Header="Nombre">
-                    <DataGridTemplateColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
+                <DataGrid.Columns>
+                    <!--  Columna Identificador  -->
+                    <DataGridTemplateColumn Width="SizeToHeader" Header="Identificador">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
                                 <TextBlock
-                                    Grid.Column="0"
+                                    Margin="24,0,0,0"
+                                    HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    Text="Nombre" />
-
-                            </Grid>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.HeaderTemplate>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock
-                                VerticalAlignment="Center"
-                                FontSize="12"
-                                Foreground="#095858"
-                                Text="{Binding descripcion}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-
-                <!--  Columna Valor con espacio para icono  -->
-                <DataGridTemplateColumn Width="150" Header="Valor">
-                    <DataGridTemplateColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
+                                    Text="Identificador" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
                                 <TextBlock
-                                    Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    Text="Valor" />
-
-                            </Grid>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.HeaderTemplate>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock
-                                VerticalAlignment="Center"
-                                FontSize="12"
-                                Foreground="#095858"
-                                Text="{Binding valor, StringFormat={}{0:C2}}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-
-                <!--  Columna Estado con ComboBox  -->
-                <DataGridTemplateColumn Header="Estado">
-                    <DataGridTemplateColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <ComboBox
-                                x:Name="cmbEstadoArticulo"
-                                Height="21"
-                                Background="Transparent"
-                                FontSize="12"
-                                Foreground="#7DA4A4"
-                                SelectedIndex="0"
-                                SelectionChanged="Filtro_SelectionChanged"
-                                Style="{StaticResource TransparentComboBoxStyle}">
-                                <ComboBoxItem Content="Estado (Todos)" />
-                                <ComboBoxItem Content="Optimo" />
-                                <ComboBoxItem Content="Funcionable" />
-                                <ComboBoxItem Content="Defectuoso" />
-                            </ComboBox>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.HeaderTemplate>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Border>
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Style.Triggers>
-                                            <!--  USAR EL MISMO NOMBRE DE PROPIEDAD CONSISTENTEMENTE  -->
-                                            <DataTrigger Binding="{Binding EstadoArticulo}" Value="optimo">
-                                                <Setter Property="Background" Value="#A3CACA" />
-                                            </DataTrigger>
-                                            <!--  CAMBIAR "Funcional" por "Funcionable" PARA COINCIDIR  -->
-                                            <DataTrigger Binding="{Binding EstadoArticulo}" Value="funcionable">
-                                                <Setter Property="Background" Value="#CAC7A3" />
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding EstadoArticulo}" Value="defectuoso">
-                                                <Setter Property="Background" Value="#D0AD93" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                        <Setter Property="CornerRadius" Value="14" />
-                                        <Setter Property="Height" Value="24" />
-                                        <Setter Property="Padding" Value="11,0,11,0" />
-                                        <Setter Property="HorizontalAlignment" Value="Center" />
-                                    </Style>
-                                </Border.Style>
-                                <!--  USAR EL MISMO NOMBRE DE PROPIEDAD  -->
-                                <TextBlock
+                                    Margin="24,0,0,0"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     FontSize="12"
-                                    Text="{Binding EstadoArticulo}">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
+                                    Foreground="#095858"
+                                    Text="{Binding idArticulo}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <!--  Columna Nombre con espacio para icono  -->
+                    <DataGridTemplateColumn Width="200" Header="Nombre">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        VerticalAlignment="Center"
+                                        Text="Nombre" />
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    FontSize="12"
+                                    Foreground="#095858"
+                                    Text="{Binding descripcion}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <!--  Columna Valor con espacio para icono  -->
+                    <DataGridTemplateColumn Width="150" Header="Valor">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        VerticalAlignment="Center"
+                                        Text="Valor" />
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    FontSize="12"
+                                    Foreground="#095858"
+                                    Text="{Binding valor, StringFormat={}{0:C2}}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <!--  Columna Estado con ComboBox  -->
+                    <DataGridTemplateColumn Header="Estado">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <ComboBox
+                                    x:Name="cmbEstadoArticulo"
+                                    Height="21"
+                                    Background="Transparent"
+                                    FontSize="12"
+                                    Foreground="#7DA4A4"
+                                    SelectedIndex="0"
+                                    SelectionChanged="Filtro_SelectionChanged"
+                                    Style="{StaticResource TransparentComboBoxStyle}">
+                                    <ComboBoxItem Content="Estado (Todos)" />
+                                    <ComboBoxItem Content="Optimo" />
+                                    <ComboBoxItem Content="Funcionable" />
+                                    <ComboBoxItem Content="Defectuoso" />
+                                </ComboBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border>
+                                    <Border.Style>
+                                        <Style TargetType="Border">
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding EstadoArticulo}" Value="optimo">
-                                                    <Setter Property="Foreground" Value="#095858" />
+                                                    <Setter Property="Background" Value="#A3CACA" />
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding EstadoArticulo}" Value="funcionable">
-                                                    <Setter Property="Foreground" Value="#335809" />
+                                                    <Setter Property="Background" Value="#CAC7A3" />
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding EstadoArticulo}" Value="defectuoso">
-                                                    <Setter Property="Foreground" Value="#580909" />
+                                                    <Setter Property="Background" Value="#D0AD93" />
                                                 </DataTrigger>
                                             </Style.Triggers>
-                                            <Setter Property="FontWeight" Value="DemiBold" />
+                                            <Setter Property="CornerRadius" Value="14" />
+                                            <Setter Property="Height" Value="24" />
+                                            <Setter Property="Padding" Value="11,0,11,0" />
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
                                         </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
-                            </Border>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                                    </Border.Style>
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        Text="{Binding EstadoArticulo}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding EstadoArticulo}" Value="optimo">
+                                                        <Setter Property="Foreground" Value="#095858" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding EstadoArticulo}" Value="funcionable">
+                                                        <Setter Property="Foreground" Value="#335809" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding EstadoArticulo}" Value="defectuoso">
+                                                        <Setter Property="Foreground" Value="#580909" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                                <Setter Property="FontWeight" Value="DemiBold" />
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Border>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
 
-                <!--  Columna Devolución con ComboBox  -->
-                <DataGridTemplateColumn Header="Devolución">
-                    <DataGridTemplateColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <ComboBox
-                                x:Name="cmbEstadoDevolucion"
-                                Height="21"
-                                Background="Transparent"
-                                FontSize="12"
-                                Foreground="#7DA4A4"
-                                SelectedIndex="0"
-                                SelectionChanged="Filtro_SelectionChanged"
-                                Style="{StaticResource TransparentComboBoxStyle}">
-                                <ComboBoxItem Content="Devolución (Todos)" />
-                                <ComboBoxItem Content="Libre" />
-                                <ComboBoxItem Content="Devuelto" />
-                            </ComboBox>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.HeaderTemplate>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Border>
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Style.Triggers>
-                                            <!--  USAR EL MISMO NOMBRE DE PROPIEDAD CONSISTENTEMENTE  -->
-                                            <DataTrigger Binding="{Binding EstadoDevolucion}" Value="libre">
-                                                <Setter Property="Background" Value="#AECAA3" />
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding EstadoDevolucion}" Value="devuelto">
-                                                <Setter Property="Background" Value="#A3B4CA" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                        <Setter Property="CornerRadius" Value="14" />
-                                        <Setter Property="Height" Value="24" />
-
-                                        <Setter Property="Padding" Value="11,0,11,0" />
-                                        <Setter Property="HorizontalAlignment" Value="Center" />
-                                    </Style>
-                                </Border.Style>
-                                <!--  USAR EL MISMO NOMBRE DE PROPIEDAD  -->
-                                <TextBlock
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
+                    <!--  Columna Devolución con ComboBox  -->
+                    <DataGridTemplateColumn Header="Devolución">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <ComboBox
+                                    x:Name="cmbEstadoDevolucion"
+                                    Height="21"
+                                    Background="Transparent"
                                     FontSize="12"
-                                    Text="{Binding EstadoDevolucion}">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
+                                    Foreground="#7DA4A4"
+                                    SelectedIndex="0"
+                                    SelectionChanged="Filtro_SelectionChanged"
+                                    Style="{StaticResource TransparentComboBoxStyle}">
+                                    <ComboBoxItem Content="Devolución (Todos)" />
+                                    <ComboBoxItem Content="Libre" />
+                                    <ComboBoxItem Content="Devuelto" />
+                                    <ComboBoxItem Content="Adjudicado" />
+                                </ComboBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border>
+                                    <Border.Style>
+                                        <Style TargetType="Border">
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding EstadoDevolucion}" Value="libre">
-                                                    <Setter Property="Foreground" Value="#145809" />
+                                                    <Setter Property="Background" Value="#AECAA3" />
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding EstadoDevolucion}" Value="devuelto">
-                                                    <Setter Property="Foreground" Value="#092B58" />
+                                                    <Setter Property="Background" Value="#A3B4CA" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding EstadoDevolucion}" Value="adjudicado">
+                                                    <Setter Property="Background" Value="#CAC6A3" />
                                                 </DataTrigger>
                                             </Style.Triggers>
-                                            <Setter Property="FontWeight" Value="DemiBold" />
-
+                                            <Setter Property="CornerRadius" Value="14" />
+                                            <Setter Property="Height" Value="24" />
+                                            <Setter Property="Padding" Value="11,0,11,0" />
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
                                         </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
-                            </Border>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                                    </Border.Style>
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        Text="{Binding EstadoDevolucion}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding EstadoDevolucion}" Value="libre">
+                                                        <Setter Property="Foreground" Value="#145809" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding EstadoDevolucion}" Value="devuelto">
+                                                        <Setter Property="Foreground" Value="#092B58" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding EstadoDevolucion}" Value="adjudicado">
+                                                        <Setter Property="Foreground" Value="#583209" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                                <Setter Property="FontWeight" Value="DemiBold" />
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Border>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
 
-                <!--  Columna de opciones  -->
-                <DataGridTemplateColumn Width="60" Header="">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Click="OptionsButton_Click" Style="{StaticResource OptionsButtonStyle}">
-                                <Button.ContextMenu>
-                                    <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
-                                        <MenuItem
-                                            Click="EditarMenuItem_Click"
-                                            Header="Editar"
-                                            Style="{StaticResource CustomMenuItemStyle}" />
-                                    </ContextMenu>
-                                </Button.ContextMenu>
-                            </Button>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+                    <!--  Columna de opciones  -->
+                    <DataGridTemplateColumn Width="60" Header="">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Click="OptionsButton_Click" Style="{StaticResource OptionsButtonStyle}">
+                                    <Button.ContextMenu>
+                                        <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
+                                            <MenuItem
+                                                Click="EditarMenuItem_Click"
+                                                Header="Editar"
+                                                Style="{StaticResource CustomMenuItemStyle}" />
+                                        </ContextMenu>
+                                    </Button.ContextMenu>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <!--  Overlay flotante que aparece ENCIMA del área de datos (no de los headers)  -->
+            <Border
+                x:Name="NoDataOverlay"
+                Margin="0,48,0,0"
+                Background="Transparent"
+                Visibility="Collapsed">
+
+                <Border
+                    Padding="40,30"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="White"
+                    CornerRadius="8">
+
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical">
+
+                        <!--  Imagen de No Data  -->
+                        <Image
+                            Width="120"
+                            Height="120"
+                            Margin="0,0,0,20"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Source="/Resources/no-data-found.png"
+                            Stretch="Uniform" />
+
+                        <!--  Mensaje principal  -->
+                        <TextBlock
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            Foreground="#7DA4A4"
+                            Text="No se encontraron coincidencias"
+                            TextAlignment="Center" />
+
+                        <!--  Mensaje secundario  -->
+                        <TextBlock
+                            Margin="0,6,0,0"
+                            FontSize="12"
+                            Foreground="#A0A0A0"
+                            Text="Intenta ajustar los filtros de búsqueda"
+                            TextAlignment="Center" />
+
+                    </StackPanel>
+                </Border>
+            </Border>
+        </Grid>
+
 
         <!--  FOOTER  -->
         <Border

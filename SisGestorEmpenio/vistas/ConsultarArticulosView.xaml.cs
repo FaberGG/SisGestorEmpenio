@@ -117,6 +117,8 @@ namespace SisGestorEmpenio.vistas
 
             // Actualizar DataGrid
             MainDataGrid.ItemsSource = registrosPagina;
+            // Verificar si mostrar No Data
+            VerificarYMostrarNoData();
 
             // Actualizar controles de navegación
             ActualizarControlesNavegacion();
@@ -274,7 +276,8 @@ namespace SisGestorEmpenio.vistas
                 System.Windows.Controls.ComboBox cmbDevolucion = FindChild<System.Windows.Controls.ComboBox>(MainDataGrid, "cmbEstadoDevolucion");
                 string estadoArticulo = (cmbEstado?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "";
                 string estadoDevolucion = (cmbDevolucion?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "";
-                string propiedadCasa = (cmbPropiedadCasa.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "";
+                //string propiedadCasa = (cmbPropiedadCasa.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "";
+                string propiedadCasa ="Propiedad";
                 string txtIdDescripcion = txtBusqueda.Text.Trim();
 
                 // Filtrar artículos
@@ -284,7 +287,7 @@ namespace SisGestorEmpenio.vistas
                     id: BigInteger.TryParse(txtIdDescripcion, out var tempId) ? tempId.ToString() : "",
                     descripcion: txtIdDescripcion,
                     propiedadCasa: (propiedadCasa == "Todos" || propiedadCasa == "Propiedad") ? -1 : (propiedadCasa == "Casa" ? 1 : 0),
-                    estado: estadoArticulo == "Estado (Todos)" ? "" : estadoArticulo,
+                    estado: estadoArticulo == "Estado (Todos)" ? "" : estadoArticulo.ToLower(),
                     devolucion: estadoDevolucion == "Devolución (Todos)" ? "" : estadoDevolucion
                 );
                 
@@ -321,6 +324,23 @@ namespace SisGestorEmpenio.vistas
 
 
 
+        // Método simple para mostrar/ocultar el overlay
+        private void MostrarNoDataOverlay(bool mostrar)
+        {
+            if (NoDataOverlay != null)
+            {
+                NoDataOverlay.Visibility = mostrar ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+        // Método que debes llamar después de actualizar el ItemsSource del DataGrid
+        private void VerificarYMostrarNoData()
+        {
+            // Verificar si el DataGrid tiene elementos
+            bool tieneElementos = MainDataGrid.Items.Count > 0;
+
+            // Mostrar overlay solo si no hay elementos
+            MostrarNoDataOverlay(!tieneElementos);
+        }
 
 
 
