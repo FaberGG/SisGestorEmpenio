@@ -72,5 +72,14 @@ namespace SisGestorEmpenio.repository
             filasAfectadas = dt.ejecutarDML(consulta);
             return filasAfectadas > 0;
         }
+
+        //eliminar cliente
+        public bool Eliminar(string id)
+        {
+            int filasAfectadas = 0;
+            string consulta = $"DELETE FROM cliente WHERE numeroIdentidad = {id}";
+            filasAfectadas = dt.ejecutarDML(consulta);
+            return filasAfectadas > 0;
+        }
     }
 }

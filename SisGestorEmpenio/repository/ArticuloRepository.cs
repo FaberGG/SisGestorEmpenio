@@ -135,7 +135,14 @@ WHERE ROWNUM <= {cantidadMaxArticulos}";
             return articulos;
         }
 
-
+        //eliminar articulo
+        public bool Eliminar(string idArticulo)
+        {
+            int filasAfectadas = 0;
+            string consulta = $"DELETE FROM ARTICULO WHERE idArticulo = {idArticulo}";
+            filasAfectadas = dt.ejecutarDML(consulta);
+            return filasAfectadas > 0;
+        }
 
     }
 }

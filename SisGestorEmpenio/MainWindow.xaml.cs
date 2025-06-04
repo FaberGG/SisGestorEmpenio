@@ -23,7 +23,7 @@ namespace SisGestorEmpenio
         private TextBlock textoSeleccionadoActual = null;
         private Administrador admin;
         // Color para hover
-        private readonly Color hoverColor = Color.FromRgb(0x44, 0x86, 0x86); 
+        private readonly Color hoverColor = Color.FromRgb(0x44, 0x86, 0x86);
         private readonly Color activeColor = Color.FromRgb(0x44, 0x86, 0x86); // #448686
 
         public MainWindow()
@@ -117,7 +117,7 @@ namespace SisGestorEmpenio
         // Método para cambiar la vista en el ContentControl
 
 
-        private void GoToHome(object sender, RoutedEventArgs e)
+        private void GoToHome(object sender, EventArgs e)
         {
 
             var homeView = new vistas.HomeView();
@@ -141,9 +141,6 @@ namespace SisGestorEmpenio
         {
             SeleccionarOpcion(TxtRegistrarPrestamo);
 
-            Cliente clienteRegistrado = null;
-            Articulo articuloRegistrado = null;
-
             var confirmacionCliente = new ConfirmacionWindow
             {
                 Mensaje = "¿El cliente ya está registrado?",
@@ -152,59 +149,45 @@ namespace SisGestorEmpenio
                 TextoBotonDerecho = "Si",
                 MostrarBotonDerecho = true
             };
-
             bool? resultadoCliente = confirmacionCliente.ShowDialog();
+            bool clienteYaRegistrado = resultadoCliente == true && confirmacionCliente.Confirmado;
+            bool articuloYaRegistrado = false;
 
-            if (resultadoCliente == true && confirmacionCliente.Confirmado)
+            //pregunto si el articulo ya esta registrado
+            var confirmacionArticulo = new ConfirmacionWindow
             {
-                //pregunto si el articulo ya esta registrado
-                var confirmacionArticulo = new ConfirmacionWindow
-                {
-                    Mensaje = "¿El articulo ya está registrado?",
-                    Titulo = "Articulo registrado?",
-                    TextoBotonIzquierdo = "Registrar",
-                    TextoBotonDerecho = "Si",
-                    MostrarBotonDerecho = true
-                };
-                bool? resultadoArticulo = confirmacionArticulo.ShowDialog();
+                Mensaje = "¿El articulo ya está registrado?",
+                Titulo = "Articulo registrado?",
+                TextoBotonIzquierdo = "Registrar",
+                TextoBotonDerecho = "Si",
+                MostrarBotonDerecho = true
+            };
+            bool? resultadoArticulo = confirmacionArticulo.ShowDialog();
+            articuloYaRegistrado = resultadoArticulo == true && confirmacionArticulo.Confirmado;
 
-                if (resultadoArticulo == true && confirmacionArticulo.Confirmado)
-                {
-                    var prestamoView = new PrestamoView();
-                    ShowViewWithHeader(prestamoView, "Registrar Préstamo");
-                }
-                else
-                {
-                    var vistaArticulo = new ArticuloView();
-                    vistaArticulo.RegistroArticuloCompletado += (s, articulo) =>
-                    {
-                        articuloRegistrado = articulo;
-                        var prestamoView = new PrestamoView(articuloRegistrado);
-                        ShowViewWithHeader(prestamoView, "Registrar Préstamo");
-                    };
-                    // Mostrar vista de registro de artículo
-                    ShowViewWithHeader(vistaArticulo, "Registrar Préstamo", "Artículo");
-                }
-            }
-            else
-            {
-                var vistaCliente = new ClienteView();
-                vistaCliente.RegistroClienteCompletado += (s1, cliente) =>
-                {
-                    clienteRegistrado = cliente;
-                    var vistaArticulo = new ArticuloView();
-                    vistaArticulo.RegistroArticuloCompletado += (s2, articulo) =>
-                    {
-                        articuloRegistrado = articulo;
-
-                        var prestamoView = new PrestamoView(cliente, articulo);
-                        ShowViewWithHeader(prestamoView, "Registrar Préstamo");
-                    };
-                    ShowViewWithHeader(vistaArticulo, "Registrar Préstamo", "Artículo");
-                };
-                ShowViewWithHeader(vistaCliente, "Registrar Préstamo", "Cliente");
-            }
+            //muestro la vista de registrar prestamo
+            var prestamoView = new RegistrarPrestamoView(clienteYaRegistrado, articuloYaRegistrado);
+            //suscribo eventos para completar o cancelar el proceso
+            prestamoView.ProcesoCompletado += GoToHome;
+            prestamoView.ProcesoCancelado += ProcesoCancelado;
+            ShowFullScreenView(prestamoView);
         }
+
+        private void ProcesoCancelado(object sender, EventArgs e)
+        {
+            // El usuario canceló el proceso
+            // Cambiar a HomeView
+            GoToHome(sender, e);
+
+            new MensajeErrorOk
+            {
+                Mensaje = "Proceso cancelado con éxito... \n Volviendo a la pantalla principal",
+                Titulo = "Proceso cancelado",
+                TextoBotonIzquierdo = "Entendido"
+            }.ShowDialog();
+        }
+
+
         // Modificar Prestamo
         private void GoToModificarPrestamo(object sender, MouseButtonEventArgs e)
         {
@@ -465,6 +448,7 @@ namespace SisGestorEmpenio
                 MessageBox.Show($"Error al buscar el artículo: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
 
     }
 }

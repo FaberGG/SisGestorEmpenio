@@ -1,0 +1,228 @@
+﻿<UserControl
+    x:Class="SisGestorEmpenio.vistas.RegistrarPrestamoView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SisGestorEmpenio.vistas"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    MinWidth="700"
+    MinHeight="350"
+    mc:Ignorable="d">
+
+
+
+    <Grid Margin="20" Background="#F1FFFA">
+        <Grid.RowDefinitions>
+            <!--  Sección 1: Título y Botón Cancelar  -->
+            <RowDefinition Height="Auto" />
+            <!--  Sección 2: Barra de Progreso  -->
+            <RowDefinition Height="Auto" />
+            <!--  Sección 3: Subtítulo Dinámico  -->
+            <RowDefinition Height="Auto" />
+            <!--  Sección 4: Contenido Dinámico  -->
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--  SECCIÓN 1: TÍTULO Y BOTÓN CANCELAR  -->
+        <Grid Grid.Row="0" Margin="0,28,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!--  Título  -->
+            <Border
+                Grid.Column="0"
+                Height="29"
+                Margin="68,0,68,0"
+                Background="Transparent">
+                <TextBlock
+                    x:Name="TxtTitulo"
+                    VerticalAlignment="Center"
+                    FontFamily="Segoe UI Black"
+                    FontSize="24"
+                    FontWeight="Bold"
+                    Foreground="#095858"
+                    Text="Registrar préstamo" />
+            </Border>
+
+            <!--  Botón Cancelar  -->
+            <Border
+                Grid.Column="1"
+                Height="35"
+                Margin="0,0,68,0"
+                VerticalAlignment="Center"
+                Background="White"
+                BorderBrush="#A1A1A1"
+                BorderThickness="1"
+                CornerRadius="8">
+                <Button
+                    x:Name="BtnCancelarRegistro"
+                    Padding="12,8"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Click="BtnCancelarRegistro_Click"
+                    Cursor="Hand">
+                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                        <!--  Icono X  -->
+                        <Path
+                            Width="13"
+                            Height="13"
+                            Margin="0,0,8,0"
+                            Data="M12 2L2 12M2 2L12 12"
+                            Fill="Red"
+                            Stroke="Red" />
+                        <!--  Texto  -->
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            FontWeight="Bold"
+                            Foreground="Black"
+                            Text="Cancelar Registro" />
+                    </StackPanel>
+                </Button>
+            </Border>
+        </Grid>
+
+        <!--  SECCIÓN 2: BARRA DE PROGRESO  -->
+        <Border
+            Grid.Row="1"
+            Height="48"
+            Margin="0,0,0,20"
+            BorderBrush="#B9B9B9"
+            BorderThickness="0,1,0,1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!--  Etapa 1: Datos del cliente  -->
+                <StackPanel
+                    Grid.Column="0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <!--  Círculo con número  -->
+                    <Border
+                        x:Name="CirculoEtapa1"
+                        Width="24"
+                        Height="24"
+                        Margin="0,0,8,0"
+                        Background="#148484"
+                        CornerRadius="12">
+                        <TextBlock
+                            x:Name="NumeroEtapa1"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            FontWeight="Bold"
+                            Foreground="#FFFFFF"
+                            Text="1" />
+                    </Border>
+                    <!--  Texto de la etapa  -->
+                    <TextBlock
+                        x:Name="TextoEtapa1"
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        FontWeight="Bold"
+                        Foreground="Black"
+                        Text="Datos del cliente" />
+                </StackPanel>
+
+                <!--  Etapa 2: Datos del artículo  -->
+                <StackPanel
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <!--  Círculo con número  -->
+                    <Border
+                        x:Name="CirculoEtapa2"
+                        Width="24"
+                        Height="24"
+                        Margin="0,0,8,0"
+                        Background="#DFDFDF"
+                        CornerRadius="12">
+                        <TextBlock
+                            x:Name="NumeroEtapa2"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            FontWeight="Bold"
+                            Foreground="#8D8D8D"
+                            Text="2" />
+                    </Border>
+                    <!--  Texto de la etapa  -->
+                    <TextBlock
+                        x:Name="TextoEtapa2"
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        FontWeight="Bold"
+                        Foreground="#8D8D8D"
+                        Text="Datos del artículo" />
+                </StackPanel>
+
+                <!--  Etapa 3: Detalles del préstamo  -->
+                <StackPanel
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <!--  Círculo con número  -->
+                    <Border
+                        x:Name="CirculoEtapa3"
+                        Width="24"
+                        Height="24"
+                        Margin="0,0,8,0"
+                        Background="#DFDFDF"
+                        CornerRadius="12">
+                        <TextBlock
+                            x:Name="NumeroEtapa3"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            FontWeight="Bold"
+                            Foreground="#8D8D8D"
+                            Text="3" />
+                    </Border>
+                    <!--  Texto de la etapa  -->
+                    <TextBlock
+                        x:Name="TextoEtapa3"
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        FontWeight="Bold"
+                        Foreground="#8D8D8D"
+                        Text="Detalles del préstamo" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!--  SECCIÓN 3: SUBTÍTULO DINÁMICO  -->
+        <Border
+            Grid.Row="2"
+            Height="23"
+            Margin="68,0,0,20"
+            Background="Transparent">
+            <TextBlock
+                x:Name="TxtSubtitulo"
+                VerticalAlignment="Center"
+                FontSize="20"
+                FontWeight="Bold"
+                Foreground="#095858"
+                Text="Datos del cliente" />
+        </Border>
+
+        <!--  SECCIÓN 4: CONTENIDO DINÁMICO  -->
+        <Border
+            Grid.Row="3"
+            Margin="68,0,68,0"
+            Background="Transparent">
+            <ContentPresenter
+                x:Name="vistaFormulario"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch" />
+        </Border>
+    </Grid>
+</UserControl>

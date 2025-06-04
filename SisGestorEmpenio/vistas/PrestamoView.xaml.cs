@@ -26,6 +26,9 @@ namespace SisGestorEmpenio.vistas
         private Prestamo prestamo;
         private bool isAdding = true;
         private DateTime fechaInicio;
+        // Evento que se dispara cuando el préstamo se registra exitosamente
+        public event EventHandler PrestamoRegistradoCompletado;
+
 
         public PrestamoView(Cliente cliente, Articulo articulo)
         {
@@ -191,7 +194,7 @@ namespace SisGestorEmpenio.vistas
                     MostrarError("El artículo no existe.");
                     return;
                 }
-                
+
                 //validar que prestamo no exista
                 if (Sesion.Sesion.GetAdministradorActivo().ExistePrestamo(prestamo))
                 {
@@ -199,17 +202,20 @@ namespace SisGestorEmpenio.vistas
                     return;
                 }
 
-                
+
                 //validar que el cliente posea ese articulo
                 //if (!Sesion.Sesion.GetAdministradorActivo().ClientePoseeArticulo(cliente, articulo))
                 //{
                 //    MostrarError("EL CLIENTE NO POSEE EL ARTICULO: \n El cliente no posee el articulo con este identificador");
                 //    return;
                 //}
-            
+
                 bool exito = Sesion.Sesion.GetAdministradorActivo().RegistrarPrestamo(prestamo);
-                if (exito)
+                if (exito) 
+                { 
                     MostrarExito("Préstamo registrado exitosamente.");
+                    PrestamoRegistradoCompletado?.Invoke(this, EventArgs.Empty);
+                }
                 else
                     MostrarError("Error desconocido: No se pudo registrar el préstamo.");
             }

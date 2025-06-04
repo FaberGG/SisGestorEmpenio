@@ -157,6 +157,19 @@ namespace SisGestorEmpenio.Modelos
             return clienteRepository.PoseeArticulo(clienteId, articuloId);
         }
 
+        //metodos para eliminar
+        public bool EliminarCliente(Cliente cliente)
+        {
+            ClienteRepository clienteRepository = new ClienteRepository();
+            return clienteRepository.Eliminar(cliente.GetId());
+        }
+        public bool EliminarArticulo(Articulo articulo)
+        {
+            ArticuloRepository articuloRepository = new ArticuloRepository();
+            return articuloRepository.Eliminar(articulo.GetIdArticulo());
+        }
+
+
         //SETTERS Y GETTERS
 
         public double GetSalario()
