@@ -13,6 +13,9 @@ namespace SisGestorEmpenio.vistas
         private readonly bool _isEditMode;
         private readonly Devolucion _original;
 
+        public event EventHandler DevolucionRegistradoCompletado;
+        public event EventHandler DevolucionActualizarCompletado;
+
         /// <summary>
         /// Constructor para modo “crear”.
         /// </summary>
@@ -88,7 +91,12 @@ namespace SisGestorEmpenio.vistas
                     // **Editar**
                     _original.SetMontoPagado(monto);
                     bool exito = admin.ActualizarDevolucion(_original);
-                    if (exito) MostrarExito("Devolución modificada exitosamente.");
+                    if (exito){ MostrarExito("Devolución modificada exitosamente.");
+
+                        DevolucionActualizarCompletado?.Invoke(this, EventArgs.Empty);
+
+                    }
+                    
                     else MostrarError("No se pudo modificar la devolución.");
                 }
                 else
@@ -119,7 +127,11 @@ namespace SisGestorEmpenio.vistas
                     if (conf.ShowDialog() == true && conf.Confirmado)
                     {
                         bool exito = admin.RegistrarDevolución(devolucion);
-                        if (exito) MostrarExito("Devolución registrada exitosamente.");
+                        if (exito)
+                        {
+                            MostrarExito("Devolución registrada exitosamente.");
+                            DevolucionRegistradoCompletado?.Invoke(this, EventArgs.Empty);
+                        }
                         else MostrarError("No se pudo registrar la devolución.");
                     }
                 }

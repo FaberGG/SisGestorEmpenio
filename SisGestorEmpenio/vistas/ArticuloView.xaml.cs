@@ -18,7 +18,8 @@ namespace SisGestorEmpenio.vistas
         public event EventHandler<Articulo> RegistroArticuloCompletado;
         private Articulo articulo;
         private bool isAdding = true;
-
+        public event EventHandler ArticuloRegistradoCompletado;
+        public event EventHandler ArticuloActualizadoCompletado;
         public ArticuloView()
         {
             InitializeComponent();
@@ -128,6 +129,7 @@ namespace SisGestorEmpenio.vistas
                     {
                         MostrarMensaje("Artículo actualizado exitosamente.", "Éxito");
                         RegistroArticuloCompletado?.Invoke(this, this.articulo);
+                        ArticuloActualizadoCompletado?.Invoke(this, EventArgs.Empty);
                     }
                     else
                     {
@@ -148,6 +150,7 @@ namespace SisGestorEmpenio.vistas
                 {
                     MostrarMensaje("Artículo registrado exitosamente.", "Éxito");
                     RegistroArticuloCompletado?.Invoke(this, art);
+                    ArticuloRegistradoCompletado?.Invoke(this, EventArgs.Empty);
                 }
                 else
                 {

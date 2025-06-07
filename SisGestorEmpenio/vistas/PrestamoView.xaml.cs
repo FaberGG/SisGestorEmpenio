@@ -28,8 +28,7 @@ namespace SisGestorEmpenio.vistas
         private DateTime fechaInicio;
         // Evento que se dispara cuando el préstamo se registra exitosamente
         public event EventHandler PrestamoRegistradoCompletado;
-
-
+        
         public PrestamoView(Cliente cliente, Articulo articulo)
         {
             InitializeComponent();
@@ -174,6 +173,7 @@ namespace SisGestorEmpenio.vistas
                     if (actualizado)
                     {
                         MostrarExito("Préstamo actualizado exitosamente.");
+                       
                         return;
                     }
                     else

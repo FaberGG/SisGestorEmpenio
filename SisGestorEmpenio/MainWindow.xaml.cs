@@ -131,6 +131,7 @@ namespace SisGestorEmpenio
         {
             SeleccionarOpcion(TxtRegistrarArticulo);
             var articuloView = new ArticuloView();
+            articuloView.ArticuloRegistradoCompletado += GoToHome;
             ShowViewWithHeader(articuloView, "Registrar Artículo");
         }
 
@@ -202,7 +203,9 @@ namespace SisGestorEmpenio
                 Prestamo prestamo = buscarPrestamo.Prestamo;
                 if (prestamo != null)
                 {
+                   
                     var prestamoView = new ModificarPrestamoView(prestamo);
+              
                     ShowViewWithHeader(prestamoView, "Modificar Préstamo");
                 }
             }
@@ -214,6 +217,7 @@ namespace SisGestorEmpenio
             SeleccionarOpcion(TxtRegistrarDevolucion);
             // Antes: new RegistrarDevolucion()
             var devolucionView = new DevolucionView();    // ← Aquí instanciamos el nuevo control en modo “crear”
+            devolucionView.DevolucionRegistradoCompletado += GoToHome;
             ShowViewWithHeader(devolucionView, "Registrar Devolución");
         }
 
@@ -228,6 +232,7 @@ namespace SisGestorEmpenio
 
             // Antes: new ModificarDevolucion(buscarWin.DevolucionSeleccionada)
             var devolucionView = new DevolucionView(buscarWin.DevolucionSeleccionada);  // ← Aquí en modo “editar”
+            devolucionView.DevolucionActualizarCompletado += GoToHome;
             ShowViewWithHeader(devolucionView, "Modificar Devolución");
         }
 
@@ -333,9 +338,11 @@ namespace SisGestorEmpenio
             {
                 SeleccionarOpcion(TxtModificarArticulo);
                 var articulo = buscarArticulo.Articulo;
+
                 if (articulo != null)
                 {
                     var articuloView = new ArticuloView(articulo);
+                    articuloView.ArticuloActualizadoCompletado += GoToHome;
                     ShowViewWithHeader(articuloView, "Modificar Artículo");
                 }
             }
